@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpaBuddyIdeaProjectConfig" migrateIndexesAndConstraints="true" reUseTableSchema="true" newRepositoryParent="org.springframework.data.jpa.repository.JpaRepository" isInitGenerateDdl="true">
+    <option name="defaultUnitInitialized" value="true" />
+    <option name="renamerInitialized" value="true" />
+    <option name="sourceModelValue" value="Default" />
+    <option name="targetDbValue" value="69262c9e-87ed-4002-a486-6f25b1ad436a" />
+    <option name="reverseEngineeringLastDbConnectionId" value="69262c9e-87ed-4002-a486-6f25b1ad436a" />
+    <option name="reLastEntityCreationPackage" value="src/main/java/com/example/demo/entities" />
+  </component>
+</project>

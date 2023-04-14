@@ -1,0 +1,124 @@
+{
+	"openapi": "3.0.2",
+	"info": {
+		"title": "API Title",
+		"version": "1.0"
+	},
+	"servers": [
+		{
+			"url": "https://localhost:8088/v1"
+		}
+	],
+	"paths": {
+		"/users": {
+			"get": {
+				"description": "get all users",
+				"tags": [
+					"Users"
+				],
+				"operationId": "getAllUsers",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/user": {
+			"post": {
+				"description": "save user",
+				"tags": [
+					"Users"
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/user/{userId}": {
+			"get": {
+				"summary": "Info for a specific user",
+				"operationId": "showUserById",
+				"tags": [
+					"users"
+				],
+				"parameters": [
+					{
+						"name": "userId",
+						"in": "path",
+						"required": true,
+						"description": "The id of the user to retrieve",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Expected response to a valid request",
+						"content": {
+							"application/json": {
+								"schema": {
+
+								}
+							}
+						}
+					},
+					"default": {
+						"description": "unexpected error",
+						"content": {
+							"application/json": {
+								"schema": {
+
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"Users": {
+				"type": "array",
+				"maxItems": 100,
+				"items": {
+
+				}
+			},
+			"Error": {
+				"type": "object",
+				"required": [
+					"code",
+					"message"
+				],
+				"properties": {
+					"code": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"message": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}
