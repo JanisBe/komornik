@@ -7,13 +7,11 @@ import {ConnectionService} from "../service/connection.service";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  constructor( private http: ConnectionService) {
+  constructor() {
   }
 
   ngOnInit(): void {
-  this.http.getData().subscribe((data) =>{
-    console.log(data);
-  })
+
   }
 
 }

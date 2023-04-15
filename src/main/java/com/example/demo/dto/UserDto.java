@@ -11,11 +11,15 @@ public class UserDto implements Serializable {
 	private final Integer id;
 	private final String name;
 	private final String mail;
+	private final String password;
+	private final String avatar;
 
-	public UserDto(Integer id, String name, String mail) {
+	public UserDto(Integer id, String name, String mail, String password, String avatar) {
 		this.id = id;
 		this.name = name;
 		this.mail = mail;
+		this.password = password;
+		this.avatar = avatar;
 	}
 
 	@Override
@@ -29,7 +33,13 @@ public class UserDto implements Serializable {
 		UserDto entity = (UserDto) o;
 		return Objects.equals(this.id, entity.id) &&
 			Objects.equals(this.name, entity.name) &&
-			Objects.equals(this.mail, entity.mail);
+			Objects.equals(this.mail, entity.mail) &&
+			Objects.equals(this.password, entity.password) &&
+			Objects.equals(this.avatar, entity.avatar);
+	}
+
+	public String getAvatar() {
+		return avatar;
 	}
 
 	public Integer getId() {
@@ -44,9 +54,13 @@ public class UserDto implements Serializable {
 		return name;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, mail);
+		return Objects.hash(id, name, mail, password, avatar);
 	}
 
 	@Override
@@ -54,6 +68,8 @@ public class UserDto implements Serializable {
 		return getClass().getSimpleName() + "(" +
 			"id = " + id + ", " +
 			"name = " + name + ", " +
-			"mail = " + mail + ")";
+			"mail = " + mail + ", " +
+			"password = " + password + ", " +
+			"avatar = " + avatar + ")";
 	}
 }
