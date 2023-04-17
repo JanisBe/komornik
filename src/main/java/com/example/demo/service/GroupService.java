@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class GroupService {
-	private GroupRepository groupRepository;
+	private final GroupRepository groupRepository;
 
 	public List<Group> findAllGroups(){
 		return groupRepository.findAll();

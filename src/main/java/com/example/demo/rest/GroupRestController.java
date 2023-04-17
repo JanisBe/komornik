@@ -1,7 +1,6 @@
 package com.example.demo.rest;
 
 import com.example.demo.entities.Group;
-import com.example.demo.entities.User;
 import com.example.demo.service.GroupService;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/group")
 public class GroupRestController {
-    private GroupService groupService;
+    private final GroupService groupService;
 
     public GroupRestController(GroupService groupService) {
         this.groupService = groupService;

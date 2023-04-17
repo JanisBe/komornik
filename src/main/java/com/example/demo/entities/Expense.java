@@ -12,9 +12,18 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.Instant;
-import lombok.Data;
+import java.util.Objects;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.ToString.Exclude;
+import org.hibernate.Hibernate;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "expenses", schema = "test")
 public class Expense {
@@ -26,6 +35,7 @@ public class Expense {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "category_id", nullable = false)
+	@Exclude
 	private Category category;
 
 	@Column(name = "currency", nullable = false)
@@ -39,10 +49,12 @@ public class Expense {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "user_id", nullable = false)
+	@Exclude
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "group_id", nullable = false)
+	@Exclude
 	private Group group;
 
 	@Column(name = "date", nullable = false)
@@ -51,4 +63,21 @@ public class Expense {
 	@Column(name = "note")
 	private String note;
 
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(
+			o)) {
+			return false;
+		}
+		Expense expense = (Expense) o;
+		return getId() != null && Objects.equals(getId(), expense.getId());
+	}
 }
