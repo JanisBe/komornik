@@ -9,7 +9,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "categories", schema = "test")
 public class Category {
@@ -24,29 +26,5 @@ public class Category {
 
 	@OneToMany(mappedBy = "category")
 	private Set<Expense> expenses = new LinkedHashSet<>();
-
-	public Set<Expense> getExpenses() {
-		return expenses;
-	}
-
-	public void setExpenses(Set<Expense> expenses) {
-		this.expenses = expenses;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 }

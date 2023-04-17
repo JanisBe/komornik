@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +10,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "groups", schema = "test")
 public class Group {
@@ -25,39 +28,7 @@ public class Group {
 	@Column(name = "group_desc")
 	private String groupDesc;
 
-	@OneToMany(mappedBy = "group")
+	@OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
 	private Set<Expense> expenses = new LinkedHashSet<>();
-
-	public Set<Expense> getExpenses() {
-		return expenses;
-	}
-
-	public void setExpenses(Set<Expense> expenses) {
-		this.expenses = expenses;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getGroupName() {
-		return groupName;
-	}
-
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
-	}
-
-	public String getGroupDesc() {
-		return groupDesc;
-	}
-
-	public void setGroupDesc(String groupDesc) {
-		this.groupDesc = groupDesc;
-	}
 
 }
