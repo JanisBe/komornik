@@ -31,7 +31,7 @@ public class UserService {
 
 	@Transactional
 	public User editUser(User user) {
-		User existingUser = userRepository.findById(user.getId()).get();
+		User existingUser = userRepository.findById(user.getId()).orElseThrow();
 		existingUser.setMail(user.getMail());
 		existingUser.setName(user.getName());
 		existingUser.setAvatar(user.getAvatar());
