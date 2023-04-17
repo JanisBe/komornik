@@ -12,6 +12,11 @@ import {AddCategoryComponent} from './component/category/add-category/add-catego
 import {AddExpenseComponent} from './component/expense/add-expense/add-expense.component';
 import {AllExpensesComponent} from './component/expense/all-expenses/all-expenses.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { UserDetailsComponent } from './component/user/user-details/user-details.component';
+import {MatInputModule} from "@angular/material/input";
+import {MatTableModule} from "@angular/material/table";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -22,14 +27,19 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     AddGroupComponent,
     AddCategoryComponent,
     AddExpenseComponent,
-    AllExpensesComponent
+    AllExpensesComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule,
+    MatInputModule,
+    MatTableModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

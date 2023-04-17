@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
@@ -26,14 +25,12 @@ public class Expense {
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
-	@Lob
 	@Column(name = "currency", nullable = false)
 	private String currency;
 
 	@Column(name = "amount", nullable = false)
 	private BigDecimal amount;
 
-	@Lob
 	@Column(name = "description", nullable = false)
 	private String description;
 
@@ -47,6 +44,17 @@ public class Expense {
 
 	@Column(name = "date", nullable = false)
 	private Instant date;
+
+	@Column(name = "note")
+	private String note;
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
 
 	public Instant getDate() {
 		return date;

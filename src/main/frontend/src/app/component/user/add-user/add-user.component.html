@@ -1,1 +1,40 @@
-<p>add-user works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="form-group">
+            <label for="name">Login</label>
+            <input
+              type="text"
+              id="name"
+              class="form-control"
+              formControlName="name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              formControlName="mail">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              class="form-control"
+              formControlName="password">
+          </div>
+          <div class="col-xs-12">
+            <button
+              class="btn btn-success"
+              type="submit">Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.LinkedHashSet;
@@ -20,11 +19,9 @@ public class Group {
 	@Column(name = "id", nullable = false)
 	private Integer id;
 
-	@Lob
 	@Column(name = "group_name", nullable = false)
 	private String groupName;
 
-	@Lob
 	@Column(name = "group_desc")
 	private String groupDesc;
 

@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.LinkedHashSet;
@@ -20,22 +19,15 @@ public class User {
 	@Column(name = "id", nullable = false)
 	private Integer id;
 
-	@Lob
 	@Column(name = "name")
 	private String name;
 
-	@Lob
 	@Column(name = "mail")
 	private String mail;
 
-	@OneToMany(mappedBy = "user")
-	private Set<Expense> expenses = new LinkedHashSet<>();
-
-	@Lob
 	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Lob
 	@Column(name = "avatar")
 	private String avatar;
 
@@ -53,14 +45,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Set<Expense> getExpenses() {
-		return expenses;
-	}
-
-	public void setExpenses(Set<Expense> expenses) {
-		this.expenses = expenses;
 	}
 
 	public Integer getId() {
