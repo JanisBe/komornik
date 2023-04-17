@@ -1,9 +1,32 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {Category} from "../interfaces/category";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) {
+  }
+
+  createCategory(category: Category) {
+    return this.httpClient.post<Category>("http://localhost:8088/category/save", category);
+  }
+
+  editCategory(category: Category) {
+    return this.httpClient.patch<Category>("http://localhost:8088/category/edit", category);
+  }
+
+  deleteCategory(categoryId: number) {
+    return this.httpClient.delete(`http://localhost:8088/category/delete/${categoryId}`);
+  }
+
+  findAllCategories() {
+    return this.httpClient.get<[Category]>("http://localhost:8088/category/findAll");
+  }
+
+  findByName(name: string) {
+    return this.httpClient.get<[Category]>(`http://localhost:8088/category/findByName/${name}`);
+  }
 }

@@ -1,1 +1,68 @@
-<p>add-group works!</p>
+<div class="row">
+  <div class="col-xs-12">
+    <form (ngSubmit)="onSubmit()" [formGroup]="groupForm">
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="name">Group name</label>
+            <input
+              class="form-control"
+              formControlName="name"
+              id="name"
+              type="text">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12" formArrayName="users">
+          <div
+            *ngFor="let userCtrl of usersControls; let i = index"
+            [formGroupName]="i"
+            class="row"
+            style="margin-top: 10px;">
+            <div class="col-xs-4">
+              <input
+                class="form-control"
+                formControlName="name"
+                type="text">
+            </div>
+            <div class="col-xs-4">
+              <input
+                class="form-control"
+                formControlName="mail"
+                type="email">
+            </div>
+            <div class="col-xs-2">
+              <button
+                (click)="onDeleteUser(i)"
+                class="btn btn-danger"
+                type="button">X
+              </button>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-xs-12">
+              <button
+                (click)="onAddUser()"
+                class="btn btn-success"
+                type="button">Add user
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button
+            [disabled]="!groupForm.valid"
+            class="btn btn-success"
+            type="submit">Save
+          </button>
+          <button (click)="onCancel()" class="btn btn-danger" type="button">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

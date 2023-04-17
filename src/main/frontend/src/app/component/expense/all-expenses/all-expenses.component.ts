@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-all-expenses',
+  selector: 'all-expenses',
   templateUrl: './all-expenses.component.html',
   styleUrls: ['./all-expenses.component.scss']
 })

@@ -1,20 +1,15 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 import {User} from "../interfaces/user";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  headers = {      headers: [
-      { name: 'Content-Type', value: 'multipart/form-data' },
-      { name: 'Access-Control-Allow-Origin', value: '*' },
-      { name: 'Access-Control-Allow-Methods', value: 'POST, OPTIONS, GET'},
-      { name: 'Access-Control-Allow-Credentials', value: 'true'}
-    ]}
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  getAllUsers(){
+  getAllUsers() {
     return this.http.get<[User]>("http://localhost:8080/user/findAll")
   }
 

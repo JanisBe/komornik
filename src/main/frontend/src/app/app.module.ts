@@ -13,15 +13,17 @@ import {AddExpenseComponent} from './component/expense/add-expense/add-expense.c
 import {AllExpensesComponent} from './component/expense/all-expenses/all-expenses.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import { UserDetailsComponent } from './component/user/user-details/user-details.component';
+import {UserDetailsComponent} from './component/user/user-details/user-details.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
     AppComponent,
     AddUserComponent,
+    AddGroupComponent,
     AllUsersComponent,
     LoginComponent,
     AddGroupComponent,
@@ -39,7 +41,8 @@ import {MatIconModule} from "@angular/material/icon";
     MatSnackBarModule,
     MatInputModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

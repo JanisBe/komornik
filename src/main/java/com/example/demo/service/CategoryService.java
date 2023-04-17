@@ -10,14 +10,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
-private CategoryRepository categoryRepository;
+private final CategoryRepository categoryRepository;
 
 	@Transactional
-	public Category createCategory(Category category){
+	public Category createCategory(Category category) {
 		return categoryRepository.save(category);
 	}
 
-	public List<Category> findAllCategories(){
+	public List<Category> findAllCategories() {
 		return categoryRepository.findAll();
+	}
+
+	public List<Category> findByName(String name) {
+		return categoryRepository.findAllByName(name);
 	}
 }
