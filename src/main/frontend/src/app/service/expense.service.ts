@@ -11,15 +11,15 @@ export class ExpenseService {
   }
 
   saveExpense(expense: Expense) {
-    return this.httpClient.post<Expense>("http://localhost:8088/expense/save", expense);
+    return this.httpClient.post<Expense>("http://localhost:8080/expense/save", expense);
   }
 
   deleteExpense(expenseId: number) {
-    return this.httpClient.delete(`http://localhost:8088/expense/delete${expenseId}`);
+    return this.httpClient.delete(`http://localhost:8080/expense/delete${expenseId}`);
   }
 
   editExpense(expense: Expense) {
-    return this.httpClient.patch<Expense>("http://localhost:8088/expense/edit", expense);
+    return this.httpClient.patch<Expense>("http://localhost:8080/expense/edit", expense);
   }
 
 

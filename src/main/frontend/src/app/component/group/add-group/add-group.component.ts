@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {GroupService} from "../../../service/group.service";
+import {Group} from "../../../interfaces/group";
+import {User} from "../../../interfaces/user";
 
 @Component({
   selector: 'add-group',
@@ -26,8 +28,16 @@ export class AddGroupComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.groupForm);
+    const data = this.groupForm.value;
+    console.log(data);
+    const users: [User] = data.users.map((user: User) => ({...user, password: 'test'}))
+    let newGroup: Group = {
+      groupDescription: data.description,
+      users: users,
+      groupName: data.name
+    };
 
+    this.groupService.createGroup(newGroup).subscribe((res) => console.log(res));
     this.onCancel();
   }
 

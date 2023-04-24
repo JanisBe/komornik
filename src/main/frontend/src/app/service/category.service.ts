@@ -11,22 +11,22 @@ export class CategoryService {
   }
 
   createCategory(category: Category) {
-    return this.httpClient.post<Category>("http://localhost:8088/category/save", category);
+    return this.httpClient.post<Category>("http://localhost:8080/category/save", category);
   }
 
   editCategory(category: Category) {
-    return this.httpClient.patch<Category>("http://localhost:8088/category/edit", category);
+    return this.httpClient.patch<Category>("http://localhost:8080/category/edit", category);
   }
 
   deleteCategory(categoryId: number) {
-    return this.httpClient.delete(`http://localhost:8088/category/delete/${categoryId}`);
+    return this.httpClient.delete(`http://localhost:8080/category/delete/${categoryId}`);
   }
 
   findAllCategories() {
-    return this.httpClient.get<[Category]>("http://localhost:8088/category/findAll");
+    return this.httpClient.get<[Category]>("http://localhost:8080/category/findAll");
   }
 
   findByName(name: string) {
-    return this.httpClient.get<[Category]>(`http://localhost:8088/category/findByName/${name}`);
+    return this.httpClient.get<[Category]>(`http://localhost:8080/category/findByName/${name}`);
   }
 }

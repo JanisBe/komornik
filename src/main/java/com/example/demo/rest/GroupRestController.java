@@ -2,14 +2,12 @@ package com.example.demo.rest;
 
 import com.example.demo.entities.Group;
 import com.example.demo.service.GroupService;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4401")
 @RequestMapping("/group")
 public class GroupRestController {
     private final GroupService groupService;
@@ -24,12 +22,12 @@ public class GroupRestController {
     }
 
     @PostMapping("/save")
-    public Group save(Group group){
+    public Group save(@RequestBody Group group) {
         return groupService.save(group);
     }
 
     @DeleteMapping("/delete")
-    public void delete(Group group){
-        groupService.deleteGroup(group);
+    public void delete(int id) {
+        groupService.deleteGroup(id);
     }
 }

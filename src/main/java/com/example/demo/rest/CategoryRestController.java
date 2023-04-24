@@ -2,12 +2,9 @@ package com.example.demo.rest;
 
 import com.example.demo.entities.Category;
 import com.example.demo.service.CategoryService;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/category")
@@ -30,8 +27,13 @@ public class CategoryRestController {
     }
 
     @PostMapping("/save")
-    public Category save(Category category) {
+    public Category save(@RequestBody Category category) {
         return categoryService.createCategory(category);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteCategory(@PathVariable int id) {
+        categoryService.deleteCategory(id);
     }
 }
 

@@ -1,15 +1,14 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
-
-import java.util.Objects;
-import java.util.Set;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
+
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,13 +29,14 @@ public class User {
 	@Column(name = "mail")
 	private String mail;
 
-	@Column(name = "password", nullable = false)
+	@Column(name = "password")
 	private String password;
 
 	@Column(name = "avatar")
 	private String avatar;
 
 	@ManyToMany(mappedBy = "users")
+	@ToString.Exclude
 	private Set<Group> groups;
 
 	@Override
@@ -50,7 +50,7 @@ public class User {
 			return true;
 		}
 		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(
-			o)) {
+				o)) {
 			return false;
 		}
 		User user = (User) o;

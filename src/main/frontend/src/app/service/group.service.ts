@@ -11,15 +11,16 @@ export class GroupService {
   }
 
   createGroup(group: Group) {
-    return this.httpClient.post<Group>("http://localhost:8088/group/save", group);
+    console.log(group);
+    return this.httpClient.post<Group>("http://localhost:8080/group/save", group);
   }
 
   editGroup(group: Group) {
-    return this.httpClient.patch<Group>("http://localhost:8088/group/edit", group);
+    return this.httpClient.patch<Group>("http://localhost:8080/group/edit", group);
   }
 
   deleteGroup(groupId: number) {
-    return this.httpClient.delete<Group>("http://localhost:8088/group/delete/" + groupId);
+    return this.httpClient.delete<Group>("http://localhost:8080/group/delete/" + groupId);
   }
 
 

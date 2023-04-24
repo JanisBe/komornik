@@ -8,52 +8,52 @@ import java.util.Objects;
  */
 public class GroupDto implements Serializable {
 
-	private final Integer id;
-	private final String groupName;
-	private final String groupDesc;
+    private final Integer id;
+    private final String groupName;
+    private final String groupDescription;
 
-	public GroupDto(Integer id, String groupName, String groupDesc) {
-		this.id = id;
-		this.groupName = groupName;
-		this.groupDesc = groupDesc;
-	}
+    public GroupDto(Integer id, String groupName, String groupDescription) {
+        this.id = id;
+        this.groupName = groupName;
+        this.groupDescription = groupDescription;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		GroupDto entity = (GroupDto) o;
-		return Objects.equals(this.id, entity.id) &&
-			Objects.equals(this.groupName, entity.groupName) &&
-			Objects.equals(this.groupDesc, entity.groupDesc);
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        GroupDto entity = (GroupDto) o;
+        return Objects.equals(this.id, entity.id) &&
+                Objects.equals(this.groupName, entity.groupName) &&
+                Objects.equals(this.groupDescription, entity.groupDescription);
+    }
 
-	public String getGroupDesc() {
-		return groupDesc;
-	}
+    public String getGroupDescription() {
+        return groupDescription;
+    }
 
-	public String getGroupName() {
-		return groupName;
-	}
+    public String getGroupName() {
+        return groupName;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, groupName, groupDesc);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, groupName, groupDescription);
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + "(" +
-			"id = " + id + ", " +
-			"groupName = " + groupName + ", " +
-			"groupDesc = " + groupDesc + ")";
-	}
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "groupName = " + groupName + ", " +
+                "groupDesc = " + groupDescription + ")";
+    }
 }

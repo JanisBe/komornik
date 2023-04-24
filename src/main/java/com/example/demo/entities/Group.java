@@ -30,16 +30,17 @@ public class Group {
     private String groupName;
 
     @Column(name = "group_desc")
-    private String groupDesc;
+    private String groupDescription;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
     @Exclude
     private Set<Expense> expenses = new LinkedHashSet<>();
 
-    @ManyToMany()
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_x_group",
             joinColumns = {@JoinColumn(name = "group_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    @Exclude
     private Set<User> users = new HashSet<>();
 
     @Override

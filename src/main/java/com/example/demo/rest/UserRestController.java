@@ -2,18 +2,12 @@ package com.example.demo.rest;
 
 import com.example.demo.entities.User;
 import com.example.demo.service.UserService;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4401"})
+@CrossOrigin(origins = "http://localhost:4401")
 @RequestMapping("/user")
 public class UserRestController {
     private final UserService userService;
@@ -28,7 +22,7 @@ public class UserRestController {
     }
 
     @PostMapping("/save")
-    public User save(User user){
+    public User save(@RequestBody User user) {
         return userService.addUser(user);
     }
 
@@ -38,7 +32,7 @@ public class UserRestController {
     }
 
     @PatchMapping("/edit")
-    public User editUser(User user){
+    public User editUser(@RequestBody User user) {
         return userService.editUser(user);
     }
 }
