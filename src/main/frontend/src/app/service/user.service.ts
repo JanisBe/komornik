@@ -17,7 +17,7 @@ export class UserService {
     return this.http.post<User>("http://localhost:8080/user/save", user);
   }
 
-  delete(userId: number) {
+  delete(userId: number | undefined) {
     return this.http.delete<User>("http://localhost:8080/user/delete"+userId);
   }
 

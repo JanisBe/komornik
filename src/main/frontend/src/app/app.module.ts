@@ -18,6 +18,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
+import { AllCategoriesComponent } from './component/category/all-categories/all-categories.component';
+import {CategoryDetailsComponent} from "./component/category/category-details/category-details.component";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import {MatSelectModule} from "@angular/material/select";
     AddCategoryComponent,
     AddExpenseComponent,
     AllExpensesComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    AllCategoriesComponent,
+    CategoryDetailsComponent
   ],
   imports: [
     BrowserModule,

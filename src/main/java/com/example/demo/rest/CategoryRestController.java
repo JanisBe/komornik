@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4401")
 @RequestMapping("/category")
 public class CategoryRestController {
 
@@ -21,9 +22,14 @@ public class CategoryRestController {
         return categoryService.findAllCategories();
     }
 
-    @GetMapping("/findByName")
-    public List<Category> findByName(@RequestParam() String name) {
+    @GetMapping("/findByName/{name}")
+    public List<Category> findByName(@PathVariable String name) {
         return categoryService.findByName(name);
+    }
+
+    @GetMapping("/findById/{id}")
+    public Category findById(@PathVariable int id) {
+        return categoryService.findById(id);
     }
 
     @PostMapping("/save")

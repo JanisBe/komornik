@@ -1,1 +1,24 @@
-<p>add-category works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="name">Category name</label>
+                        <input
+                                type="text"
+                                id="name"
+                                class="form-control"
+                                formControlName="name">
+                    </div>
+                    <div class="col-xs-12">
+                        <button
+                                class="btn btn-success"
+                                type="submit">Submit
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

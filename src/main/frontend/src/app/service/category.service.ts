@@ -29,4 +29,8 @@ export class CategoryService {
   findByName(name: string) {
     return this.httpClient.get<[Category]>(`http://localhost:8080/category/findByName/${name}`);
   }
+
+  findById(id: number) {
+    return this.httpClient.get<Category>(`http://localhost:8080/category/findById/${id}`);
+  }
 }

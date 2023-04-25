@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../service/user.service";
 import {User} from "../../../interfaces/user";
@@ -9,7 +9,7 @@ import {SnackbarService} from "../../../service/snackbar.service";
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss']
 })
-export class AddUserComponent {
+export class AddUserComponent implements OnInit{
 
   constructor(private userService: UserService,
               private snackbar: SnackbarService) {
@@ -33,9 +33,9 @@ export class AddUserComponent {
 
   private initForm(){
     this.form = new FormGroup({
-      'name': new FormControl(null, Validators.required),
-      'mail': new FormControl(null, [Validators.required, Validators.email]),
-      'password': new FormControl(null, Validators.required)
+      name: new FormControl(null, Validators.required),
+      mail: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, Validators.required)
     })
   }
 
