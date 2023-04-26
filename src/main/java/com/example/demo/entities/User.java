@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class User {
 
 	@ManyToMany(mappedBy = "users")
 	@ToString.Exclude
+	@JsonIgnore
 	private Set<Group> groups;
 
 	@Override

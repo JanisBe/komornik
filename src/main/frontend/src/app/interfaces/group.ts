@@ -2,7 +2,7 @@ import {User} from "./user";
 
 export interface Group {
   id?: number,
-  groupName: string,
+  name: string,
   groupDescription: string
   users: [User]
 }

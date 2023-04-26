@@ -18,8 +18,16 @@ import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
-import { AllCategoriesComponent } from './component/category/all-categories/all-categories.component';
+import {AllCategoriesComponent} from './component/category/all-categories/all-categories.component';
 import {CategoryDetailsComponent} from "./component/category/category-details/category-details.component";
+import {HeaderMenuComponent} from './component/common/header-menu/header-menu.component';
+import {MatMenuModule} from "@angular/material/menu";
+import {AllGroupsComponent} from './component/group/all-groups/all-groups.component';
+import {GroupDetailsComponent} from './component/group/group-details/group-details.component';
+import {MatButtonModule} from "@angular/material/button";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ConfirmationComponent} from './component/common/confirmation/confirmation.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -34,9 +42,14 @@ import {CategoryDetailsComponent} from "./component/category/category-details/ca
     AllExpensesComponent,
     UserDetailsComponent,
     AllCategoriesComponent,
-    CategoryDetailsComponent
+    CategoryDetailsComponent,
+    HeaderMenuComponent,
+    AllGroupsComponent,
+    GroupDetailsComponent,
+    ConfirmationComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -46,7 +59,10 @@ import {CategoryDetailsComponent} from "./component/category/category-details/ca
     MatInputModule,
     MatTableModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

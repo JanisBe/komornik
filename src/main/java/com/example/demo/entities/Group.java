@@ -26,11 +26,11 @@ public class Group {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "group_name", nullable = false)
-    private String groupName;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "group_desc")
-    private String groupDescription;
+    @Column(name = "description")
+    private String description;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
     @Exclude

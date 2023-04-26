@@ -1,5 +1,6 @@
 package com.example.demo.rest;
 
+import com.example.demo.dto.GroupDto;
 import com.example.demo.entities.Group;
 import com.example.demo.service.GroupService;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class GroupRestController {
     }
 
     @GetMapping("/findAll")
-    public List<Group> findAll(){
+    public List<GroupDto> findAll() {
         return groupService.findAllGroups();
     }
 

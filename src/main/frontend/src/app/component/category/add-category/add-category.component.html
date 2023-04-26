@@ -12,10 +12,14 @@
                                 formControlName="name">
                     </div>
                     <div class="col-xs-12">
-                        <button
-                                class="btn btn-success"
-                                type="submit">Submit
-                        </button>
+                      <button
+                        class="btn btn-success"
+                        type="submit">Submit
+                      </button>
+                      <button
+                        (click)="onCancel()"
+                        class="btn btn-danger" type="button">Cancel
+                      </button>
                     </div>
                 </div>
             </form>

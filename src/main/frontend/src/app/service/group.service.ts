@@ -11,7 +11,6 @@ export class GroupService {
   }
 
   createGroup(group: Group) {
-    console.log(group);
     return this.httpClient.post<Group>("http://localhost:8080/group/save", group);
   }
 
@@ -19,9 +18,11 @@ export class GroupService {
     return this.httpClient.patch<Group>("http://localhost:8080/group/edit", group);
   }
 
-  deleteGroup(groupId: number) {
+  deleteGroup(groupId: number | undefined) {
     return this.httpClient.delete<Group>("http://localhost:8080/group/delete/" + groupId);
   }
 
-
+  findAllGroups() {
+    return this.httpClient.get<[Group]>("http://localhost:8080/group/findAll");
+  }
 }

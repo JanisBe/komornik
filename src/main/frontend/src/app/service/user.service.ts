@@ -18,7 +18,7 @@ export class UserService {
   }
 
   delete(userId: number | undefined) {
-    return this.http.delete<User>("http://localhost:8080/user/delete"+userId);
+    return this.http.delete<User>("http://localhost:8080/user/delete/" + userId);
   }
 
   edit(user: User) {

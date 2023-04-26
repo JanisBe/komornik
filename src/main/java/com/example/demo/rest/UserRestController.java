@@ -1,5 +1,6 @@
 package com.example.demo.rest;
 
+import com.example.demo.dto.UserDto;
 import com.example.demo.entities.User;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class UserRestController {
     }
 
     @GetMapping("/findAll")
-    public List<User> findAll(){
+    public List<UserDto> findAll() {
         return userService.findAllUsers();
     }
 
