@@ -25,4 +25,8 @@ export class GroupService {
   findAllGroups() {
     return this.httpClient.get<[Group]>("http://localhost:8080/group/findAll");
   }
+
+  findById(id: number) {
+    return this.httpClient.get<Group>("http://localhost:8080/group/findById/" + id);
+  }
 }

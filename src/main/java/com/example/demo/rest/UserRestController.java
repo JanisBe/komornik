@@ -28,12 +28,17 @@ public class UserRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable int id){
+    public void delete(@PathVariable int id) {
         userService.deleteUser(id);
     }
 
     @PatchMapping("/edit")
     public User editUser(@RequestBody User user) {
         return userService.editUser(user);
+    }
+
+    @GetMapping("/findCommonUsers/{userId}")
+    public List<User> findCommonUser(@PathVariable int userId) {
+        return userService.findCommonUsers(userId);
     }
 }

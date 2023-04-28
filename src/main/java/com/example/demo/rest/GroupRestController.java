@@ -22,6 +22,11 @@ public class GroupRestController {
         return groupService.findAllGroups();
     }
 
+    @GetMapping("/findById/{id}")
+    public Group findAll(@PathVariable int id) {
+        return groupService.findById(id);
+    }
+
     @PostMapping("/save")
     public Group save(@RequestBody Group group) {
         return groupService.save(group);

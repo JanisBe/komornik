@@ -5,6 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
 import {GroupService} from "../../../service/group.service";
 import {Group} from "../../../interfaces/group";
+import {User} from 'src/app/interfaces/user';
 
 @Component({
   selector: 'all-groups',
@@ -12,8 +13,8 @@ import {Group} from "../../../interfaces/group";
   styleUrls: ['./all-groups.component.scss']
 })
 export class AllGroupsComponent {
-  allGroups: [Group];
-  displayedColumns: string[] = ['name', 'actions'];
+  allGroups: { userNames: string[]; id?: number | undefined; name: string; groupDescription: string; users: [User]; }[];
+  displayedColumns: string[] = ['name', 'users', 'actions'];
   expandedUser: Group | null;
 
   constructor(private groupService: GroupService,
@@ -28,17 +29,17 @@ export class AllGroupsComponent {
 
   findAll() {
     this.groupService.findAllGroups().subscribe(res => {
-        this.allGroups = res;
-        console.log(res);
+        this.allGroups = res.map((group) => ({
+          ...group,
+          userNames: group.users.map((user) => (user.name))
+        }));
       }
     );
 
   }
 
   editGroup(group: Group) {
-    this.groupService.editGroup(group).subscribe(res => {
-      this.snackBarService.displayMessage(`Grupa ${res.name} zapisana`)
-    });
+    this.router.navigate(['group/details', group.id]);
   }
 
   deleteGroup(group: Group) {

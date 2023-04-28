@@ -8,7 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for demo" enabled="true">
+      <profile name="Annotation profile for splitwise-clone" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -18,11 +18,12 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.26/lombok-1.18.26.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
-        <module name="demo" />
+        <module name="splitwise-clone" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="angular-test" target="17" />
+      <module name="demo" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -30,6 +31,7 @@
       <module name="angular-test" options="-parameters" />
       <module name="demo" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="openapi-java-client" options="-Xlint:all -J-Xss4m" />
+      <module name="splitwise-clone" options="-parameters -Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>
 </project>

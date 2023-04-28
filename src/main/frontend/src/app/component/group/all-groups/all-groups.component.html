@@ -1,40 +1,19 @@
-<table>
-  <!--  [dataSource]="allGroups" class="mat-elevation-z8" mat-table multiTemplateDataRows-->
-  <!--  <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">-->
-  <!--    <th mat-header-cell *matHeaderCellDef> {{column}} </th>-->
-  <!--    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>-->
-  <!--  </ng-container>-->
-  <!--  <ng-container matColumnDef="name">-->
-  <!--    <th mat-header-cell *matHeaderCellDef> Group name </th>-->
-  <!--    <td mat-cell *matCellDef="let group"> {{group.name}} </td>-->
-  <!--  </ng-container>-->
-
-  <!--  <ng-container matColumnDef="actions">-->
-  <!--    <th mat-header-cell *matHeaderCellDef> Actions </th>-->
-  <!--    <td mat-cell *matCellDef="let user">-->
-  <!--      <mat-icon (click)="editGroup(user)">edit</mat-icon>&nbsp;-->
-  <!--      <mat-icon (click)="deleteGroup(user)">delete</mat-icon>-->
-  <!--    </td>-->
-  <!--  </ng-container>-->
-
-  <!--  <ng-container matColumnDef="users">-->
-  <!--    <td mat-cell *matCellDef="let user" [attr.colspan]="displayedColumns.length">-->
-  <!--      <div class="example-element-detail"-->
-  <!--           [@detailExpand]="user == user ? 'expanded' : 'collapsed'">-->
-  <!--        <div class="example-element-diagram">-->
-  <!--          <div class="example-element-position"> {{user.name}} </div>-->
-
-  <!--        </div>-->
-
-  <!--      </div>-->
-  <!--    </td>-->
-  <!--  </ng-container>-->
-
-  <!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-  <!--  <tr mat-row *matRowDef="let user;"-->
-  <!--      class="example-element-row"-->
-  <!--      [class.example-expanded-row]="expandedUser === user"-->
-  <!--      (click)="expandedUser = expandedUser === user ? null : user">-->
-  <!--  </tr>-->
-  <!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+<table [dataSource]="allGroups" class="mat-elevation-z8" mat-table>
+  <ng-container matColumnDef="name">
+    <th *matHeaderCellDef mat-header-cell> Category name</th>
+    <td *matCellDef="let group" mat-cell> {{group.name}} </td>
+  </ng-container>
+  <ng-container matColumnDef="users">
+    <th *matHeaderCellDef mat-header-cell> users</th>
+    <td *matCellDef="let group" mat-cell> {{group.userNames}} </td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th *matHeaderCellDef mat-header-cell> Actions</th>
+    <td *matCellDef="let group" mat-cell>
+      <mat-icon (click)="editGroup(group)">edit</mat-icon>&nbsp;
+      <mat-icon (click)="deleteGroup(group)">delete</mat-icon>
+    </td>
+  </ng-container>
+  <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 </table>

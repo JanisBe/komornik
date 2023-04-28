@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +20,8 @@ public class GroupService {
         return groupRepository.findAll().stream().map(groupMapper::toDto).toList();
     }
 
-    public Optional<Group> findById(int id) {
-        return groupRepository.findById(id);
+    public Group findById(int id) {
+        return groupRepository.findById(id).orElseThrow();
     }
 
     @Transactional

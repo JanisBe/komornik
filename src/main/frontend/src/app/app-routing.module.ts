@@ -10,7 +10,6 @@ import {AddExpenseComponent} from "./component/expense/add-expense/add-expense.c
 import {AllExpensesComponent} from "./component/expense/all-expenses/all-expenses.component";
 import {AddGroupComponent} from "./component/group/add-group/add-group.component";
 import {AllGroupsComponent} from "./component/group/all-groups/all-groups.component";
-import {GroupDetailsComponent} from "./component/group/group-details/group-details.component";
 
 const routes: Routes = [
   {path: 'category/details/:id', component: CategoryDetailsComponent},
@@ -19,7 +18,7 @@ const routes: Routes = [
   {path: 'user/details/:id', component: UserDetailsComponent},
   {path: 'user/list', component: AllUsersComponent},
   {path: 'user/add', component: AddUserComponent},
-  {path: 'group/details/:id', component: GroupDetailsComponent},
+  {path: 'group/details/:id', component: AddGroupComponent},
   {path: 'group/list', component: AllGroupsComponent},
   {path: 'group/add', component: AddGroupComponent},
   {path: 'expense/details/:id', component: UserDetailsComponent},

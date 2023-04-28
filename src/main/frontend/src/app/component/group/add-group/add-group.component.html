@@ -22,16 +22,26 @@
             class="row"
             style="margin-top: 10px;">
             <div class="col-xs-4">
-              <input
-                class="form-control"
-                formControlName="name"
-                type="text">
+              <mat-form-field appearance="fill" class="example-full-width">
+                <mat-label>Name</mat-label>
+                <input [matAutocomplete]="auto"
+                       aria-label="Name"
+                       formControlName="name"
+                       matInput
+                       placeholder="Type user name"
+                       type="text">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+                  <mat-option *ngFor="let user of users" [value]="user.name">
+                    {{user.name}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
             </div>
             <div class="col-xs-4">
-              <input
-                class="form-control"
-                formControlName="mail"
-                type="email">
+              <mat-form-field class="example-full-width">
+                <mat-label>User email</mat-label>
+                <input [value]="mail[i]" formControlName="mail" matInput placeholder="email" type="email">
+              </mat-form-field>
             </div>
             <div class="col-xs-2">
               <button
@@ -40,6 +50,7 @@
                 type="button">X
               </button>
             </div>
+
           </div>
           <hr>
           <div class="row">

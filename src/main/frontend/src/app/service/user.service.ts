@@ -24,4 +24,8 @@ export class UserService {
   edit(user: User) {
     return this.http.patch<User>("http://localhost:8080/user/edit", user,)
   }
+
+  findCommonFriends(userId: number) {
+    return this.http.get<[User]>("http://localhost:8080/user/findCommonUsers/" + userId);
+  }
 }
