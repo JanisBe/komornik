@@ -13,7 +13,7 @@ import {User} from 'src/app/interfaces/user';
   styleUrls: ['./all-groups.component.scss']
 })
 export class AllGroupsComponent {
-  allGroups: { userNames: string[]; id?: number | undefined; name: string; groupDescription: string; users: [User]; }[];
+  allGroups: { userNames: string[]; id?: number | undefined; name: string; groupDescription: string; users: User[]; }[];
   displayedColumns: string[] = ['name', 'users', 'actions'];
   expandedUser: Group | null;
 
@@ -28,8 +28,8 @@ export class AllGroupsComponent {
   }
 
   findAll() {
-    this.groupService.findAllGroups().subscribe(res => {
-        this.allGroups = res.map((group) => ({
+    this.groupService.findAllGroups().subscribe(groups => {
+        this.allGroups = groups.map((group) => ({
           ...group,
           userNames: group.users.map((user) => (user.name))
         }));

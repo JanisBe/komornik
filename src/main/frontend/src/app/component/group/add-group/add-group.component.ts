@@ -17,7 +17,7 @@ export class AddGroupComponent implements OnInit {
   id: number;
   editMode = false;
   groupForm: FormGroup;
-  users: [User];
+  users: User[] = [];
   mail: string[] = [];
 
 

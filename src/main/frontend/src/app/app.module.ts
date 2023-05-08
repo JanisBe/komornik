@@ -30,6 +30,7 @@ import {ConfirmationComponent} from './component/common/confirmation/confirmatio
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSortModule} from "@angular/material/sort";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     MatButtonModule,
     MatDialogModule,
     MatSortModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

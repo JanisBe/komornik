@@ -5,13 +5,17 @@
   </ng-container>
   <ng-container matColumnDef="users">
     <th *matHeaderCellDef mat-header-cell> users</th>
-    <td *matCellDef="let group" mat-cell> {{group.userNames}} </td>
+    <td *matCellDef="let group" mat-cell>
+    <span *ngFor="let user of group.users, let isLast = last">
+      <span matTooltip="{{user.mail}}">{{user.name}}{{isLast ? '' : ', '}}</span>
+    </span>
+    </td>
   </ng-container>
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef mat-header-cell> Actions</th>
     <td *matCellDef="let group" mat-cell>
-      <mat-icon (click)="editGroup(group)">edit</mat-icon>&nbsp;
-      <mat-icon (click)="deleteGroup(group)">delete</mat-icon>
+      <mat-icon (click)="editGroup(group)" class="pointer">edit</mat-icon>&nbsp;
+      <mat-icon (click)="deleteGroup(group)" class="pointer">delete</mat-icon>
     </td>
   </ng-container>
   <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>

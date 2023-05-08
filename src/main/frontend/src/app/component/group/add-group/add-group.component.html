@@ -31,8 +31,8 @@
                        placeholder="Type user name"
                        type="text">
                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-                  <mat-option *ngFor="let user of users" [value]="user.name">
-                    {{user.name}}
+                  <mat-option *ngFor="let user of users" [value]="user?.name">
+                    {{user?.name}}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
