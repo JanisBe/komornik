@@ -35,9 +35,8 @@ export class AddGroupComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.userService.findCommonFriends(10).subscribe(res => {
-      this.users = res;
-      console.log(res);
+    this.userService.findCommonFriends(10).subscribe(response => {
+      this.users = response;
     });
   }
 
