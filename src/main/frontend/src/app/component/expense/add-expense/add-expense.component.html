@@ -4,48 +4,55 @@
       <form (ngSubmit)="onSubmit()" [formGroup]="form">
         <div class="row">
           <div class="form-group">
-            <label for="name">Expense name</label>
+            <mat-form-field appearance="outline">
+            <mat-label>Expense name</mat-label>
             <input
               class="form-control"
               formControlName="description"
               id="name"
               matInput
               type="text">
+            </mat-form-field>
           </div>
           <div class="form-group">
-            <label for="amount">Ile</label>
-            <input
+            <mat-form-field appearance="outline">
+            <mat-label>Ile</mat-label>
+              <input
               class="form-control"
               formControlName="amount"
               id="amount"
               matInput
               type="text">
+            </mat-form-field>
           </div>
           <div class="form-group">
-            <label for="currency">waluta</label>
+            <mat-form-field appearance="outline">
+            <mat-label>waluta</mat-label>
             <input
               class="form-control"
               formControlName="currency"
               id="currency"
               matInput
               type="text">
+            </mat-form-field>
           </div>
           <div class="form-group">
+            <mat-form-field appearance="outline">
             <mat-label>Choose a date</mat-label>
-            <input [matDatepicker]="picker" formControlName="date" matInput>
+            <input [matDatepicker]="picker" formControlName="date" matInput (click)="picker.open()">
             <mat-hint>DD/MM/YYYY</mat-hint>
             <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
           </div>
 
           <div class="form-group">
             <mat-form-field appearance="fill" class="example-full-width">
-              <mat-label>Name</mat-label>
+              <mat-label>Nazwa użytkownika</mat-label>
               <input [matAutocomplete]="auto"
-                     aria-label="Name"
                      formControlName="userName"
                      matInput
-                     placeholder="Type user name"
+                     placeholder="Nazwa użytkownika"
                      type="text">
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let user of users" [value]="user?.name">
