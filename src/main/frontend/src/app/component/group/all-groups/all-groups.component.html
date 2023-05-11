@@ -3,6 +3,10 @@
     <th *matHeaderCellDef mat-header-cell> Category name</th>
     <td *matCellDef="let group" mat-cell> {{group.name}} </td>
   </ng-container>
+  <ng-container matColumnDef="defaultCurrency">
+    <th *matHeaderCellDef mat-header-cell> Default currency</th>
+    <td *matCellDef="let group" mat-cell> {{group.defaultCurrency}} </td>
+  </ng-container>
   <ng-container matColumnDef="users">
     <th *matHeaderCellDef mat-header-cell> users</th>
     <td *matCellDef="let group" mat-cell>

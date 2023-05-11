@@ -32,6 +32,9 @@ public class Group {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "default_Currency")
+    private String defaultCurrency;
+
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
     @Exclude
     private Set<Expense> expenses = new LinkedHashSet<>();

@@ -23,11 +23,11 @@ export class CategoryService {
   }
 
   findAllCategories() {
-    return this.httpClient.get<[Category]>("http://localhost:8080/category/findAll");
+    return this.httpClient.get<Category[]>("http://localhost:8080/category/findAll");
   }
 
   findByName(name: string) {
-    return this.httpClient.get<[Category]>(`http://localhost:8080/category/findByName/${name}`);
+    return this.httpClient.get<Category[]>(`http://localhost:8080/category/findByName/${name}`);
   }
 
   findById(id: number) {

@@ -5,4 +5,7 @@ export interface Expense {
   description: string,
   note?: string,
   date: Date,
+  split: number,
+  userId: number,
+  categoryId: number
 }

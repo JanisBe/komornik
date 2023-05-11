@@ -33,4 +33,8 @@ public class GroupService {
     public Group save(Group group) {
         return groupRepository.save(group);
     }
+
+    public String getDefaultCurrencyForGroup(int id) {
+        return groupRepository.findDefaultCurrencyById(id);
+    }
 }

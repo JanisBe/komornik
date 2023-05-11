@@ -13,8 +13,15 @@ import {User} from 'src/app/interfaces/user';
   styleUrls: ['./all-groups.component.scss']
 })
 export class AllGroupsComponent {
-  allGroups: { userNames: string[]; id?: number | undefined; name: string; groupDescription: string; users: User[]; }[];
-  displayedColumns: string[] = ['name', 'users', 'actions'];
+  allGroups: {
+    userNames: string[];
+    id?: number | undefined;
+    name: string;
+    defaultCurrency?: string;
+    groupDescription: string;
+    users: User[];
+  }[];
+  displayedColumns: string[] = ['name', 'users', 'defaultCurrency', 'actions'];
   expandedUser: Group | null;
 
   constructor(private groupService: GroupService,

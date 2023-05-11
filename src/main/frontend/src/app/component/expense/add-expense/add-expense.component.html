@@ -5,7 +5,7 @@
         <div class="row">
           <div class="form-group">
             <mat-form-field appearance="outline">
-            <mat-label>Expense name</mat-label>
+            <mat-label>Opis wydatku</mat-label>
             <input
               class="form-control"
               formControlName="description"
@@ -13,8 +13,7 @@
               matInput
               type="text">
             </mat-form-field>
-          </div>
-          <div class="form-group">
+
             <mat-form-field appearance="outline">
             <mat-label>Ile</mat-label>
               <input
@@ -27,44 +26,58 @@
           </div>
           <div class="form-group">
             <mat-form-field appearance="outline">
-            <mat-label>waluta</mat-label>
-            <input
-              class="form-control"
-              formControlName="currency"
-              id="currency"
-              matInput
-              type="text">
+              <mat-label>Domyślna waluta</mat-label>
+              <mat-select formControlName="currency">
+                <mat-option *ngFor="let currentCurrency of currencies" [value]="currentCurrency">
+                  {{currentCurrency}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-form-field appearance="outline">
-            <mat-label>Choose a date</mat-label>
-            <input [matDatepicker]="picker" formControlName="date" matInput (click)="picker.open()">
-            <mat-hint>DD/MM/YYYY</mat-hint>
-            <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-          </div>
 
-          <div class="form-group">
             <mat-form-field appearance="fill" class="example-full-width">
               <mat-label>Nazwa użytkownika</mat-label>
               <input [matAutocomplete]="auto"
                      formControlName="userName"
                      matInput
                      placeholder="Nazwa użytkownika"
-                     type="text">
+                     type="text"
+                     value="">
               <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let user of users" [value]="user?.name">
+                <mat-option *ngFor="let user of users | async" [value]="user?.id">
                   {{user?.name}}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
           </div>
           <div class="form-group">
+            <mat-form-field appearance="outline">
+              <mat-label>Choose a date</mat-label>
+              <input (click)="picker.open()" [matDatepicker]="picker" formControlName="date" matInput>
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Kategoria</mat-label>
+              <mat-select formControlName="category">
+                <mat-option *ngFor="let category of categories | async" [value]="category.id">
+                  {{category.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
             <mat-slider discrete showTickMarks>
-              <input [value]="50" formControlName="split" matSliderThumb max="100" min="0" step="1">
+              <input #slider (change)="updateSliderInput()" [value]="defaultSplit" matSliderThumb max="100" min="0"
+                     step="1">
             </mat-slider>
+            <mat-form-field>
+              <input #sliderInput (change)="updateSlider()" [value]="defaultSplit" formControlName="split" matInput
+                     max="100" min="0"
+                     placeholder="Podział" type="number">
+              <mat-icon matSuffix>percent</mat-icon>
+            </mat-form-field>
           </div>
           <div class="col-xs-12">
             <button

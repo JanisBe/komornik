@@ -7,6 +7,10 @@ import {SnackbarService} from "../../../service/snackbar.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../../service/user.service";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {CurrencyService} from "../../../service/currency.service";
+import {Observable} from "rxjs";
+import {CategoryService} from "../../../service/category.service";
+import {Category} from "../../../interfaces/category";
 
 @Component({
   selector: 'add-group',
@@ -17,15 +21,18 @@ export class AddGroupComponent implements OnInit {
   id: number;
   editMode = false;
   groupForm: FormGroup;
-  users: User[] = [];
+  users: Observable<[User]>;
   mail: string[] = [];
-
+  currencies: string[] = [];
+  categories: Observable<Category[]>;
 
   constructor(private groupService: GroupService,
               private snackbarService: SnackbarService,
               private router: Router,
               private route: ActivatedRoute,
               private userService: UserService,
+              private currencyService: CurrencyService,
+              private categoryService: CategoryService
   ) {
   }
 
@@ -35,9 +42,9 @@ export class AddGroupComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.userService.findCommonFriends(10).subscribe(response => {
-      this.users = response;
-    });
+    this.users = this.userService.findCommonFriends(10);
+    this.categories = this.categoryService.findAllCategories();
+    this.currencies = this.currencyService.getAllCurrencies();
   }
 
   onSubmit() {
@@ -46,11 +53,12 @@ export class AddGroupComponent implements OnInit {
     let newGroup: Group = {
       groupDescription: data.description,
       users: users,
-      name: data.name
+      name: data.name,
+      defaultCurrency: data.defaultCurrency
     };
 
     this.groupService.createGroup(newGroup).subscribe((group) => {
-      this.snackbarService.displayMessage(`Nowa kategoria ${group.name} założona!`)
+      this.snackbarService.displayMessage(`Nowa grupa ${group.name} założona!`)
     });
     this.onCancel();
   }
@@ -73,11 +81,15 @@ export class AddGroupComponent implements OnInit {
   }
 
   onOptionSelected(selectedUser: MatAutocompleteSelectedEvent) {
-    const foundUsers = this.users.find(user => user.name = selectedUser.option.value);
+    const foundUsers = this.users.subscribe(users => {
+      users.find(user => user.name = selectedUser.option.value)
+      // @ts-ignore
+      // const index = users.findIndex(user => user.name === foundUsers.name);
+      // console.log(index);
+    });
     // this.mail[] = foundUsers.mail;
-    // @ts-ignore
-    const index = this.users.findIndex(user => user.name === foundUsers.name);
-    console.log(index);
+
+
     // this.users.forEach((user, index) => this.mail[index] = user.mail)
   }
 
@@ -86,6 +98,7 @@ export class AddGroupComponent implements OnInit {
     let groupUsers = new FormArray<FormGroup>([]);
     this.groupForm = new FormGroup({
       name: new FormControl(name, Validators.required),
+      defaultCurrency: new FormControl(null),
       users: groupUsers
     });
     this.id = this.route.snapshot.params['id'];

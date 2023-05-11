@@ -27,6 +27,11 @@ public class GroupRestController {
         return groupService.findById(id);
     }
 
+    @GetMapping("/getDefaultCurrencyForGroup/{id}")
+    public String getDefaultCurrencyForGroup(@PathVariable int id) {
+        return groupService.getDefaultCurrencyForGroup(id);
+    }
+
     @PostMapping("/save")
     public Group save(@RequestBody Group group) {
         return groupService.save(group);

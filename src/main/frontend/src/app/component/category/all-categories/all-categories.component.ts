@@ -12,7 +12,7 @@ import {ConfirmationComponent} from "../../common/confirmation/confirmation.comp
   styleUrls: ['./all-categories.component.scss']
 })
 export class AllCategoriesComponent implements OnInit {
-  categories: [Category];
+  categories: Category[];
   displayedColumns: string[] = ['name', 'actions'];
 
   constructor(private categoryService: CategoryService,
