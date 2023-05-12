@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
@@ -12,7 +12,7 @@ import {User} from 'src/app/interfaces/user';
   templateUrl: './all-groups.component.html',
   styleUrls: ['./all-groups.component.scss']
 })
-export class AllGroupsComponent {
+export class AllGroupsComponent implements OnInit{
   allGroups: {
     userNames: string[];
     id?: number | undefined;
@@ -22,7 +22,6 @@ export class AllGroupsComponent {
     users: User[];
   }[];
   displayedColumns: string[] = ['name', 'users', 'defaultCurrency', 'actions'];
-  expandedUser: Group | null;
 
   constructor(private groupService: GroupService,
               private snackBarService: SnackbarService,
@@ -65,4 +64,7 @@ export class AllGroupsComponent {
     });
   }
 
+    addExpense(groupId: number) {
+        this.router.navigate(['expense/add', groupId]);
+    }
 }

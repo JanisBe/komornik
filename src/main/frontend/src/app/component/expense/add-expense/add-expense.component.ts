@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ExpenseService} from "../../../service/expense.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Expense} from "../../../interfaces/expense";
 import {User} from "../../../interfaces/user";
@@ -10,6 +10,8 @@ import {CurrencyService} from "../../../service/currency.service";
 import {Observable} from "rxjs";
 import {Category} from "../../../interfaces/category";
 import {CategoryService} from "../../../service/category.service";
+import {GroupService} from "../../../service/group.service";
+import { Group } from 'src/app/interfaces/group';
 
 
 @Component({
@@ -23,6 +25,7 @@ export class AddExpenseComponent implements OnInit {
     categories: Observable<Category[]>;
     currentUserId = 10;
     currentGroupId = 10;
+    currentGroup: Observable<Group>;
     defaultSplit: number = 50;
     currencies: string[] = [];
     defaultCurrency: string;
@@ -35,11 +38,17 @@ export class AddExpenseComponent implements OnInit {
                 private snackbarService: SnackbarService,
                 private userService: UserService,
                 private currencyService: CurrencyService,
-                private categoryService: CategoryService) {
+                private categoryService: CategoryService,
+                private route: ActivatedRoute,
+                private groupService: GroupService) {
     }
 
     ngOnInit(): void {
         this.initForm();
+        this.currentGroupId = this.route.snapshot.params['groupId'];
+        if(!!this.currentGroupId){
+            this.currentGroup = this.groupService.findById(this.currentGroupId)
+        }
         this.users = this.userService.findCommonFriends(this.currentUserId);
         this.categories = this.categoryService.findAllCategories();
         this.currencies = this.currencyService.getAllCurrencies();

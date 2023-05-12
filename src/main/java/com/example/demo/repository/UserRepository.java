@@ -14,4 +14,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "where uxg.group_id in (select uxg2.group_id from user_x_group uxg2 " +
             "                       where uxg2.user_id = :userId)", nativeQuery = true)
     List<User> findCommonUsers(int userId);
+
+
+    List<User> findUsersInGroup(int groupId);
 }

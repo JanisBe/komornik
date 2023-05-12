@@ -20,6 +20,7 @@
     <td *matCellDef="let group" mat-cell>
       <mat-icon (click)="editGroup(group)" class="pointer">edit</mat-icon>&nbsp;
       <mat-icon (click)="deleteGroup(group)" class="pointer">delete</mat-icon>
+      <mat-icon (click)="addExpense(group.id)" class="pointer">add</mat-icon>
     </td>
   </ng-container>
   <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>

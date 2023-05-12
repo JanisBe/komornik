@@ -49,4 +49,8 @@ public class UserService {
     public List<User> findCommonUsers(int userId) {
         return userRepository.findCommonUsers(userId);
     }
+
+    public List<User> findUsersInGroup(int groupId) {
+        return userRepository.findUsersInGroup(groupId);
+    }
 }

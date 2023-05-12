@@ -41,4 +41,9 @@ public class UserRestController {
     public List<User> findCommonUser(@PathVariable int userId) {
         return userService.findCommonUsers(userId);
     }
+
+    @GetMapping("/findUsersInGroup/{groupId}")
+    public List<User> findUsersInGroup(@PathVariable int groupId) {
+        return userService.findUsersInGroup(groupId);
+    }
 }

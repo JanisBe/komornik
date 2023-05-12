@@ -24,6 +24,7 @@ const routes: Routes = [
   {path: 'expense/details/:id', component: UserDetailsComponent},
   {path: 'expense/list', component: AllExpensesComponent},
   {path: 'expense/add', component: AddExpenseComponent},
+  {path: 'expense/add/:groupId', component: AddExpenseComponent},
 
 ];
 
