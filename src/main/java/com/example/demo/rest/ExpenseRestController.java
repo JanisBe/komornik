@@ -1,5 +1,6 @@
 package com.example.demo.rest;
 
+import com.example.demo.dto.ExpenseDto;
 import com.example.demo.entities.Expense;
 import com.example.demo.service.ExpenseService;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class ExpenseRestController {
     }
 
     @PostMapping("/save")
-    public Expense save(@RequestBody Expense expense) {
+    public Expense save(@RequestBody ExpenseDto expense) {
         return expenseService.saveExpense(expense);
     }
 

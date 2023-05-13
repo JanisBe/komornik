@@ -1,16 +1,9 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.ToString.Exclude;
-import org.hibernate.Hibernate;
+import lombok.*;
 
 import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -18,6 +11,7 @@ import java.util.Set;
 @ToString
 @RequiredArgsConstructor
 @Entity
+@EqualsAndHashCode
 @Table(name = "groups", schema = "test")
 public class Group {
 
@@ -35,31 +29,10 @@ public class Group {
     @Column(name = "default_Currency")
     private String defaultCurrency;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
-    @Exclude
-    private Set<Expense> expenses = new LinkedHashSet<>();
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_x_group",
             joinColumns = {@JoinColumn(name = "group_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private Set<User> users = new HashSet<>();
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(
-                o)) {
-            return false;
-        }
-        Group group = (Group) o;
-        return getId() != null && Objects.equals(getId(), group.getId());
-    }
 }

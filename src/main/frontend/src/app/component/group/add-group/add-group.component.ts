@@ -21,7 +21,7 @@ export class AddGroupComponent implements OnInit {
     id: number;
     editMode = false;
     groupForm: FormGroup;
-    users: Observable<[User]>;
+    users: Observable<User[]>;
     mail: string[] = [];
     currencies: string[] = [];
     categories: Observable<Category[]>;

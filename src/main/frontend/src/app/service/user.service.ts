@@ -28,7 +28,8 @@ export class UserService {
   findCommonFriends(userId: number) {
     return this.http.get<User[]>("http://localhost:8080/user/findCommonUsers/" + userId);
   }
-  findUsersInGroup(groupId: number){
+
+  findUsersInGroup(groupId: number) {
     return this.http.get<User[]>("http://localhost:8080/user/findUsersInGroup/" + groupId)
   }
 }

@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.ExpenseDto;
 import com.example.demo.entities.Expense;
+import com.example.demo.mapper.ExpenseMapper;
 import com.example.demo.repository.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final UserService userService;
+    private final ExpenseMapper expenseMapper;
 
     public List<Expense> findAllByUserId(int userId) {
         return expenseRepository.findAllByUser(userService.findById(userId).orElseThrow());
@@ -25,7 +28,8 @@ public class ExpenseService {
     }
 
     @Transactional
-    public Expense saveExpense(Expense expense) {
+    public Expense saveExpense(ExpenseDto expenseDto) {
+        Expense expense = expenseMapper.toEntity(expenseDto);
         return expenseRepository.save(expense);
     }
 

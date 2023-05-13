@@ -11,7 +11,7 @@ import {Observable} from "rxjs";
 import {Category} from "../../../interfaces/category";
 import {CategoryService} from "../../../service/category.service";
 import {GroupService} from "../../../service/group.service";
-import { Group } from 'src/app/interfaces/group';
+import {Group} from 'src/app/interfaces/group';
 
 
 @Component({
@@ -21,10 +21,10 @@ import { Group } from 'src/app/interfaces/group';
 })
 export class AddExpenseComponent implements OnInit {
     form: FormGroup;
-    users: Observable<[User]>;
+    users: Observable<User[]>;
     categories: Observable<Category[]>;
-    currentUserId = 10;
-    currentGroupId = 10;
+    currentUserId = 1;
+    currentGroupId = 1;
     currentGroup: Observable<Group>;
     defaultSplit: number = 50;
     currencies: string[] = [];
@@ -46,10 +46,10 @@ export class AddExpenseComponent implements OnInit {
     ngOnInit(): void {
         this.initForm();
         this.currentGroupId = this.route.snapshot.params['groupId'];
-        if(!!this.currentGroupId){
+        if (!!this.currentGroupId) {
             this.currentGroup = this.groupService.findById(this.currentGroupId)
         }
-        this.users = this.userService.findCommonFriends(this.currentUserId);
+        this.users = this.userService.findUsersInGroup(this.currentUserId);
         this.categories = this.categoryService.findAllCategories();
         this.currencies = this.currencyService.getAllCurrencies();
         this.currencyService.getDefaultCurrencyForGroup(this.currentGroupId)
