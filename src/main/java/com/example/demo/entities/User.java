@@ -2,13 +2,8 @@ package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.Hibernate;
+import lombok.*;
 
-import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -16,6 +11,7 @@ import java.util.Set;
 @ToString
 @RequiredArgsConstructor
 @Entity
+@EqualsAndHashCode
 @Table(name = "users", schema = "test")
 public class User {
 
@@ -41,21 +37,4 @@ public class User {
 	@JsonIgnore
 	private Set<Group> groups;
 
-	@Override
-	public int hashCode() {
-		return getClass().hashCode();
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(
-				o)) {
-			return false;
-		}
-		User user = (User) o;
-		return getId() != null && Objects.equals(getId(), user.getId());
-	}
 }
