@@ -70,7 +70,7 @@ export class AddExpenseComponent implements OnInit {
             currency: this.form.value.currency,
             date: new Date(),
             split: this.form.value.split,
-            userId: this.form.value.userName,
+            userId: this.form.value.userName.id,
             categoryId: this.form.value.category
         }
         console.log(newExpense);
@@ -109,5 +109,9 @@ export class AddExpenseComponent implements OnInit {
             category: new FormControl(null, Validators.required),
             date: new FormControl(new Date(), Validators.required)
         })
+    }
+
+    displayFn(user: User): string {
+        return user?.name;
     }
 }

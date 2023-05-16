@@ -21,7 +21,7 @@ public class Expense {
 	@Column(name = "id", nullable = false)
 	private Integer id;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.REMOVE)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "category_id", nullable = false)
 	@Exclude
 	private Category category;
@@ -35,7 +35,7 @@ public class Expense {
 	@Column(name = "description", nullable = false)
 	private String description;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.REMOVE)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "user_id", nullable = false)
 	@Exclude
 	private User user;
