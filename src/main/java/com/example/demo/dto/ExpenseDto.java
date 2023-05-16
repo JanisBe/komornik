@@ -13,7 +13,9 @@ public record ExpenseDto(Integer id,
 						 String description,
 						 int split,
 						 int userId,
+						 int groupId,
 						 Instant date,
-						 String note) implements Serializable {
+						 String note,
+						 int fromUserId) implements Serializable {
 
 }

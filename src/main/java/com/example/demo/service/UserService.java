@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,8 +41,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Optional<User> findById(int id) {
-        return userRepository.findById(id);
+    public User findById(int id) {
+        return userRepository.findById(id).orElseThrow();
     }
 
     public List<User> findCommonUsers(int userId) {

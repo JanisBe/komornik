@@ -33,7 +33,6 @@ public class User {
 	private String avatar;
 
 	@ManyToMany(mappedBy = "users")
-	@ToString.Exclude
 	@JsonIgnore
 	private Set<Group> groups;
 

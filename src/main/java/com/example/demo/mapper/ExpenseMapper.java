@@ -3,9 +3,9 @@ package com.example.demo.mapper;
 import com.example.demo.dto.ExpenseDto;
 import com.example.demo.entities.Category;
 import com.example.demo.entities.Expense;
-import com.example.demo.entities.User;
+import com.example.demo.entities.Group;
 import com.example.demo.service.CategoryService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.GroupService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -16,16 +16,18 @@ public abstract class ExpenseMapper {
 
     @Autowired
     protected CategoryService categoryService;
-
     @Autowired
-    protected UserService userService;
+    protected GroupService groupService;
 
     @Mapping(target = "category", source = "categoryId", qualifiedByName = "mapCategoryIdToCategory")
-    @Mapping(target = "user", source = "userId", qualifiedByName = "mapUserIdToUser")
+    @Mapping(target = "group", source = "groupId", qualifiedByName = "mapGroupIdToGroup")
+    @Mapping(target = "user", ignore = true)
     public abstract Expense toEntity(ExpenseDto userDto);
 
     @Mapping(target = "categoryId", source = "category.id")
-    @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "userId", ignore = true)
+    @Mapping(target = "fromUserId", ignore = true)
+    @Mapping(target = "groupId", source = "group.id")
     @Mapping(target = "split", ignore = true)
     public abstract ExpenseDto toDto(Expense user);
 
@@ -34,8 +36,8 @@ public abstract class ExpenseMapper {
         return categoryService.findById(categoryId);
     }
 
-    @Named("mapUserIdToUser")
-    User mapUserIdToUser(int userId) {
-        return userService.findById(userId).orElseThrow();
+    @Named("mapGroupIdToGroup")
+    Group mapGroupIdToGroup(int groupId) {
+        return groupService.findById(groupId);
     }
 }

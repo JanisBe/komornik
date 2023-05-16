@@ -7,5 +7,7 @@ export interface Expense {
   date: Date,
   split: number,
   userId: number,
-  categoryId: number
+  categoryId: number,
+  fromUserId: number
+  groupId: number
 }

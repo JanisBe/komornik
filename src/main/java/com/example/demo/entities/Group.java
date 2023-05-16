@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -28,6 +29,9 @@ public class Group {
 
     @Column(name = "default_Currency")
     private String defaultCurrency;
+
+    @OneToMany(mappedBy = "group")
+    private List<Expense> expenses;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_x_group",

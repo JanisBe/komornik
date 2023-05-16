@@ -1,49 +1,51 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.ToString.Exclude;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Data
 @Entity
-@EqualsAndHashCode
 @Table(name = "expenses", schema = "test")
-public class Expense {
+public class Expense implements Cloneable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", nullable = false)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinColumn(name = "category_id", nullable = false)
-	@Exclude
-	private Category category;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-	@Column(name = "currency", nullable = false)
-	private String currency;
+    @Column(name = "currency", nullable = false)
+    private String currency;
 
-	@Column(name = "amount", nullable = false)
-	private BigDecimal amount;
+    @Column(name = "amount", nullable = false)
+    private BigDecimal amount;
 
-	@Column(name = "description", nullable = false)
-	private String description;
+    @Column(name = "description", nullable = false)
+    private String description;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinColumn(name = "user_id", nullable = false)
-	@Exclude
-	private User user;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-	@Column(name = "date", nullable = false)
-	private Instant date;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group;
 
-	@Column(name = "note")
-	private String note;
+    @Column(name = "date", nullable = false)
+    private Instant date;
+
+    @Column(name = "note")
+    private String note;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
 }

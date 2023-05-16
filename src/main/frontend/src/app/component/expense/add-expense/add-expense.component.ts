@@ -69,15 +69,17 @@ export class AddExpenseComponent implements OnInit {
             description: this.form.value.description,
             currency: this.form.value.currency,
             date: new Date(),
-            split: this.form.value.split,
+            split: this.defaultSplit,
             userId: this.form.value.userName.id,
-            categoryId: this.form.value.category
+            categoryId: this.form.value.category,
+            fromUserId: this.currentUserId,
+            groupId: this.currentGroupId
         }
         console.log(newExpense);
         this.expenseService.saveExpense(newExpense).subscribe({
             next: (result) => {
                 this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`);
-                this.onCancel();
+                // this.onCancel();
             },
             error: () => {
                 this.snackbarService.displayMessage(`Nie udało się założyć wydatku ${newExpense.description}`);
