@@ -21,11 +21,11 @@ import {Group} from 'src/app/interfaces/group';
 })
 export class AddExpenseComponent implements OnInit {
     form: FormGroup;
-    users: Observable<User[]>;
-    categories: Observable<Category[]>;
+    users$: Observable<User[]>;
+    categories$: Observable<Category[]>;
     currentUserId = 1;
     currentGroupId = 1;
-    currentGroup: Observable<Group>;
+    currentGroup$: Observable<Group>;
     defaultSplit: number = 50;
     currencies: string[] = [];
     defaultCurrency: string;
@@ -45,12 +45,12 @@ export class AddExpenseComponent implements OnInit {
 
     ngOnInit(): void {
         this.initForm();
-        this.currentGroupId = this.route.snapshot.params['groupId'];
-        if (!!this.currentGroupId) {
-            this.currentGroup = this.groupService.findById(this.currentGroupId)
+        if (!!this.route.snapshot.params['groupId']) {
+            this.currentGroupId = this.route.snapshot.params['groupId'];
+            this.currentGroup$ = this.groupService.findById(this.currentGroupId)
         }
-        this.users = this.userService.findUsersInGroup(this.currentUserId);
-        this.categories = this.categoryService.findAllCategories();
+        this.users$ = this.userService.findUsersInGroup(this.currentUserId);
+        this.categories$ = this.categoryService.findAllCategories();
         this.currencies = this.currencyService.getAllCurrencies();
         this.currencyService.getDefaultCurrencyForGroup(this.currentGroupId)
             .subscribe(response => {

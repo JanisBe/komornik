@@ -4,22 +4,24 @@
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div class="row">
                     <div class="form-group">
-                        <label for="name">Category name</label>
-                        <input
-                                type="text"
-                                id="name"
-                                class="form-control"
-                                formControlName="name">
+                        <mat-form-field>
+                            <mat-label>Nazwa kategorii</mat-label>
+                            <input class="form-control"
+                                   formControlName="name"
+                                   id="name"
+                                   matInput
+                                   type="text">
+                        </mat-form-field>
                     </div>
                     <div class="col-xs-12">
-                      <button
-                        class="btn btn-success"
-                        type="submit">Submit
-                      </button>
-                      <button
-                        (click)="onCancel()"
-                        class="btn btn-danger" type="button">Cancel
-                      </button>
+                        <button
+                                class="btn btn-success"
+                                type="submit">Submit
+                        </button>
+                        <button
+                                (click)="onCancel()"
+                                class="btn btn-danger" type="button">Cancel
+                        </button>
                     </div>
                 </div>
             </form>

@@ -1,10 +1,12 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -35,10 +37,13 @@ public class Expense implements Cloneable {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "group_id", nullable = false)
+    @JsonIgnore
     private Group group;
 
-    @Column(name = "date", nullable = false)
-    private Instant date;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "date", nullable = false, columnDefinition = "TIMESTAMP")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime date;
 
     @Column(name = "note")
     private String note;

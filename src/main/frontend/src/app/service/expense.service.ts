@@ -3,24 +3,34 @@ import {HttpClient} from "@angular/common/http";
 import {Expense} from "../interfaces/expense";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ExpenseService {
 
-  constructor(private httpClient: HttpClient) {
-  }
+    constructor(private httpClient: HttpClient) {
+    }
 
-  saveExpense(expense: Expense) {
-    return this.httpClient.post<Expense>("http://localhost:8080/expense/save", expense);
-  }
+    saveExpense(expense: Expense) {
+        return this.httpClient.post<Expense>("http://localhost:8080/expense/save", expense);
+    }
 
-  deleteExpense(expenseId: number) {
-    return this.httpClient.delete(`http://localhost:8080/expense/delete${expenseId}`);
-  }
+    deleteExpense(expenseId: number | undefined) {
+        return this.httpClient.delete(`http://localhost:8080/expense/delete/${expenseId}`);
+    }
 
-  editExpense(expense: Expense) {
-    return this.httpClient.patch<Expense>("http://localhost:8080/expense/edit", expense);
-  }
+    editExpense(expense: Expense) {
+        return this.httpClient.patch<Expense>("http://localhost:8080/expense/edit", expense);
+    }
 
+    findAllByGroupId(groupId: number) {
+        return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAllByGroup/${groupId}`);
+    }
 
+    findAllByUser(userId: number) {
+        return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAllByUser/${userId}`);
+    }
+
+    findAll() {
+        return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAll`);
+    }
 }

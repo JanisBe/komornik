@@ -20,6 +20,7 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final UserService userService;
+    private final GroupService groupService;
     private final ExpenseMapper expenseMapper;
 
     public List<Expense> findAllByUserId(int userId) {
@@ -30,8 +31,16 @@ public class ExpenseService {
         return expenseRepository.findById(id);
     }
 
+    public List<Expense> findAllByGroup(int groupId) {
+        return expenseRepository.findAllByGroup(groupService.findById(groupId));
+    }
+
+    public List<Expense> findAll() {
+        return expenseRepository.findAll();
+    }
+
     @Transactional
-    public Expense saveExpense(ExpenseDto expenseDto) {
+    public ExpenseDto saveExpense(ExpenseDto expenseDto) {
         Expense expense = expenseMapper.toEntity(expenseDto);
         if (expenseDto.split() == 100) {
             expense.setUser(userService.findById(expenseDto.userId()));
@@ -54,7 +63,7 @@ public class ExpenseService {
                 throw new RuntimeException(e);
             }
         }
-        return expense;
+        return expenseMapper.toDto(expense);
     }
 
     @Transactional

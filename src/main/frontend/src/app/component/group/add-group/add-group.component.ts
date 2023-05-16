@@ -21,10 +21,10 @@ export class AddGroupComponent implements OnInit {
     id: number;
     editMode = false;
     groupForm: FormGroup;
-    users: Observable<User[]>;
+    users$: Observable<User[]>;
     mail: string[] = [];
     currencies: string[] = [];
-    categories: Observable<Category[]>;
+    categories$: Observable<Category[]>;
 
     constructor(private groupService: GroupService,
                 private snackbarService: SnackbarService,
@@ -42,8 +42,8 @@ export class AddGroupComponent implements OnInit {
 
     ngOnInit() {
         this.initForm();
-        this.users = this.userService.findCommonFriends(10);
-        this.categories = this.categoryService.findAllCategories();
+        this.users$ = this.userService.getAllUsers();
+        this.categories$ = this.categoryService.findAllCategories();
         this.currencies = this.currencyService.getAllCurrencies();
     }
 
@@ -87,7 +87,7 @@ export class AddGroupComponent implements OnInit {
     }
 
     onOptionSelected(selectedUser: MatAutocompleteSelectedEvent) {
-        const foundUsers = this.users.subscribe(users => {
+        const foundUsers = this.users$.subscribe(users => {
             users.find(user => user.name = selectedUser.option.value)
             // @ts-ignore
             // const index = users.findIndex(user => user.name === foundUsers.name);
