@@ -1,7 +1,7 @@
 package com.example.demo.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /**
  * A DTO for the {@link com.example.demo.entities.Expense} entity
@@ -14,7 +14,7 @@ public record ExpenseDto(Integer id,
 						 int split,
 						 int userId,
 						 int groupId,
-						 Instant date,
+						 LocalDateTime date,
 						 String note,
 						 int fromUserId) implements Serializable {
 
