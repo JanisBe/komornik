@@ -9,6 +9,7 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public abstract class UserMapper {
+
     @Mapping(target = "groups", ignore = true)
     public abstract User toEntity(UserDto userDto);
 

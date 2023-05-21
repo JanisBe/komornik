@@ -7,8 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    User findByMail(String mail);
-
+    User findByName(String name);
 
     @Query(value = "select distinct u.* from user_x_group uxg " +
             "left join  users u on u.id = uxg.user_id " +
