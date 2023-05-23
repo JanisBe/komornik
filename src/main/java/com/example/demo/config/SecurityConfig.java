@@ -28,9 +28,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf().and().cors().disable()
+                .csrf().disable().cors().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/authenticate").permitAll()
+                .requestMatchers("auth/authenticate").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -38,8 +38,8 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin();
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+//                .formLogin();
         return http.build();
     }
 

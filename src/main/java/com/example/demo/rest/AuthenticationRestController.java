@@ -32,8 +32,7 @@ public class AuthenticationRestController {
         final UserDetails user = userDetailsService.loadUserByUsername(request.email());
         if (user != null) {
             UserDto userDto = userMapper.toDto((User) user);
-            userDto.withToken(jwtUtil.generateToken(user));
-            return userDto;
+            return userDto.withToken(jwtUtil.generateToken(user));
         }
         return null;
     }
