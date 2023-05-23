@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.UserDto;
 import com.example.demo.entities.User;
+import com.example.demo.exception.UserAlreadyExistsException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,12 @@ public class UserService implements UserDetailsService {
 
 
     @Transactional
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public User addUser(User user) throws UserAlreadyExistsException {
+        if (userRepository.findByMail(user.getMail()) != null) {
+            return userRepository.save(user);
+        } else {
+            throw new UserAlreadyExistsException("Użytkownik z tym mailem już istnieje");
+        }
     }
 
     public List<UserDto> findAllUsers() {
@@ -53,7 +58,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> findUsersInGroup(int groupId) {
-        return userRepository.findUsersInGroup(groupId);
+        return userRepository.findUsersInGroups(groupId);
     }
 
     @Override

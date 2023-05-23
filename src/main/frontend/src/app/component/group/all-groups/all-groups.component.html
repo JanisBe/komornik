@@ -1,7 +1,9 @@
 <table [dataSource]="allGroups" class="mat-elevation-z8" mat-table>
   <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell> Category name</th>
-    <td *matCellDef="let group" mat-cell> {{group.name}} </td>
+    <th *matHeaderCellDef mat-header-cell> Group name</th>
+    <td *matCellDef="let group" mat-cell routerLink="/expense/add/{{group.id}}">
+      <span class="pointer">{{group.name}}</span>
+    </td>
   </ng-container>
   <ng-container matColumnDef="defaultCurrency">
     <th *matHeaderCellDef mat-header-cell> Default currency</th>
@@ -18,9 +20,9 @@
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef mat-header-cell> Actions</th>
     <td *matCellDef="let group" mat-cell>
-      <mat-icon (click)="editGroup(group)" class="pointer">edit</mat-icon>&nbsp;
-      <mat-icon (click)="deleteGroup(group)" class="pointer">delete</mat-icon>
-      <mat-icon (click)="addExpense(group.id)" class="pointer">add</mat-icon>
+      <mat-icon (click)="editGroup(group)" class="pointer" matTooltip="Edytuj grupę">edit</mat-icon>&nbsp;
+      <mat-icon (click)="deleteGroup(group)" class="pointer" matTooltip="Skasuj grupę">delete</mat-icon>
+      <mat-icon (click)="addExpense(group.id)" class="pointer" matTooltip="Dodaj wydatek w tej grupie">add</mat-icon>
     </td>
   </ng-container>
   <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>

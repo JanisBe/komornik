@@ -33,9 +33,7 @@ export class AddCategoryComponent implements OnInit {
         });
     }
 
-    ngOnInit()
-        :
-        void {
+    ngOnInit() {
         this.initForm();
     }
 

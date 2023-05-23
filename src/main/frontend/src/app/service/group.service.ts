@@ -22,8 +22,8 @@ export class GroupService {
     return this.httpClient.delete<Group>("http://localhost:8080/group/delete/" + groupId);
   }
 
-  findAllGroups() {
-    return this.httpClient.get<[Group]>("http://localhost:8080/group/findAll");
+  findAllGroupsForUser(userId: number) {
+    return this.httpClient.get<Group[]>("http://localhost:8080/group/findAllGroupsForUser/" + userId);
   }
 
   findById(id: number) {

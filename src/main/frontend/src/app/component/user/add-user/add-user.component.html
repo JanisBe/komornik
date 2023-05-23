@@ -38,8 +38,8 @@
                     </div>
                     <div class="col-xs-12">
                         <button
-                                class="btn btn-success"
-                                type="submit">Submit
+                          [disabled]="this.form.invalid"
+                          class="btn btn-success" type="submit">Submit
                         </button>
                         <button
                                 (click)="onCancel()"

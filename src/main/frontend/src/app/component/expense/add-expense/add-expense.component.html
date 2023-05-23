@@ -16,13 +16,21 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-            <mat-label>Ile</mat-label>
+              <mat-label>Ile</mat-label>
               <input
-              class="form-control"
-              formControlName="amount"
-              id="amount"
-              matInput
-              type="text">
+                class="form-control"
+                formControlName="amount"
+                id="amount"
+                matInput
+                type="text">
+            </mat-form-field>
+            <mat-form-field *ngIf="!currentGroup$" appearance="outline">
+              <mat-label>Grupa</mat-label>
+              <mat-select (selectionChange)="onGroupChange($event.value)" formControlName="group">
+                <mat-option *ngFor="let group of userGroups$ | async" [value]="group">
+                  {{group.name}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -83,6 +91,7 @@
           <div class="col-xs-12">
             <button
               class="btn btn-success"
+              [disabled]="this.form.invalid"
               type="submit">Submit
             </button>
             <button

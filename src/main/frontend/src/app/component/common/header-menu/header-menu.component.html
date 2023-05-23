@@ -21,3 +21,6 @@
   <button mat-menu-item routerLink="user/add">Add</button>
   <button mat-menu-item routerLink="user/list">List</button>
 </mat-menu>
+
+<button *ngIf="!isAuthenticated" mat-button routerLink="login">Login</button>
+<button (click)="logout()" *ngIf="isAuthenticated" mat-button>Logout</button>

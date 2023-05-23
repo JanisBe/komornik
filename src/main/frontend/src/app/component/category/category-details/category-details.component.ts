@@ -33,7 +33,6 @@ export class CategoryDetailsComponent implements OnInit {
         this.categoryService.findById(this.id).subscribe(
             (category) => {
                 this.category = category;
-                console.log(category);
                 this.form.patchValue({
                     name: category.name
                 })

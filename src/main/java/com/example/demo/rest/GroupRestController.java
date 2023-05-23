@@ -17,9 +17,9 @@ public class GroupRestController {
         this.groupService = groupService;
     }
 
-    @GetMapping("/findAll")
-    public List<GroupDto> findAll() {
-        return groupService.findAllGroups();
+    @GetMapping("/findAllGroupsForUser/{userId}")
+    public List<GroupDto> findAllGroupsForUser(@PathVariable int userId) {
+        return groupService.findAllGroupsForUser(userId);
     }
 
     @GetMapping("/findById/{id}")

@@ -7,23 +7,23 @@ import {ConfirmationComponent} from "../../common/confirmation/confirmation.comp
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
-    selector: 'all-expenses',
-    templateUrl: './all-expenses.component.html',
-    styleUrls: ['./all-expenses.component.scss']
+  selector: 'all-expenses',
+  templateUrl: './all-expenses.component.html',
+  styleUrls: ['./all-expenses.component.scss']
 })
 export class AllExpensesComponent implements OnInit {
-    displayedColumns: string[] = ['description', 'currency', 'amount', 'date', 'actions'];
-    expenses: Expense[];
-    private groupId: number = 1;
+  displayedColumns: string[] = ['description', 'currency', 'amount', 'date', 'with', 'actions'];
+  expenses: Expense[];
+  private groupId: number = 1;
 
-    constructor(private expenseService: ExpenseService,
-                private router: Router,
-                private snackbarService: SnackbarService,
-                private route: ActivatedRoute,
-                private dialog: MatDialog) {
-    }
+  constructor(private expenseService: ExpenseService,
+              private router: Router,
+              private snackbarService: SnackbarService,
+              private route: ActivatedRoute,
+              private dialog: MatDialog) {
+  }
 
-    ngOnInit(): void {
+  ngOnInit(): void {
         if (!!this.route.snapshot.params['groupId']) {
             this.groupId = this.route.snapshot.params['groupId'];
             this.fetchExpensesForGroup(this.groupId);

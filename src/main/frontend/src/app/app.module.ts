@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './component/app.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AddUserComponent} from './component/user/add-user/add-user.component';
 import {AllUsersComponent} from './component/user/all-users/all-users.component';
 import {LoginComponent} from './component/common/login/login.component';
@@ -34,6 +34,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {MatSliderModule} from "@angular/material/slider";
+import {JwtInterceptor} from "./auth/jwt.interceptor";
 
 @NgModule({
   declarations: [
@@ -77,7 +78,12 @@ import {MatSliderModule} from "@angular/material/slider";
     MatSliderModule
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'}
+    {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

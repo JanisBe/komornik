@@ -37,4 +37,8 @@ public class GroupService {
     public String getDefaultCurrencyForGroup(int id) {
         return groupRepository.findDefaultCurrencyById(id);
     }
+
+    public List<GroupDto> findAllGroupsForUser(int userId) {
+        return groupRepository.findByUsers_Id(userId).stream().map(groupMapper::toDto).toList();
+    }
 }

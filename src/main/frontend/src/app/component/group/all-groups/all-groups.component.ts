@@ -6,6 +6,7 @@ import {ConfirmationComponent} from "../../common/confirmation/confirmation.comp
 import {GroupService} from "../../../service/group.service";
 import {Group} from "../../../interfaces/group";
 import {User} from 'src/app/interfaces/user';
+import {AuthService} from "../../../auth/auth.service";
 
 @Component({
   selector: 'all-groups',
@@ -22,19 +23,22 @@ export class AllGroupsComponent implements OnInit{
     users: User[];
   }[];
   displayedColumns: string[] = ['name', 'users', 'defaultCurrency', 'actions'];
+  private userId: number;
 
   constructor(private groupService: GroupService,
               private snackBarService: SnackbarService,
               private router: Router,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
+    this.userId = this.authService.user.value?.id!;
     this.findAll();
   }
 
   findAll() {
-    this.groupService.findAllGroups().subscribe(groups => {
+    this.groupService.findAllGroupsForUser(this.userId).subscribe(groups => {
         this.allGroups = groups.map((group) => ({
           ...group,
           userNames: group.users.map((user) => (user.name))

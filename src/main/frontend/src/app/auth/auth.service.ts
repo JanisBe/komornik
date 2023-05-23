@@ -7,14 +7,14 @@ import {User} from "../interfaces/user";
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
-  user = new BehaviorSubject<User>(null);
+  user = new BehaviorSubject<User | null>(null);
 
   constructor(private http: HttpClient, private router: Router) {
   }
 
   signup(email: string, password: string) {
     return this.http
-      .post<string>(
+      .post<User>(
         'http://localhost:8080/auth/authenticate',
         {
           email: email,
@@ -24,49 +24,74 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         tap(resData => {
-          this.handleAuth(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
+          return this.handleAuth(resData.mail, resData.name, resData.id, resData.token!);
         })
       );
   }
 
   login(email: string, password: string) {
-    return this.http.post<string>(
+    return this.http.post<User>(
       'http://localhost:8080/auth/authenticate',
       {
-        email: email,
+        username: email,
         password: password,
       }
     )
-      .pipe(
-        catchError(this.handleError),
-        tap(resData => {
-          this.handleAuth(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
-        })
-      );
+      .subscribe({
+        next: (resData) => {
+          return this.handleAuth(resData.mail, resData.name, resData.id, resData.token!);
+        },
+        error: error => {
+          this.handleError(error);
+        }
+      });
   }
 
   logout() {
     this.user.next(null);
-    this.router.navigate(['/auth']);
+    this.router.navigate(['/login']);
     localStorage.removeItem('userData');
+  }
+
+  autoLogin() {
+    const userData: {
+      mail: string;
+      id: number;
+      token: string;
+      name: string
+    } = JSON.parse(localStorage.getItem('userData') || '{}');
+
+    if (!userData) {
+      return;
+    }
+
+    const loadedUser: User = {
+      id: userData.id,
+      mail: userData.mail,
+      token: userData.token,
+      name: userData.name
+    };
+    if (loadedUser.token) {
+      this.user.next(loadedUser);
+    }
   }
 
   private handleAuth(
     email: string,
-    userId: string,
-    token: string,
-    expiresIn: number
+    name: string,
+    userId: number,
+    token: string
   ) {
-    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-    const user = new User(email, userId, token, expirationDate);
+    const user: User = {name: name, id: userId, token: token, mail: email}
     this.user.next(user);
     localStorage.setItem('userData', JSON.stringify(user));
+    this.router.navigate(['/group/list']);
   }
 
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';
     if (!errorRes.error || !errorRes.error.error) {
-      return throwError(errorMessage);
+      return throwError(() => errorMessage);
     }
     switch (errorRes.error.error.message) {
       case 'EMAIL_EXISTS':
@@ -79,6 +104,6 @@ export class AuthService {
         errorMessage = 'This password is not correct.';
         break;
     }
-    return throwError(errorMessage);
+    return throwError(() => errorMessage);
   }
 }

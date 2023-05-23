@@ -7,6 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
+    @Query("select u from User u inner join u.groups groups where groups.id = ?1")
+    List<User> findUsersInGroups(Integer id);
+
+
     User findByName(String name);
 
     @Query(value = "select distinct u.* from user_x_group uxg " +
@@ -15,7 +19,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "                       where uxg2.user_id = :userId)", nativeQuery = true)
     List<User> findCommonUsers(int userId);
 
-    @Query(value = "select u from User u " +
-            "left join Group g where g.id = :groupId")
-    List<User> findUsersInGroup(int groupId);
+    User findByMail(String mail);
 }

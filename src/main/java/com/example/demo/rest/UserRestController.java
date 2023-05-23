@@ -2,8 +2,11 @@ package com.example.demo.rest;
 
 import com.example.demo.dto.UserDto;
 import com.example.demo.entities.User;
+import com.example.demo.exception.UserAlreadyExistsException;
 import com.example.demo.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,8 +26,13 @@ public class UserRestController {
     }
 
     @PostMapping("/save")
-    public User save(@RequestBody User user) {
-        return userService.addUser(user);
+    public User save(@RequestBody User user) throws UserAlreadyExistsException {
+        try {
+            return userService.addUser(user);
+        } catch (UserAlreadyExistsException exception) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, "Użytkownik " + user.getName() + " " + user.getMail() + "już jest", exception);
+        }
     }
 
     @DeleteMapping("/delete/{id}")

@@ -48,24 +48,26 @@ export class AddGroupComponent implements OnInit {
     }
 
     onSubmit() {
-        const data = this.groupForm.value;
-        const users: [User] = data.users.map((user: User) => ({...user, password: 'test'}))
-        let newGroup: Group = {
-            groupDescription: data.description,
-            users: users,
-            name: data.name,
-            defaultCurrency: data.defaultCurrency
-        };
-
-        this.groupService.createGroup(newGroup).subscribe({
-            next: (group) => {
-                this.snackbarService.displayMessage(`Nowa grupa ${group.name} założona!`);
-                this.onCancel();
-            },
-            error: () => {
-                this.snackbarService.displayMessage(`Nie udało się założyć grupy ${newGroup.name}`);
-            }
-        });
+      const data = this.groupForm.value;
+      // const users: [User] = data.users.map((user: User) => ({...user, password: 'test'}))
+      let newGroup: Group = {
+        groupDescription: data.description,
+        users: data.users,
+        name: data.name,
+        defaultCurrency: data.defaultCurrency
+      };
+      if (!!this.id) {
+        newGroup.id = this.id;
+      }
+      this.groupService.createGroup(newGroup).subscribe({
+        next: (group) => {
+          this.snackbarService.displayMessage(`Nowa grupa ${group.name} założona!`);
+          this.onCancel();
+        },
+        error: () => {
+          this.snackbarService.displayMessage(`Nie udało się założyć grupy ${newGroup.name}`);
+        }
+      });
 
     }
 
@@ -116,8 +118,9 @@ export class AddGroupComponent implements OnInit {
                     for (let user of result.users) {
                         groupUsers.push(
                             new FormGroup({
-                                name: new FormControl(user.name, Validators.required),
-                                mail: new FormControl(user.mail, [Validators.required, Validators.email])
+                              id: new FormControl(user.id, Validators.required),
+                              name: new FormControl(user.name, Validators.required),
+                              mail: new FormControl(user.mail, [Validators.required, Validators.email])
                             })
                         )
                     }
