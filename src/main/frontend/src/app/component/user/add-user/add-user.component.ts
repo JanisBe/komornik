@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../service/user.service";
-import {User} from "../../../interfaces/user";
+import {User} from "../../../model/user";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Router} from "@angular/router";
 

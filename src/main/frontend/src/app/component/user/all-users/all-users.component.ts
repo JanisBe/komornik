@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../../service/user.service";
-import {User} from "../../../interfaces/user";
+import {User} from "../../../model/user";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Router} from "@angular/router";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";

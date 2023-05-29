@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {GroupService} from "../../../service/group.service";
-import {Group} from "../../../interfaces/group";
-import {User} from "../../../interfaces/user";
+import {Group} from "../../../model/group";
+import {User} from "../../../model/user";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../../service/user.service";
@@ -10,7 +10,7 @@ import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {CurrencyService} from "../../../service/currency.service";
 import {Observable} from "rxjs";
 import {CategoryService} from "../../../service/category.service";
-import {Category} from "../../../interfaces/category";
+import {Category} from "../../../model/category";
 
 @Component({
     selector: 'add-group',

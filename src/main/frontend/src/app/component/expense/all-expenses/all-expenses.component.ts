@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ExpenseService} from "../../../service/expense.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
-import {Expense} from "../../../interfaces/expense";
+import {Expense} from "../../../model/expense";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
 import {MatDialog} from "@angular/material/dialog";
 

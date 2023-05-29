@@ -4,8 +4,8 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
 import {GroupService} from "../../../service/group.service";
-import {Group} from "../../../interfaces/group";
-import {User} from 'src/app/interfaces/user';
+import {Group} from "../../../model/group";
+import {User} from 'src/app/model/user';
 import {AuthService} from "../../../auth/auth.service";
 
 @Component({
@@ -13,7 +13,7 @@ import {AuthService} from "../../../auth/auth.service";
   templateUrl: './all-groups.component.html',
   styleUrls: ['./all-groups.component.scss']
 })
-export class AllGroupsComponent implements OnInit{
+export class AllGroupsComponent implements OnInit {
   allGroups: {
     userNames: string[];
     id?: number | undefined;

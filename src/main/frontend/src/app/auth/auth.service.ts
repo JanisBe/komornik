@@ -2,7 +2,7 @@ import {Router} from "@angular/router";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {BehaviorSubject, catchError, tap, throwError} from "rxjs";
-import {User} from "../interfaces/user";
+import {User} from "../model/user";
 
 @Injectable({providedIn: 'root'})
 export class AuthService {

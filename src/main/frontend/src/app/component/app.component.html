@@ -1,12 +1,8 @@
 <div class="container">
-  <h3 class="pull-left">Mój (lepszy) Splitwise</h3>
-  <h4 class="pull-right">Witaj {{userName}}!</h4>
+  <div class="float-start">Mój (lepszy) Splitwise</div>
+  <div *ngIf="userName" class="float-end">Witaj {{userName}}!</div>
+  <header-menu></header-menu>
 </div>
-<header-menu></header-menu>
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
+<div class="container-fluid">
+  <router-outlet></router-outlet>
 </div>

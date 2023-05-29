@@ -27,6 +27,7 @@ const routes: Routes = [
   {path: 'expense/list', component: AllExpensesComponent},
   {path: 'expense/add', component: AddExpenseComponent},
   {path: 'expense/add/:groupId', component: AddExpenseComponent},
+  {path: '', component: AllGroupsComponent, pathMatch: 'full'},
 
 ];
 

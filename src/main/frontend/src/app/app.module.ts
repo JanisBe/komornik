@@ -35,6 +35,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {MatSliderModule} from "@angular/material/slider";
 import {JwtInterceptor} from "./auth/jwt.interceptor";
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import {JwtInterceptor} from "./auth/jwt.interceptor";
     MatTooltipModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSliderModule
+    MatSliderModule,
+    MatChipsModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},

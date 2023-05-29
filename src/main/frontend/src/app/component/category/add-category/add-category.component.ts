@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CategoryService} from "../../../service/category.service";
-import {Category} from "../../../interfaces/category";
+import {Category} from "../../../model/category";
 import {Router} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
 

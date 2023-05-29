@@ -25,10 +25,8 @@ public abstract class ExpenseMapper {
     public abstract Expense toEntity(ExpenseDto userDto);
 
     @Mapping(target = "categoryId", source = "category.id")
-    @Mapping(target = "userId", ignore = true)
-    @Mapping(target = "fromUserId", ignore = true)
+    @Mapping(target = "debt", ignore = true)
     @Mapping(target = "groupId", source = "group.id")
-    @Mapping(target = "split", ignore = true)
     public abstract ExpenseDto toDto(Expense user);
 
     @Named("mapCategoryIdToCategory")

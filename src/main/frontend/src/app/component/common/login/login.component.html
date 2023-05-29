@@ -1,10 +1,10 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+    <div class="col-7 justify-content-center">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="row">
           <div class="form-group">
-            <mat-form-field>
+            <mat-form-field appearance="outline">
               <mat-label>Username</mat-label>
               <input class="form-control"
                      formControlName="login"
@@ -14,7 +14,7 @@
             </mat-form-field>
           </div>
           <div class="form-group">
-            <mat-form-field>
+            <mat-form-field appearance="outline">
               <mat-label>Password</mat-label>
               <input
                 class="form-control"
@@ -24,17 +24,15 @@
                 type="password">
             </mat-form-field>
           </div>
-
-          <div class="col-xs-12">
-            <button
-              class="btn btn-success"
-              type="submit">Login
-            </button>
-            <button
-              class="btn btn-danger"
-              type="button" (click)="forgotPass()">Forgot Password
-            </button>
-            <button class="btn btn-primary" type="reset">Clear</button>
+          <div class="col-7">
+            <div class="d-flex justify-content-around">
+              <button color="primary" mat-raised-button
+                      type="submit">Login
+              </button>
+              <button (click)="forgotPass()" color="primary" mat-raised-button>Forgot Password
+              </button>
+              <button color="warn" mat-raised-button type="reset">Clear</button>
+            </div>
           </div>
         </div>
       </form>

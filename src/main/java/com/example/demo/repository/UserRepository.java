@@ -7,12 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    @Query("select u from User u inner join u.groups groups where groups.id = ?1")
+    @Query("select u from User u join u.groups groups where groups.id = ?1")
     List<User> findUsersInGroups(Integer id);
 
 
     User findByName(String name);
-
     @Query(value = "select distinct u.* from user_x_group uxg " +
             "left join  users u on u.id = uxg.user_id " +
             "where uxg.group_id in (select uxg2.group_id from user_x_group uxg2 " +
