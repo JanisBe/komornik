@@ -8,12 +8,11 @@ import java.io.Serializable;
 public record UserDto(Integer id,
                       String name,
                       String mail,
-                      String password,
                       String avatar,
                       String token) implements Serializable {
 
     public UserDto withToken(String token) {
-        return new UserDto(id, name, mail, password, avatar, token);
+        return new UserDto(id, name, mail, avatar, token);
     }
 
 }

@@ -4,7 +4,7 @@
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div class="row">
                     <div class="form-group">
-                        <mat-form-field>
+                        <mat-form-field appearance="outline">
                             <mat-label>Nazwa kategorii</mat-label>
                             <input class="form-control"
                                    formControlName="name"
@@ -15,9 +15,9 @@
                     </div>
                     <div class="col-xs-12">
                         <button
-                          [disabled]="this.form.invalid"
-                          class="btn btn-success"
-                          type="submit">Submit
+                                [disabled]="this.form.invalid"
+                                class="btn btn-success"
+                                type="submit">Submit
                         </button>
                         <button
                                 (click)="onCancel()"

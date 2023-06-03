@@ -34,26 +34,27 @@
             class="row"
             style="margin-top: 10px;">
             <div class="col-xs-4">
-              <mat-form-field appearance="fill" class="example-full-width">
-                <mat-label>Name</mat-label>
-                <input [matAutocomplete]="auto"
-                       aria-label="Name"
-                       formControlName="name"
-                       matInput
-                       placeholder="Type user name"
-                       type="text">
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-                  <mat-option *ngFor="let user of users$ | async" [value]="user?.name">
-                    {{user?.name}}
-                  </mat-option>
-                </mat-autocomplete>
+              <mat-form-field appearance="outline" class="example-full-width">
+                  <mat-label>Name</mat-label>
+                  <input [matAutocomplete]="auto"
+                         aria-label="Name"
+                         formControlName="name"
+                         matInput
+                         placeholder="Type user name"
+                         type="text">
+                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event, i)"
+                                    [displayWith]="displayFn">
+                      <mat-option *ngFor="let user of users$ | async" [value]="user">
+                          {{user?.name}}
+                      </mat-option>
+                  </mat-autocomplete>
               </mat-form-field>
             </div>
             <div class="col-xs-4">
-              <mat-form-field class="example-full-width">
-                <mat-label>User email</mat-label>
-                <input [value]="mail[i]" formControlName="mail" matInput placeholder="email" type="email">
-              </mat-form-field>
+                <mat-form-field appearance="outline" class="example-full-width">
+                    <mat-label>User email</mat-label>
+                    <input [value]="mail[i]" formControlName="mail" matInput placeholder="email" type="email">
+                </mat-form-field>
             </div>
             <div class="col-xs-2">
               <button

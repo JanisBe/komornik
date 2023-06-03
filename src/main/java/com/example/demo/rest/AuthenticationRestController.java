@@ -7,6 +7,7 @@ import com.example.demo.entities.User;
 import com.example.demo.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,14 +28,14 @@ public class AuthenticationRestController {
     private final UserMapper userMapper;
 
     @PostMapping("/authenticate")
-    public UserDto authenticate(@RequestBody AuthenticationRequestDto request) {
+    public ResponseEntity<UserDto> authenticate(@RequestBody AuthenticationRequestDto request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password()));
         try {
             final UserDetails user = userDetailsService.loadUserByUsername(request.username());
             if (user != null) {
                 UserDto userDto = userMapper.toDto((User) user);
-                return userDto.withToken(jwtUtil.generateToken(user));
+                return new ResponseEntity<>(userDto.withToken(jwtUtil.generateToken(user)), HttpStatus.OK);
             }
         } catch (UsernameNotFoundException ex) {
             throw new ResponseStatusException(
