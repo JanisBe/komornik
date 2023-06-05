@@ -1,0 +1,19 @@
+version: '2.1'
+volumes:
+  app-data: { }
+networks:
+  publicnet:
+    driver: bridge
+services:
+  app:
+    build:
+      context: ../../..
+      dockerfile: .
+    volumes: [ 'app-data:/home/applicatoin' ]
+    ports: [ '8080:8080' ]
+    networks:
+      publicnet:
+        aliases:
+          - a
+          - app
+          - appplication

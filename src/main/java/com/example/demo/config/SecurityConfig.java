@@ -2,8 +2,8 @@ package com.example.demo.config;
 
 import com.example.demo.service.UserService;
 import jakarta.servlet.Filter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -20,10 +20,14 @@ import org.springframework.stereotype.Component;
 
 @EnableWebSecurity
 @Component
-@RequiredArgsConstructor
 public class SecurityConfig {
     private final Filter jwtAuthFilter;
     private final UserService userService;
+
+    public SecurityConfig(@Lazy Filter jwtAuthFilter, @Lazy UserService userService) {
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.userService = userService;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,7 +35,8 @@ public class SecurityConfig {
         http
                 .csrf().disable().cors().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("auth/authenticate").permitAll()
+                .requestMatchers("/auth/authenticate").permitAll()
+                .requestMatchers("/user/save").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest()
                 .authenticated()
@@ -41,7 +46,7 @@ public class SecurityConfig {
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-//                .formLogin();
+
         return http.build();
     }
 
@@ -55,8 +60,8 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-//        return BCryptPasswordEncoder()
+//        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

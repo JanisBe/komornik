@@ -4,6 +4,7 @@ import {UserService} from "../../../service/user.service";
 import {User} from "../../../model/user";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Router} from "@angular/router";
+import {AuthService} from "../../../auth/auth.service";
 
 @Component({
     selector: 'add-user',
@@ -14,7 +15,8 @@ export class AddUserComponent implements OnInit {
 
     constructor(private userService: UserService,
                 private snackbarService: SnackbarService,
-                private router: Router) {
+                private router: Router,
+                private authService: AuthService) {
     }
 
     form: FormGroup;
@@ -26,11 +28,13 @@ export class AddUserComponent implements OnInit {
     onSubmit() {
         const user: User = this.form.value;
         this.userService.addUser(user).subscribe({
-            next: (response) => {
-                this.snackbarService.displayMessage(`Sukces, użytkownik ${response.name} zapisany`);
+            next: (newUser) => {
+                this.snackbarService.displayMessage(`Sukces, użytkownik ${newUser.name} zapisany`);
+                this.authService.login(newUser.mail, newUser.password!);
                 this.onCancel();
             },
-            error: () => {
+            error: (err) => {
+                console.log(err);
                 this.snackbarService.displayMessage(`Nie udało się założyć użytkownika ${user.name}`);
             }
         });

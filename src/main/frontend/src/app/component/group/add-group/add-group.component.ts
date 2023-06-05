@@ -48,26 +48,26 @@ export class AddGroupComponent implements OnInit {
     }
 
     onSubmit() {
-      const data = this.groupForm.value;
-      // const users: [User] = data.users.map((user: User) => ({...user, password: 'test'}))
-      let newGroup: Group = {
-        groupDescription: data.description,
-        users: data.users,
-        name: data.name,
-        defaultCurrency: data.defaultCurrency
-      };
-      if (!!this.id) {
-        newGroup.id = this.id;
-      }
-      this.groupService.createGroup(newGroup).subscribe({
-        next: (group) => {
-          this.snackbarService.displayMessage(`Nowa grupa ${group.name} założona!`);
-          this.onCancel();
-        },
-        error: () => {
-          this.snackbarService.displayMessage(`Nie udało się założyć grupy ${newGroup.name}`);
+        const data = this.groupForm.value;
+        // const users: [User] = data.users.map((user: User) => ({...user, password: 'test'}))
+        let newGroup: Group = {
+            groupDescription: data.description,
+            users: data.users,
+            name: data.name,
+            defaultCurrency: data.defaultCurrency
+        };
+        if (!!this.id) {
+            newGroup.id = this.id;
         }
-      });
+        this.groupService.createGroup(newGroup).subscribe({
+            next: (group) => {
+                this.snackbarService.displayMessage(`Nowa grupa ${group.name} założona!`);
+                this.onCancel();
+            },
+            error: () => {
+                this.snackbarService.displayMessage(`Nie udało się założyć grupy ${newGroup.name}`);
+            }
+        });
 
     }
 
@@ -88,17 +88,14 @@ export class AddGroupComponent implements OnInit {
         this.router.navigate(['group/list'])
     }
 
-    onOptionSelected(selectedUser: MatAutocompleteSelectedEvent) {
-        const foundUsers = this.users$.subscribe(users => {
-            users.find(user => user.name = selectedUser.option.value)
-            // @ts-ignore
-            // const index = users.findIndex(user => user.name === foundUsers.name);
-            // console.log(index);
-        });
-        // this.mail[] = foundUsers.mail;
+    onOptionSelected(selectedUser: MatAutocompleteSelectedEvent, i: number) {
+        let valueElement = <FormArray>this.groupForm.get('users') as FormArray;
+        let control = valueElement.at(i);
+        control.setValue({name: 'selectedUser.option.value.mail', mail: selectedUser.option.value.mail});
+    }
 
-
-        // this.users.forEach((user, index) => this.mail[index] = user.mail)
+    displayFn(user: User): string {
+        return user?.name;
     }
 
     private initForm() {
@@ -118,9 +115,9 @@ export class AddGroupComponent implements OnInit {
                     for (let user of result.users) {
                         groupUsers.push(
                             new FormGroup({
-                              id: new FormControl(user.id, Validators.required),
-                              name: new FormControl(user.name, Validators.required),
-                              mail: new FormControl(user.mail, [Validators.required, Validators.email])
+                                id: new FormControl(user.id, Validators.required),
+                                name: new FormControl(user.name, Validators.required),
+                                mail: new FormControl(user.mail, [Validators.required, Validators.email])
                             })
                         )
                     }

@@ -9,9 +9,12 @@ import com.example.demo.service.GroupService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Mapper(componentModel = "spring")
+import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
+
+@Mapper(unmappedTargetPolicy = ReportingPolicy.WARN, componentModel = SPRING)
 public abstract class ExpenseMapper {
 
     @Autowired
@@ -21,7 +24,6 @@ public abstract class ExpenseMapper {
 
     @Mapping(target = "category", source = "categoryId", qualifiedByName = "mapCategoryIdToCategory")
     @Mapping(target = "group", source = "groupId", qualifiedByName = "mapGroupIdToGroup")
-    @Mapping(target = "user", ignore = true)
     public abstract Expense toEntity(ExpenseDto userDto);
 
     @Mapping(target = "categoryId", source = "category.id")
