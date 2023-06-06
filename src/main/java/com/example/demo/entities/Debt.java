@@ -1,12 +1,15 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
 @Getter
-@Setter
 @ToString
 @RequiredArgsConstructor
 @Entity
@@ -20,7 +23,8 @@ public class Debt {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "expense_id", nullable = false)
+    @JoinColumn(name = "expense_id")
+    @JsonIgnore
     private Expense expense;
 
     @Column(name = "amount", nullable = false)
@@ -34,4 +38,24 @@ public class Debt {
     @JoinColumn(name = "to_user_id", nullable = false, referencedColumnName = "id")
     private User toUserId;
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @JsonIgnore
+    public void setExpense(Expense expense) {
+        this.expense = expense;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public void setFromUserId(User fromUserId) {
+        this.fromUserId = fromUserId;
+    }
+
+    public void setToUserId(User toUserId) {
+        this.toUserId = toUserId;
+    }
 }

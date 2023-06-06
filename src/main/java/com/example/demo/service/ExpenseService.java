@@ -41,7 +41,7 @@ public class ExpenseService {
     @Transactional
     public ExpenseDto saveExpense(ExpenseDto expenseDto) {
         Expense expense = expenseMapper.toEntity(expenseDto);
-        return null;
+        return expenseMapper.toDto(expenseRepository.save(expense));
     }
 
     @Transactional

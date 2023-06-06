@@ -6,15 +6,12 @@ import com.example.demo.entities.Expense;
 import com.example.demo.entities.Group;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.GroupService;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.WARN, componentModel = SPRING)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.WARN, componentModel = SPRING, uses = DebtMapper.class)
 public abstract class ExpenseMapper {
 
     @Autowired
@@ -26,8 +23,12 @@ public abstract class ExpenseMapper {
     @Mapping(target = "group", source = "groupId", qualifiedByName = "mapGroupIdToGroup")
     public abstract Expense toEntity(ExpenseDto userDto);
 
+    @AfterMapping
+    protected void addExpenseToDebt(@MappingTarget Expense expense) {
+        expense.getDebt().forEach(debt -> debt.setExpense(expense));
+    }
+
     @Mapping(target = "categoryId", source = "category.id")
-    @Mapping(target = "debt", ignore = true)
     @Mapping(target = "groupId", source = "group.id")
     public abstract ExpenseDto toDto(Expense user);
 

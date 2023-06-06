@@ -33,10 +33,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf().disable().cors().disable()
+                .csrf().disable()
+                .cors().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/authenticate").permitAll()
                 .requestMatchers("/user/save").permitAll()
+                .requestMatchers(
+                        HttpMethod.GET,
+                        "/index*", "/static/**", "/*.js", "/*.css", "/*.json", "/*.ico")
+                .permitAll()
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest()
                 .authenticated()

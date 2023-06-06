@@ -49,7 +49,6 @@ export class AddGroupComponent implements OnInit {
 
     onSubmit() {
         const data = this.groupForm.value;
-        // const users: [User] = data.users.map((user: User) => ({...user, password: 'test'}))
         let newGroup: Group = {
             groupDescription: data.description,
             users: data.users,
@@ -75,7 +74,7 @@ export class AddGroupComponent implements OnInit {
         (<FormArray>this.groupForm.get('users')).push(
             new FormGroup({
                 name: new FormControl(null, Validators.required),
-                mail: new FormControl(null, [Validators.required, Validators.email])
+                mail: new FormControl(null, Validators.email)
             })
         );
     }

@@ -28,7 +28,7 @@ public class Expense implements Cloneable {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Debt> debt;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})

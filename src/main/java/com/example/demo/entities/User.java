@@ -37,6 +37,14 @@ public class User implements UserDetails {
 	@Column(name = "avatar")
 	private String avatar;
 
+	@JsonIgnore
+	@OneToOne(mappedBy = "toUserId")
+	private Debt debtTo;
+
+	@JsonIgnore
+	@OneToOne(mappedBy = "fromUserId")
+	private Debt debtFrom;
+
 	@ManyToMany(mappedBy = "users")
 	@JsonIgnore
 	@ToString.Exclude

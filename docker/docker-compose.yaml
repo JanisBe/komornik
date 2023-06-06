@@ -7,7 +7,7 @@ networks:
 services:
   app:
     build:
-      context: ../../..
+      context: .
       dockerfile: .
     volumes: [ 'app-data:/home/applicatoin' ]
     ports: [ '8080:8080' ]
@@ -16,4 +16,12 @@ services:
         aliases:
           - a
           - app
-          - appplication
+          - application
+  mysqldb:
+    image: mysql:8
+    networks:
+      - publicnet
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
