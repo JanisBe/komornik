@@ -33,10 +33,7 @@ public class Group {
     @OneToMany(mappedBy = "group")
     private List<Expense> expenses;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_x_group",
-            joinColumns = {@JoinColumn(name = "group_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    @ManyToMany(mappedBy = "groups")
     private Set<User> users = new HashSet<>();
 
 }

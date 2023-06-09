@@ -24,13 +24,13 @@
                 type="password">
             </mat-form-field>
           </div>
-          <div class="col-7">
+          <div class="col-9">
             <div class="d-flex justify-content-around">
               <button color="primary" mat-raised-button
                       type="submit">Login
               </button>
-              <button (click)="forgotPass()" color="primary" mat-raised-button>Forgot Password
-              </button>
+              <button color="primary" mat-raised-button routerLink="/user/add">Register</button>
+              <button (click)="forgotPass()" color="primary" mat-raised-button>Forgot Password</button>
               <button color="warn" mat-raised-button type="reset">Clear</button>
             </div>
           </div>

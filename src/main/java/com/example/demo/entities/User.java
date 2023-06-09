@@ -37,15 +37,10 @@ public class User implements UserDetails {
 	@Column(name = "avatar")
 	private String avatar;
 
-	@JsonIgnore
-	@OneToOne(mappedBy = "toUserId")
-	private Debt debtTo;
-
-	@JsonIgnore
-	@OneToOne(mappedBy = "fromUserId")
-	private Debt debtFrom;
-
-	@ManyToMany(mappedBy = "users")
+	@ManyToMany
+	@JoinTable(name = "user_x_group",
+			joinColumns = {@JoinColumn(name = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "group_id")})
 	@JsonIgnore
 	@ToString.Exclude
 	private Set<Group> groups;

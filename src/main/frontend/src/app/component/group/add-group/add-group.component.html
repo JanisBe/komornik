@@ -1,9 +1,9 @@
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-6">
     <form (ngSubmit)="onSubmit()" [formGroup]="groupForm">
 
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-6">
           <div class="form-group">
             <mat-form-field appearance="outline">
               <mat-label>Nazwa grupy</mat-label>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12" formArrayName="users">
+        <div class="col-6" formArrayName="users">
           <div
             *ngFor="let userCtrl of usersControls; let i = index"
             [formGroupName]="i"
@@ -35,19 +35,18 @@
             style="margin-top: 10px;">
             <div class="col-xs-4">
               <mat-form-field appearance="outline" class="example-full-width">
-                  <mat-label>Name</mat-label>
-                  <input [matAutocomplete]="auto"
-                         aria-label="Name"
-                         formControlName="name"
-                         matInput
+                <mat-label>Name</mat-label>
+                <input [matAutocomplete]="auto"
+                       aria-label="Name"
+                       formControlName="username"
+                       matInput
                          placeholder="Type user name"
                          type="text">
-                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event, i)"
-                                    [displayWith]="displayFn">
-                      <mat-option *ngFor="let user of users$ | async" [value]="user">
-                          {{user?.name}}
-                      </mat-option>
-                  </mat-autocomplete>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event, i)">
+                  <mat-option *ngFor="let user of users$ | async" [value]="user">
+                    {{user?.name}}
+                  </mat-option>
+                </mat-autocomplete>
               </mat-form-field>
             </div>
             <div class="col-xs-4">
@@ -67,24 +66,16 @@
           </div>
           <hr>
           <div class="row">
-            <div class="col-xs-12">
-              <button
-                (click)="onAddUser()"
-                class="btn btn-success"
-                type="button">Add user
-              </button>
+            <div class="col-6">
+              <button (click)="onAddUser()" class="btn btn-success" type="button">Add user</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <button
-            [disabled]="groupForm.invalid"
-            class="btn btn-success"
-            type="submit">Save
-          </button>
-          <button (click)="onCancel()" class="btn btn-danger" type="button">Cancel</button>
+      <div class="col-9">
+        <div class="d-flex justify-content-around">
+          <button [disabled]="groupForm.invalid" color="primary" mat-raised-button type="submit">Save</button>
+          <button (click)="onCancel()" color="warning" mat-raised-button type="button">Cancel</button>
         </div>
       </div>
     </form>
