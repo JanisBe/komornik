@@ -12,7 +12,7 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./all-expenses.component.scss']
 })
 export class AllExpensesComponent implements OnInit {
-  displayedColumns: string[] = ['description', 'currency', 'amount', 'date', 'with', 'actions'];
+  displayedColumns: string[] = ['description', 'amount', 'with', 'currency', 'date', 'actions'];
   expenses: Expense[];
   private groupId: number = 1;
 
@@ -45,27 +45,43 @@ export class AllExpensesComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.expenseService.deleteExpense(expense.id).subscribe(
-                    () => {
-                        this.snackbarService.displayMessage(`Wydatek ${expense.description} został skasowany`);
-                        this.fetchExpensesForGroup(expense.groupId);
-                    }
+                  () => {
+                    this.snackbarService.displayMessage(`Wydatek ${expense.description} został skasowany`);
+                    this.fetchExpensesForGroup(expense.groupId);
+                  }
                 );
             }
         });
 
     }
 
-    private fetchExpensesForGroup(groupId: number) {
-        this.expenseService.findAllByGroupId(groupId).subscribe(value => this.expenses = value);
-    }
+  printUsers(expense: Expense) {
+    let output = '';
+    expense.debt.forEach(debt => {
+      output += debt.from.name + ' -> ' + debt.to.name + '<br> \n';
+    });
+    return output;
+  }
 
-    private fetchAllExpenses() {
-        this.expenseService.findAll()
-            .subscribe(value => {
-                value.map(ex => {
-                    ex.date = new Date(ex.date);
-                });
-                this.expenses = value;
-            });
-    }
+  printAmount(expense: Expense) {
+    let output = '';
+    expense.debt.forEach(debt => {
+      output += debt.amount + '<br> \n';
+    });
+    return output;
+  }
+
+  private fetchExpensesForGroup(groupId: number) {
+    this.expenseService.findAllByGroupId(groupId).subscribe(value => this.expenses = value);
+  }
+
+  private fetchAllExpenses() {
+    this.expenseService.findAll()
+      .subscribe(value => {
+        value.map(ex => {
+          ex.date = new Date(ex.date);
+        });
+        this.expenses = value;
+      });
+  }
 }

@@ -26,7 +26,7 @@ public class ExpenseRestController {
     }
 
     @GetMapping("/findAll")
-    public List<Expense> findAll() {
+    public List<ExpenseDto> findAll() {
         return expenseService.findAll();
     }
 

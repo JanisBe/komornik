@@ -34,8 +34,8 @@ public class ExpenseService {
         return expenseRepository.findAllByGroup(groupService.findById(groupId));
     }
 
-    public List<Expense> findAll() {
-        return expenseRepository.findAll();
+    public List<ExpenseDto> findAll() {
+        return expenseRepository.findAll().stream().map(expenseMapper::toDto).toList();
     }
 
     @Transactional

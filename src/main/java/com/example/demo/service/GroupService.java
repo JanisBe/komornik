@@ -39,6 +39,6 @@ public class GroupService {
     }
 
     public List<GroupDto> findAllGroupsForUser(int userId) {
-        return groupRepository.findByUsers_Id(userId).stream().map(groupMapper::toDto).toList();
+        return groupRepository.findAllGroupsForUser(userId).stream().map(groupMapper::toDto).toList();
     }
 }

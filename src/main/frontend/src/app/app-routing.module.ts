@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {CategoryDetailsComponent} from "./component/category/category-details/category-details.component";
 import {UserDetailsComponent} from "./component/user/user-details/user-details.component";
 import {AddCategoryComponent} from "./component/category/add-category/add-category.component";
 import {AllCategoriesComponent} from "./component/category/all-categories/all-categories.component";
@@ -14,7 +13,7 @@ import {LoginComponent} from "./component/common/login/login.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
-  {path: 'category/details/:id', component: CategoryDetailsComponent},
+  {path: 'category/details/:id', component: AddCategoryComponent},
   {path: 'category/add', component: AddCategoryComponent},
   {path: 'category/list', component: AllCategoriesComponent},
   {path: 'user/details/:id', component: UserDetailsComponent},

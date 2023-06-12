@@ -30,10 +30,8 @@ export class AllUsersComponent implements OnInit {
       this.allUsers = res);
   }
 
-  editUser(user: User) {
-    this.userService.edit(user).subscribe(res => {
-      this.snackBarService.displayMessage(`Użytkownik ${res.name} zapisany`)
-    });
+  editUser(userId: number) {
+    this.router.navigate(['user/details', userId]);
   }
 
   deleteUser(user: User) {

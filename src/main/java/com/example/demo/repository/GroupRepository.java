@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface GroupRepository extends JpaRepository<Group, Integer> {
-    List<Group> findByUsers_Id(Integer id);
+    @Query(value = "select distinct g from Group g join User u where u.id = :id")
+    List<Group> findAllGroupsForUser(Integer id);
 
     @Query(value = "select distinct g.default_currency from `groups` g " +
             "where g.id  = :id", nativeQuery = true)
