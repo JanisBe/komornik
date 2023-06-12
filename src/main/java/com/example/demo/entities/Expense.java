@@ -11,14 +11,14 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "expenses", schema = "test")
-public class Expense implements Cloneable {
+public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
@@ -31,7 +31,7 @@ public class Expense implements Cloneable {
     @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Debt> debt;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "group_id", nullable = false)
     @JsonIgnore
     private Group group;
@@ -43,10 +43,4 @@ public class Expense implements Cloneable {
 
     @Column(name = "note")
     private String note;
-
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
 }

@@ -37,7 +37,7 @@ public class User implements UserDetails {
 	@Column(name = "avatar")
 	private String avatar;
 
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.MERGE})
 	@JoinTable(name = "user_x_group",
 			joinColumns = {@JoinColumn(name = "user_id")},
 			inverseJoinColumns = {@JoinColumn(name = "group_id")})

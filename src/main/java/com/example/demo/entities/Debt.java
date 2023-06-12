@@ -20,7 +20,7 @@ public class Debt {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "expense_id")
     @JsonIgnore
     private Expense expense;
@@ -28,11 +28,11 @@ public class Debt {
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "from_user_id", referencedColumnName = "id")
     private User userFrom;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "to_user_id", referencedColumnName = "id")
     private User userTo;
 }
