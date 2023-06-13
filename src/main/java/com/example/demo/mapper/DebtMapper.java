@@ -14,12 +14,12 @@ public abstract class DebtMapper {
     @Mapping(target = "expense", ignore = true)
     @Mapping(target = "amount", source = "amount")
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "userTo.id", source = "to")
-    @Mapping(target = "userFrom.id", source = "from")
+    @Mapping(target = "userTo", source = "to")
+    @Mapping(target = "userFrom", source = "from")
     abstract Debt toEntity(DebtDto debtDto);
 
-    @Mapping(target = "to", source = "userTo.id")
-    @Mapping(target = "from", source = "userFrom.id")
+    @Mapping(target = "to", source = "userTo")
+    @Mapping(target = "from", source = "userFrom")
     @Mapping(target = "amount", source = "amount")
     abstract DebtDto toDto(Debt debt);
 }

@@ -78,7 +78,6 @@ export class AddGroupComponent implements OnInit {
   onAddUser() {
     let user;
     let email;
-    console.log(this.userGroupAdded);
     if (this.userGroupAdded === 0) {
       user = this.currentUser.name;
       email = this.currentUser.mail;

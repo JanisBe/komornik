@@ -14,7 +14,7 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Actions </th>
     <td mat-cell *matCellDef="let user">
-      <mat-icon (click)="editUser(user)" class="pointer">edit</mat-icon>&nbsp;
+      <mat-icon (click)="editUser(user.id)" class="pointer">edit</mat-icon>&nbsp;
       <mat-icon (click)="deleteUser(user)" class="pointer">delete</mat-icon>
     </td>
   </ng-container>

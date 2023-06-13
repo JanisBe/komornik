@@ -29,7 +29,7 @@ export class AddExpenseComponent implements OnInit {
   users: User[];
   usersOriginalList: User[];
   categories$: Observable<Category[]>;
-  currentUserId: number;
+  currentUser: User;
   currentGroupId: number = 1;
   currentGroup$: Observable<Group>;
   userGroups$: Observable<Group[]>;
@@ -56,15 +56,15 @@ export class AddExpenseComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.currentUserId = this.authService.user.value?.id!;
+    this.currentUser = this.authService.user.value!;
     if (!!this.route.snapshot.params['groupId']) {
       this.currentGroupId = this.route.snapshot.params['groupId'];
       this.currentGroup$ = this.groupService.findById(this.currentGroupId);
     } else {
-      this.userGroups$ = this.groupService.findAllGroupsForUser(this.currentUserId);
+      this.userGroups$ = this.groupService.findAllGroupsForUser(this.currentUser.id);
     }
     this.userService.findUsersInGroup(this.currentGroupId).subscribe(((users) => {
-      this.users = users.filter((user) => user.id !== this.currentUserId);
+      this.users = users.filter((user) => user.id !== this.currentUser.id);
       this.usersOriginalList = [...this.users];
     }));
     this.categories$ = this.categoryService.findAllCategories();
@@ -85,8 +85,8 @@ export class AddExpenseComponent implements OnInit {
     const amount = this.form.value.amount;
     this.users.forEach((user) => {
       let debt: Debt = {
-        from: +this.currentUserId,
-        to: user.id,
+        from: this.currentUser,
+        to: user,
         amount: amount.replace(/,/g, '.') / this.users.length
       }
       debts.push(debt);
