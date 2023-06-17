@@ -30,8 +30,8 @@ public class GroupService {
     }
 
     @Transactional
-    public Group save(Group group) {
-        return groupRepository.save(group);
+    public GroupDto save(GroupDto dto) {
+        return groupMapper.toDto(groupRepository.save(groupMapper.toEntity(dto)));
     }
 
     public String getDefaultCurrencyForGroup(int id) {

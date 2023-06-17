@@ -55,11 +55,12 @@ export class AddGroupComponent implements OnInit {
   onSubmit() {
     const data = this.groupForm.value;
     let newGroup: Group = {
-      groupDescription: data.description,
+      description: data.description,
       users: data.users,
       name: data.name,
       defaultCurrency: data.defaultCurrency
     };
+    console.log(data.users);
     if (!!this.id) {
       newGroup.id = this.id;
     }
@@ -78,61 +79,69 @@ export class AddGroupComponent implements OnInit {
   onAddUser() {
     let user;
     let email;
+    let id;
     if (this.userGroupAdded === 0) {
       user = this.currentUser.name;
       email = this.currentUser.mail;
+      id = this.currentUser.id;
     }
     (<FormArray>this.groupForm.get('users')).push(
-      new FormGroup({
-        username: new FormControl(user, Validators.required),
-        mail: new FormControl(email, Validators.email)
-      })
+        new FormGroup({
+          id: new FormControl(id),
+          username: new FormControl(user, Validators.required),
+          mail: new FormControl(email, Validators.email)
+        })
     );
     this.userGroupAdded++;
   }
 
-    onDeleteUser(index: number) {
-      (<FormArray>this.groupForm.get('users')).removeAt(index);
-      this.userGroupAdded--;
-    }
+  onDeleteUser(index: number) {
+    (<FormArray>this.groupForm.get('users')).removeAt(index);
+    this.userGroupAdded--;
+  }
 
-    onCancel() {
-        this.router.navigate(['group/list'])
-    }
+  onCancel() {
+    console.log(this.groupForm);
+    // this.router.navigate(['group/list'])
+  }
 
-    onOptionSelected(selectedUser: MatAutocompleteSelectedEvent, i: number) {
-      let valueElement = <FormArray>this.groupForm.get('users') as FormArray;
-      let control = valueElement.at(i) as FormGroup;
-      control.patchValue({username: selectedUser.option.value.name, mail: selectedUser.option.value.mail});
-    }
+  onOptionSelected(selectedUser: MatAutocompleteSelectedEvent, i: number) {
+    let valueElement = <FormArray>this.groupForm.get('users') as FormArray;
+    let control = valueElement.at(i) as FormGroup;
+    control.patchValue({
+      username: selectedUser.option.value.name,
+      mail: selectedUser.option.value.mail,
+      id: selectedUser.option.value.id
+    });
+  }
 
-    private initForm() {
-        let name = '';
-        let groupUsers = new FormArray<FormGroup>([]);
-        this.groupForm = new FormGroup({
-            name: new FormControl(name, Validators.required),
-            defaultCurrency: new FormControl(null),
-            users: groupUsers
-        });
-        this.id = this.route.snapshot.params['id'];
-        this.editMode = !!this.id;
-        if (this.editMode) {
-            this.groupService.findById(this.id).subscribe(result => {
-                this.groupForm.get('name')?.patchValue(result.name);
-                if (result.users) {
-                    for (let user of result.users) {
-                        groupUsers.push(
-                            new FormGroup({
-                              id: new FormControl(user.id, Validators.required),
-                              username: new FormControl(user.name, Validators.required),
-                              mail: new FormControl(user.mail, [Validators.required, Validators.email])
-                            })
-                        )
-                    }
-                }
-            });
-        } else {
-            this.onAddUser();
+  private initForm() {
+    let name = '';
+    let groupUsers = new FormArray<FormGroup>([]);
+    this.groupForm = new FormGroup({
+      name: new FormControl(name, Validators.required),
+      defaultCurrency: new FormControl(null),
+      users: groupUsers
+    });
+    this.id = this.route.snapshot.params['id'];
+    this.editMode = !!this.id;
+    if (this.editMode) {
+      this.groupService.findById(this.id).subscribe(result => {
+        this.groupForm.get('name')?.patchValue(result.name);
+        if (result.users) {
+          for (let user of result.users) {
+            groupUsers.push(
+                new FormGroup({
+                  id: new FormControl(user.id),
+                  username: new FormControl(user.name, Validators.required),
+                  mail: new FormControl(user.mail, [Validators.required, Validators.email])
+                })
+            )
+          }
         }
+      });
+    } else {
+      this.onAddUser();
     }
+  }
 }

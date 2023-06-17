@@ -3,7 +3,7 @@ import {User} from "./user";
 export interface Group {
   id?: number,
   name: string,
-  groupDescription: string,
+  description: string,
   defaultCurrency?: string,
   users: [User]
 }

@@ -33,7 +33,7 @@ public class GroupRestController {
     }
 
     @PostMapping("/save")
-    public Group save(@RequestBody Group group) {
+    public GroupDto save(@RequestBody GroupDto group) {
         return groupService.save(group);
     }
 
