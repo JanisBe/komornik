@@ -1,26 +1,27 @@
-<button [matMenuTriggerFor]="categoryMenu" mat-button>Category</button>
-<mat-menu #categoryMenu="matMenu">
-  <button mat-menu-item routerLink="category/add">Add</button>
-  <button mat-menu-item routerLink="category/list">List</button>
+<ng-container *ngIf="isAuthenticated">
+  <button [matMenuTriggerFor]="categoryMenu" mat-button>Category</button>
+  <mat-menu #categoryMenu="matMenu">
+    <button mat-menu-item routerLink="category/add">Add</button>
+    <button mat-menu-item routerLink="category/list">List</button>
+  </mat-menu>
+
+  <button [matMenuTriggerFor]="groupMenu" mat-button>Group</button>
+  <mat-menu #groupMenu="matMenu">
+    <button mat-menu-item routerLink="group/add">Add</button>
+    <button mat-menu-item routerLink="group/list">List</button>
 </mat-menu>
 
-<button [matMenuTriggerFor]="groupMenu" mat-button>Group</button>
-<mat-menu #groupMenu="matMenu">
-  <button mat-menu-item routerLink="group/add">Add</button>
-  <button mat-menu-item routerLink="group/list">List</button>
-</mat-menu>
+  <button [matMenuTriggerFor]="expenseMenu" mat-button>Expense</button>
+  <mat-menu #expenseMenu="matMenu">
+    <button mat-menu-item routerLink="expense/add">Add</button>
+    <button mat-menu-item routerLink="expense/list">List</button>
+  </mat-menu>
 
-<button [matMenuTriggerFor]="expenseMenu" mat-button>Expense</button>
-<mat-menu #expenseMenu="matMenu">
-  <button mat-menu-item routerLink="expense/add">Add</button>
-  <button mat-menu-item routerLink="expense/list">List</button>
-</mat-menu>
-
-<button [matMenuTriggerFor]="userMenu" mat-button>User</button>
-<mat-menu #userMenu="matMenu">
-  <button mat-menu-item routerLink="user/add">Add</button>
-  <button mat-menu-item routerLink="user/list">List</button>
-</mat-menu>
-
+  <button [matMenuTriggerFor]="userMenu" mat-button>User</button>
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item routerLink="user/add">Add</button>
+    <button mat-menu-item routerLink="user/list">List</button>
+  </mat-menu>
+</ng-container>
 <button *ngIf="!isAuthenticated" mat-button routerLink="login">Login</button>
 <button (click)="logout()" *ngIf="isAuthenticated" mat-button>Logout</button>

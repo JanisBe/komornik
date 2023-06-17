@@ -30,7 +30,8 @@ export class AddUserComponent implements OnInit {
   onSubmit() {
     const user: User = this.form.value;
     this.userService.addUser(user).subscribe({
-      next: (newUser) => {
+      next: (response) => {
+        const newUser = response.body!;
         this.snackbarService.displayMessage(`Sukces, użytkownik ${newUser.name} zapisany`);
         if (!!this.currentUser) {
           this.authService.login(newUser.mail, newUser.password!);
@@ -38,19 +39,20 @@ export class AddUserComponent implements OnInit {
         this.onCancel();
       },
       error: (err) => {
-        console.log(err);
-        this.snackbarService.displayMessage(`Nie udało się założyć użytkownika ${user.name}`);
+        console.log(err.error);
+        this.snackbarService.displayMessage(`Nie udało się założyć użytkownika ${user.name}
+        ${err.error.message}`);
       }
     });
   }
 
 
   forgotPass() {
-
+    console.log('not implemented');
   }
 
   onCancel() {
-    this.router.navigate(['user/list']);
+    this.router.navigate(['/']);
   }
 
   private initForm() {

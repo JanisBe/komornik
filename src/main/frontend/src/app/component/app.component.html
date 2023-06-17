@@ -1,7 +1,7 @@
 <div class="container">
   <div class="float-start">Mój (lepszy) Splitwise</div>
-  <div *ngIf="userName" class="float-end">Witaj {{userName}}!</div>
-  <header-menu></header-menu>
+  <div *ngIf="loggedUser" class="float-end">Witaj {{loggedUser.name}}!</div>
+  <header-menu (loggedOut)="onLoggedOut()"></header-menu>
 </div>
 <div class="container-fluid">
   <router-outlet></router-outlet>

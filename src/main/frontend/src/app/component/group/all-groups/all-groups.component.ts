@@ -7,6 +7,8 @@ import {GroupService} from "../../../service/group.service";
 import {Group} from "../../../model/group";
 import {User} from 'src/app/model/user';
 import {AuthService} from "../../../auth/auth.service";
+import {HttpClient} from "@angular/common/http";
+import {catchError, Observable, of} from "rxjs";
 
 @Component({
   selector: 'all-groups',
@@ -29,12 +31,18 @@ export class AllGroupsComponent implements OnInit {
               private snackBarService: SnackbarService,
               private router: Router,
               private dialog: MatDialog,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private http: HttpClient) {
   }
 
   ngOnInit(): void {
+    console.log('all groups');
     this.userId = this.authService.user.value?.id!;
     this.findAll();
+  }
+
+  public getApi(url: string): Observable<any> {
+    return this.http.get(url, {observe: 'response'}).pipe(catchError(error => of(error)))
   }
 
   findAll() {
@@ -68,7 +76,7 @@ export class AllGroupsComponent implements OnInit {
     });
   }
 
-    addExpense(groupId: number) {
-        this.router.navigate(['expense/add', groupId]);
-    }
+  addExpense(groupId: number) {
+    this.router.navigate(['expense/add', groupId]);
+  }
 }

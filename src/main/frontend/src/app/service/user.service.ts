@@ -14,7 +14,7 @@ export class UserService {
   }
 
   addUser(user: User) {
-    return this.http.post<User>("http://localhost:8080/user/save", user);
+    return this.http.post<User>("http://localhost:8080/user/save", user, {observe: "response"});
   }
 
   delete(userId: number | undefined) {

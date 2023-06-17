@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {AuthService} from "../../../auth/auth.service";
 import {Subscription} from "rxjs";
 
@@ -8,6 +8,7 @@ import {Subscription} from "rxjs";
   styleUrls: ['./header-menu.component.scss']
 })
 export class HeaderMenuComponent {
+  @Output() loggedOut: EventEmitter<void> = new EventEmitter<void>();
   isAuthenticated = false;
   private userSub: Subscription;
 
@@ -21,6 +22,7 @@ export class HeaderMenuComponent {
   }
 
   logout() {
+    this.loggedOut.emit();
     this.authService.logout();
   }
 }
