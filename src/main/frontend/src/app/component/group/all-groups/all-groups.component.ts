@@ -35,10 +35,10 @@ export class AllGroupsComponent implements OnInit {
   ngOnInit(): void {
     console.log('all groups');
     this.userId = this.authService.user.value?.id!;
-    this.findAll();
+    this.findAllGroupsForUser();
   }
 
-  findAll() {
+  findAllGroupsForUser() {
     this.groupService.findAllGroupsForUser(this.userId).subscribe(groups => {
         this.allGroups = groups.map((group) => ({
           ...group,
@@ -63,7 +63,7 @@ export class AllGroupsComponent implements OnInit {
       if (result) {
         this.groupService.deleteGroup(group.id).subscribe(() => {
           this.snackBarService.displayMessage(`Użytkownik ${group.name} skasowany`);
-          this.findAll();
+          this.findAllGroupsForUser();
         });
       }
     });

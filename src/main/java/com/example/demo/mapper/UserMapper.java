@@ -10,7 +10,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.WARN, componentModel = MappingConstants.ComponentModel.SPRING)
 public abstract class UserMapper {
 
-    @Mapping(target = "name", source = "username")
     @Mapping(target = "groups", ignore = true)
     @Mapping(target = "password", ignore = true)
     public abstract User toEntity(UserDto userDto);

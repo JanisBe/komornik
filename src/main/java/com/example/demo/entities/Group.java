@@ -33,7 +33,10 @@ public class Group {
     @OneToMany(mappedBy = "group")
     private List<Expense> expenses;
 
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "user_x_group",
+            inverseJoinColumns = {@JoinColumn(name = "user_id")},
+            joinColumns = {@JoinColumn(name = "group_id")})
     private Set<User> users = new HashSet<>();
 
 }

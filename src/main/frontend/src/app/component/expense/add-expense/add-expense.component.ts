@@ -168,7 +168,7 @@ export class AddExpenseComponent implements OnInit {
       amount: new FormControl(null, [Validators.required, Validators.pattern('^\\d*\\.?,?\\d*$')]),
       description: new FormControl(null, Validators.required),
       currency: new FormControl(this.defaultCurrency, Validators.required),
-      userName: this.userName,
+      name: this.userName,
       split: new FormControl(50, Validators.required),
       category: new FormControl(null, Validators.required),
       group: new FormControl(this.currentGroupId, Validators.required),

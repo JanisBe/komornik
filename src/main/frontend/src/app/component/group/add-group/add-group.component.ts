@@ -60,14 +60,13 @@ export class AddGroupComponent implements OnInit {
       name: data.name,
       defaultCurrency: data.defaultCurrency
     };
-    console.log(data.users);
     if (!!this.id) {
       newGroup.id = this.id;
     }
     this.groupService.createGroup(newGroup).subscribe({
       next: (group) => {
         this.snackbarService.displayMessage(`Nowa grupa ${group.name} założona!`);
-        // this.onCancel();
+        this.onCancel();
       },
       error: () => {
         this.snackbarService.displayMessage(`Nie udało się założyć grupy ${newGroup.name}`);
