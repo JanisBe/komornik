@@ -62,7 +62,7 @@ export class AllGroupsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.groupService.deleteGroup(group.id).subscribe(() => {
-          this.snackBarService.displayMessage(`Użytkownik ${group.name} skasowany`);
+          this.snackBarService.displayMessage(`Grupa ${group.name} skasowany`);
           this.findAllGroupsForUser();
         });
       }

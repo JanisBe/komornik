@@ -37,8 +37,8 @@ public class GroupRestController {
         return groupService.save(group);
     }
 
-    @DeleteMapping("/delete")
-    public void delete(int id) {
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable int id) {
         groupService.deleteGroup(id);
     }
 }

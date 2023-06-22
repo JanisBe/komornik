@@ -13,6 +13,11 @@ export class AppComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private router: Router) {
+    // this.loggedUserSub?.subscribe(value => {
+    //   if (value == null) {
+    //     this.loggedUser = null;
+    //   }
+    // });
   }
 
   ngOnInit(): void {

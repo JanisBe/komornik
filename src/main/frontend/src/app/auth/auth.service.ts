@@ -3,13 +3,16 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {BehaviorSubject, catchError, tap, throwError} from "rxjs";
 import {User} from "../model/user";
+import {SnackbarService} from "../service/snackbar.service";
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
   user = new BehaviorSubject<User | null>(null);
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient,
+              private router: Router,
+              private snackbarService: SnackbarService) {
   }
 
   signup(email: string, password: string) {
@@ -43,6 +46,7 @@ export class AuthService {
         },
         error: error => {
           this.handleError(error);
+          this.snackbarService.displayMessage(error.error.message);
         }
       });
   }
@@ -98,9 +102,9 @@ export class AuthService {
     if (!errorRes.error || !errorRes.error.error) {
       return throwError(() => errorMessage);
     }
-    switch (errorRes.error.error.message) {
-      case 'EMAIL_EXISTS':
-        errorMessage = 'This email exists already';
+    switch (errorRes.error.code) {
+      case 500:
+        errorMessage = 'Zły login / hasło';
         break;
       case 'EMAIL_NOT_FOUND':
         errorMessage = 'This email does not exist.';

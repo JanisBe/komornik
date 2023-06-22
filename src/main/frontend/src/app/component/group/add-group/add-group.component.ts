@@ -87,7 +87,7 @@ export class AddGroupComponent implements OnInit {
     (<FormArray>this.groupForm.get('users')).push(
         new FormGroup({
           id: new FormControl(id),
-          username: new FormControl(user, Validators.required),
+          name: new FormControl(user, Validators.required),
           mail: new FormControl(email, Validators.email)
         })
     );
@@ -132,7 +132,7 @@ export class AddGroupComponent implements OnInit {
             groupUsers.push(
                 new FormGroup({
                   id: new FormControl(user.id),
-                  username: new FormControl(user.name, Validators.required),
+                  name: new FormControl(user.name, Validators.required),
                   mail: new FormControl(user.mail, [Validators.required, Validators.email])
                 })
             )

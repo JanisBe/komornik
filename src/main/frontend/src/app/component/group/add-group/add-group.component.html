@@ -38,10 +38,10 @@
                 <mat-label>Name</mat-label>
                 <input [matAutocomplete]="auto"
                        aria-label="Name"
-                       formControlName="username"
+                       formControlName="name"
                        matInput
-                         placeholder="Type user name"
-                         type="text">
+                       placeholder="Type user name"
+                       type="text">
                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event, i)">
                   <mat-option *ngFor="let user of users$ | async" [value]="user">
                     {{user?.name}}
