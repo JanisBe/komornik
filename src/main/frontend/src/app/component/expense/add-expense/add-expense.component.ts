@@ -41,7 +41,7 @@ export class AddExpenseComponent implements OnInit {
 
   @ViewChild("slider") slider: ElementRef;
   @ViewChild("sliderInput") sliderInput: ElementRef;
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
 
   constructor(private expenseService: ExpenseService,
               private router: Router,
@@ -83,13 +83,24 @@ export class AddExpenseComponent implements OnInit {
   onSubmit() {
     let debts: Debt[] = [];
     const amount = this.form.value.amount;
+    const sanitizedAmount = amount.replace(/,/g, '.');
     this.users.forEach((user) => {
-      let debt: Debt = {
-        from: this.currentUser,
-        to: user,
-        amount: amount.replace(/,/g, '.') / this.users.length
+      if (user.id !== this.currentUser.id) {
+        let debt: Debt = {
+          from: this.currentUser,
+          to: user,
+          amount: +(sanitizedAmount / (this.users.length + 1)).toFixed(2)
+        }
+        debts.push(debt);
+      } else {
+        const myDue = (sanitizedAmount / (this.users.length + 1)) * this.users.length;
+        let debt: Debt = {
+          from: this.currentUser,
+          to: user,
+          amount: -myDue.toFixed(2)
+        }
+        debts.push(debt);
       }
-      debts.push(debt);
     });
     const newExpense: Expense = {
       description: this.form.value.description,
@@ -99,7 +110,7 @@ export class AddExpenseComponent implements OnInit {
       categoryId: +this.form.value.category,
       groupId: this.currentGroupId
     }
-
+    console.log(newExpense);
     this.expenseService.saveExpense(newExpense).subscribe({
       next: (result) => {
         this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`);
@@ -111,15 +122,15 @@ export class AddExpenseComponent implements OnInit {
     });
   }
 
-    updateSlider() {
-        if (this.sliderInput.nativeElement.value > 101) {
-            this.sliderInput.nativeElement.value = 100;
-        }
-      if (this.sliderInput.nativeElement.value < 0) {
-        this.sliderInput.nativeElement.value = 0;
-      }
-      this.defaultSplit = this.sliderInput.nativeElement.value;
+  updateSlider() {
+    if (this.sliderInput.nativeElement.value > 101) {
+      this.sliderInput.nativeElement.value = 100;
     }
+    if (this.sliderInput.nativeElement.value < 0) {
+      this.sliderInput.nativeElement.value = 0;
+    }
+    this.defaultSplit = this.sliderInput.nativeElement.value;
+  }
 
   updateSliderInput() {
     this.defaultSplit = this.slider.nativeElement.value;
@@ -159,7 +170,7 @@ export class AddExpenseComponent implements OnInit {
     if (this.users.indexOf(event.option.value) < 0) {
       this.users.push(event.option.value);
     }
-    this.fruitInput.nativeElement.value = '';
+    this.userNameInput.nativeElement.value = '';
     this.userName.setValue(null);
   }
 
@@ -170,7 +181,7 @@ export class AddExpenseComponent implements OnInit {
       currency: new FormControl(this.defaultCurrency, Validators.required),
       name: this.userName,
       split: new FormControl(50, Validators.required),
-      category: new FormControl(null, Validators.required),
+      category: new FormControl(null),
       group: new FormControl(this.currentGroupId, Validators.required),
       date: new FormControl(new Date(), Validators.required)
     })

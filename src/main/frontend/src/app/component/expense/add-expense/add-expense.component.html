@@ -54,9 +54,9 @@
                   </button>
                 </mat-chip-row>
               </mat-chip-grid>
-              <input #fruitInput (matChipInputTokenEnd)="add($event)" [matAutocomplete]="auto"
+              <input #userNameInput (matChipInputTokenEnd)="add($event)" [matAutocomplete]="auto"
                      [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                     formControlName="userName"
+                     formControlName="name"
                      placeholder="New User..."/>
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                 <mat-option *ngFor="let user of usersOriginalList" [value]="user">

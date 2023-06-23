@@ -34,7 +34,9 @@ public abstract class ExpenseMapper {
 
     @Named("mapCategoryIdToCategory")
     Category mapCategoryIdToCategory(int categoryId) {
-        return categoryService.findById(categoryId);
+        if (categoryId != 0) {
+            return categoryService.findById(categoryId);
+        } else return null;
     }
 
     @Named("mapGroupIdToGroup")
