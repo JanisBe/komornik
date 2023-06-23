@@ -1157,7 +1157,7 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
     </schema>
     <schema id="329" parent="1" name="test">
       <Current>1</Current>
-      <CollationName>latin1_swedish_ci</CollationName>
+      <CollationName>utf8_polish_ci</CollationName>
     </schema>
     <user id="330" parent="1" name="pma">
       <Host>localhost</Host>

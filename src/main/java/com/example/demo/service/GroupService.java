@@ -46,9 +46,11 @@ public class GroupService {
     private void sanitizeUserIds(Set<User> sentUsers) {
         sentUsers.forEach(user -> {
             if (user.getId() != null) {
-                User userInDB = userRepository.findByNameAndMail(user.getName(), user.getMail());
+                User userInDB = userRepository.findByMail(user.getMail());
                 if (userInDB == null || !user.getId().equals(userInDB.getId())) {
                     user.setId(null);
+                } else {
+                    user = userInDB;
                 }
             }
         });
