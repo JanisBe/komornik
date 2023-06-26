@@ -11,7 +11,19 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "expenses", schema = "test")
+@NamedNativeQuery(name = "findBalanceForGroup",
+        query = "select d.to_user_id as userId, sum(d.amount) as balance from expenses e " +
+                "join debts d on e.id = d.expense_id " +
+                "where e.group_id = :groupId " +
+                "group by d.to_user_id order by balance", resultSetMapping = "debtMapper")
+@SqlResultSetMapping(name = "debtMapper",
+        classes = {@ConstructorResult(targetClass = UserBalance.class,
+                columns = {@ColumnResult(name = "userId"),
+                        @ColumnResult(name = "balance")})
+        })
 public class Expense {
+//    select debt.userTo.id as userId, sum(debt.amount) as balance from Expense e inner join e.debt debt " +
+//            " where e.group.id = :groupId group by debt.userTo.id
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

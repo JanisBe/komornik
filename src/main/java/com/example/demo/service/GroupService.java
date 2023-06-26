@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -35,25 +34,26 @@ public class GroupService {
 
     @Transactional
     public GroupDto save(GroupDto dto) {
-        Group group = groupMapper.toEntity(dto);
-        Set<User> sentUsers = group.getUsers();
+        final Group group = groupMapper.toEntity(dto);
+        List<User> sentUsers = group.getUsers();
         sanitizeUserIds(sentUsers);
         userRepository.saveAll(sentUsers);
-        Group savedGroup = groupRepository.save(group);
+        final Group savedGroup = groupRepository.save(group);
         return groupMapper.toDto(savedGroup);
     }
 
-    private void sanitizeUserIds(Set<User> sentUsers) {
-        sentUsers.forEach(user -> {
+    private void sanitizeUserIds(List<User> sentUsers) {
+        for (int i = 0; i < sentUsers.size(); i++) {
+            final User user = sentUsers.get(i);
             if (user.getId() != null) {
                 User userInDB = userRepository.findByMail(user.getMail());
                 if (userInDB == null || !user.getId().equals(userInDB.getId())) {
                     user.setId(null);
                 } else {
-                    user = userInDB;
+                    sentUsers.set(i, userInDB);
                 }
             }
-        });
+        }
     }
 
     public String getDefaultCurrencyForGroup(int id) {

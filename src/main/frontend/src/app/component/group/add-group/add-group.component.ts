@@ -108,10 +108,11 @@ export class AddGroupComponent implements OnInit {
     let valueElement = <FormArray>this.groupForm.get('users') as FormArray;
     let control = valueElement.at(i) as FormGroup;
     control.patchValue({
-      username: selectedUser.option.value.name,
+      name: selectedUser.option.value.name,
       mail: selectedUser.option.value.mail,
       id: selectedUser.option.value.id
     });
+    console.log(control);
   }
 
   private initForm() {
@@ -133,7 +134,7 @@ export class AddGroupComponent implements OnInit {
                 new FormGroup({
                   id: new FormControl(user.id),
                   name: new FormControl(user.name, Validators.required),
-                  mail: new FormControl(user.mail, [Validators.required, Validators.email])
+                  mail: new FormControl(user.mail, Validators.email)
                 })
             )
           }

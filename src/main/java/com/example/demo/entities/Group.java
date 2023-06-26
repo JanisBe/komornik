@@ -3,9 +3,8 @@ package com.example.demo.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -37,6 +36,6 @@ public class Group {
     @JoinTable(name = "user_x_group",
             inverseJoinColumns = {@JoinColumn(name = "user_id")},
             joinColumns = {@JoinColumn(name = "group_id")})
-    private Set<User> users = new HashSet<>();
+    private List<User> users = new ArrayList<>();
 
 }

@@ -10,7 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,7 +40,7 @@ public class User implements UserDetails {
 	@ManyToMany(mappedBy = "users")
 	@JsonIgnore
 	@ToString.Exclude
-	private Set<Group> groups;
+	private List<Group> groups;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

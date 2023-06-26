@@ -25,6 +25,12 @@ public class ExpenseRestController {
         return expenseService.findAllByUserId(id);
     }
 
+    @GetMapping("/calculateSettlements/{groupId}")
+    public List<Expense> calculateSettlements(@PathVariable int groupId) {
+        expenseService.calculateSettlesForGroup(groupId);
+        return null;
+    }
+
     @GetMapping("/findAll")
     public List<ExpenseDto> findAll() {
         return expenseService.findAll();
@@ -39,4 +45,6 @@ public class ExpenseRestController {
     public void deleteExpense(@PathVariable int id) {
         expenseService.deleteExpense(id);
     }
+
+
 }

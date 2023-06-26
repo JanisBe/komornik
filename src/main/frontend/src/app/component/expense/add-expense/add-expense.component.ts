@@ -84,16 +84,17 @@ export class AddExpenseComponent implements OnInit {
     let debts: Debt[] = [];
     const amount = this.form.value.amount;
     const sanitizedAmount = amount.replace(/,/g, '.');
-    this.users.forEach((user) => {
+    const currentUsers: User[] = [this.currentUser, ...this.users];
+    currentUsers.forEach((user) => {
       if (user.id !== this.currentUser.id) {
         let debt: Debt = {
           from: this.currentUser,
           to: user,
-          amount: +(sanitizedAmount / (this.users.length + 1)).toFixed(2)
+          amount: +(sanitizedAmount / (this.users.length)).toFixed(2)
         }
         debts.push(debt);
       } else {
-        const myDue = (sanitizedAmount / (this.users.length + 1)) * this.users.length;
+        const myDue = (sanitizedAmount / (this.users.length)) * (this.users.length - 1);
         let debt: Debt = {
           from: this.currentUser,
           to: user,
@@ -185,5 +186,9 @@ export class AddExpenseComponent implements OnInit {
       group: new FormControl(this.currentGroupId, Validators.required),
       date: new FormControl(new Date(), Validators.required)
     })
+  }
+
+  calc() {
+    this.expenseService.calculateExpenses(1).subscribe();
   }
 }

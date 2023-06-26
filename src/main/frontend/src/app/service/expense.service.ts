@@ -18,19 +18,23 @@ export class ExpenseService {
         return this.httpClient.delete(`http://localhost:8080/expense/delete/${expenseId}`);
     }
 
-    editExpense(expense: Expense) {
-        return this.httpClient.patch<Expense>("http://localhost:8080/expense/edit", expense);
-    }
+  editExpense(expense: Expense) {
+    return this.httpClient.patch<Expense>("http://localhost:8080/expense/edit", expense);
+  }
 
-    findAllByGroupId(groupId: number) {
-        return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAllByGroup/${groupId}`);
-    }
+  findAllByGroupId(groupId: number) {
+    return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAllByGroup/${groupId}`);
+  }
 
-    findAllByUser(userId: number) {
-        return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAllByUser/${userId}`);
-    }
+  calculateExpenses(groupId: number) {
+    return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/calculateSettlements/${groupId}`);
+  }
 
-    findAll() {
-        return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAll`);
-    }
+  findAllByUser(userId: number) {
+    return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAllByUser/${userId}`);
+  }
+
+  findAll() {
+    return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAll`);
+  }
 }
