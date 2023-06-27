@@ -141,9 +141,13 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>ng</executable>
+                            <executable>npm</executable>
                             <workingDirectory>${basedir}/src/main/frontend/</workingDirectory>
-                            <arguments>build</arguments>
+                            <arguments>
+                                <argument>run</argument>
+                                <argument>ng</argument>
+                                <argument>build</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
