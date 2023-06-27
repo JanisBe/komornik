@@ -8,7 +8,7 @@
 /frontend/bin/
 /frontend/node/
 /.idea/
-
+/.jpb/**
 
 .idea/**/workspace.xml
 .idea/**/tasks.xml

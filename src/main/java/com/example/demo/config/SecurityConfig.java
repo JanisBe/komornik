@@ -3,6 +3,7 @@ package com.example.demo.config;
 import com.example.demo.service.UserService;
 import jakarta.servlet.Filter;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 @EnableWebSecurity
 @Component
+@Configuration
 public class SecurityConfig {
     private final Filter jwtAuthFilter;
     private final UserService userService;
@@ -38,6 +40,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/authenticate").permitAll()
                 .requestMatchers("/user/save").permitAll()
+                .requestMatchers("/actuator/**").permitAll()
+                .requestMatchers("/error").permitAll()
                 .requestMatchers(
                         HttpMethod.GET,
                         "/index*", "/static/**", "/*.js", "/*.css", "/*.json", "/*.ico")
