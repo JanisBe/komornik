@@ -28,10 +28,11 @@ export class AddExpenseComponent implements OnInit {
   form: FormGroup;
   users: User[];
   usersOriginalList: User[];
-  categories$: Observable<Category[]>;
+  categories: Category[];
   currentUser: User;
   currentGroupId: number = 1;
   currentGroup$: Observable<Group>;
+  currentExpense: Expense;
   userGroups$: Observable<Group[]>;
   defaultSplit: number = 50;
   currencies: string[] = [];
@@ -64,16 +65,22 @@ export class AddExpenseComponent implements OnInit {
       this.userGroups$ = this.groupService.findAllGroupsForUser(this.currentUser.id);
     }
     this.userService.findUsersInGroup(this.currentGroupId).subscribe(((users) => {
-      this.users = users.filter((user) => user.id !== this.currentUser.id);
+      this.users = users.filter(user => user.id !== this.currentUser.id);
       this.usersOriginalList = [...this.users];
     }));
-    this.categories$ = this.categoryService.findAllCategories();
+    this.categoryService.findAllCategories().subscribe(category => this.categories = category);
     this.currencies = this.currencyService.getAllCurrencies();
     this.currencyService.getDefaultCurrencyForGroup(this.currentGroupId)
       .subscribe(response => {
         this.defaultCurrency = response;
         this.form.get('currency')?.patchValue(this.defaultCurrency)
       });
+    if (!!this.route.snapshot.params['expenseId']) {
+      this.expenseService.findById(this.route.snapshot.params['expenseId']).subscribe(expense => {
+        this.currentExpense = expense;
+        this.patchForm(expense);
+      });
+    }
   }
 
   onCancel() {
@@ -111,7 +118,6 @@ export class AddExpenseComponent implements OnInit {
       categoryId: +this.form.value.category,
       groupId: this.currentGroupId
     }
-    console.log(newExpense);
     this.expenseService.saveExpense(newExpense).subscribe({
       next: (result) => {
         this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`);
@@ -190,5 +196,21 @@ export class AddExpenseComponent implements OnInit {
 
   calc() {
     this.expenseService.calculateExpenses(1).subscribe();
+  }
+
+  private patchForm(expense: Expense) {
+    const debt = expense.debt.reduce((sum, {amount}) => ({
+      amount: sum.amount + Math.abs(amount),
+      from: sum.from,
+      to: sum.to
+    }));
+    this.form.get('amount')?.patchValue(debt.amount);
+    this.form.get('description')?.patchValue(expense.description);
+    this.form.get('currency')?.patchValue(expense.currency);
+
+    const currentCategory = this.categories.filter(c => c.id === expense.categoryId)[0];
+    this.form.get('category')?.patchValue(currentCategory.id);
+    this.form.get('date')?.patchValue(expense.date);
+    this.form.get('group')?.patchValue(expense.groupId);
   }
 }

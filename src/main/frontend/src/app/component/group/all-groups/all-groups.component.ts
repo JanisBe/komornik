@@ -72,4 +72,8 @@ export class AllGroupsComponent implements OnInit {
   addExpense(groupId: number) {
     this.router.navigate(['expense/add', groupId]);
   }
+
+  listExpense(groupId: number) {
+    this.router.navigate(['expense/list', groupId]);
+  }
 }

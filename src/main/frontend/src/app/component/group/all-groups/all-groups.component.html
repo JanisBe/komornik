@@ -23,6 +23,7 @@
       <mat-icon (click)="editGroup(group)" class="pointer" matTooltip="Edytuj grupę">edit</mat-icon>&nbsp;
       <mat-icon (click)="deleteGroup(group)" class="pointer" matTooltip="Skasuj grupę">delete</mat-icon>
       <mat-icon (click)="addExpense(group.id)" class="pointer" matTooltip="Dodaj wydatek w tej grupie">add</mat-icon>
+      <mat-icon (click)="listExpense(group.id)" class="pointer" matTooltip="Lista wydatków">list</mat-icon>
     </td>
   </ng-container>
   <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>

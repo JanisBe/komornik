@@ -37,4 +37,8 @@ export class ExpenseService {
   findAll() {
     return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAll`);
   }
+
+  findById(expenseId: number) {
+    return this.httpClient.get<Expense>(`http://localhost:8080/expense/findById/${expenseId}`);
+  }
 }

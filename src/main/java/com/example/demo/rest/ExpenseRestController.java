@@ -16,13 +16,18 @@ public class ExpenseRestController {
     private final ExpenseService expenseService;
 
     @GetMapping("/findAllByGroup/{groupId}")
-    public List<Expense> findAllByGroup(@PathVariable int groupId) {
+    public List<ExpenseDto> findAllByGroup(@PathVariable int groupId) {
         return expenseService.findAllByGroup(groupId);
     }
 
     @GetMapping("/findAllByUser/{id}")
-    public List<Expense> findAllByUser(@PathVariable int id) {
+    public List<ExpenseDto> findAllByUser(@PathVariable int id) {
         return expenseService.findAllByUserId(id);
+    }
+
+    @GetMapping("/findById/{id}")
+    public ExpenseDto findById(@PathVariable int id) {
+        return expenseService.findById(id);
     }
 
     @GetMapping("/calculateSettlements/{groupId}")

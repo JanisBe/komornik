@@ -36,20 +36,20 @@ public class ExpenseService {
         return sortedEntries;
     }
 
-    public Optional<Expense> findById(int id) {
-        return expenseRepository.findById(id);
+    public ExpenseDto findById(int id) {
+        return expenseMapper.toDto(expenseRepository.findById(id).orElseThrow());
     }
 
-    public List<Expense> findAllByUserId(int userId) {
-        return expenseRepository.findAllByUserId(userId);
+    public List<ExpenseDto> findAllByUserId(int userId) {
+        return expenseRepository.findAllByUserIdOrderByDate(userId).stream().map(expenseMapper::toDto).toList();
     }
 
     public List<ExpenseDto> findAll() {
-        return expenseRepository.findAll().stream().map(expenseMapper::toDto).toList();
+        return expenseRepository.findAllByOrderByDate().stream().map(expenseMapper::toDto).toList();
     }
 
-    public List<Expense> findAllByGroup(int groupId) {
-        return expenseRepository.findAllByGroup_Id(groupId);
+    public List<ExpenseDto> findAllByGroup(int groupId) {
+        return expenseRepository.findAllByGroup_IdOrderByDate(groupId).stream().map(expenseMapper::toDto).toList();
     }
 
     public Map<ImmutablePair<Integer, Integer>, BigDecimal> calculateSettlesForGroup(int groupId) {
