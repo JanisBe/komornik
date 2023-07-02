@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="SplitwiseMain" type="SpringBootApplicationConfigurationType"
                    factoryName="Spring Boot" nameIsGenerated="true">
-        <module name="splitwise-clone"/>
-        <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.SplitwiseMain"/>
+        <module name="komornik"/>
+        <option name="SPRING_BOOT_MAIN_CLASS" value="pl.janis.komornik.SplitwiseMain"/>
         <extension name="coverage">
             <pattern>
                 <option name="PATTERN" value="com.example.demo.*"/>

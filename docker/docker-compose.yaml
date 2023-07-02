@@ -6,11 +6,12 @@ networks:
     driver: bridge
 services:
   app:
+    container_name: backend
     build:
-      context: .
-      dockerfile: .
+      #      context: ../
+      dockerfile: ../DockerFile
     volumes: [ 'app-data:/home/applicatoin' ]
-    ports: [ '8080:8080' ]
+    ports: [ '8888:8088' ]
     networks:
       publicnet:
         aliases:
@@ -19,6 +20,7 @@ services:
           - application
   mysqldb:
     image: mysql:8
+    container_name: db
     networks:
       - publicnet
     environment:
