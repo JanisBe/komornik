@@ -8,9 +8,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,24 +37,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf().disable()
-                .cors().and()
-                .authorizeHttpRequests()
-                .requestMatchers("/auth/authenticate").permitAll()
-                .requestMatchers("/user/save").permitAll()
-                .requestMatchers("/actuator/**").permitAll()
-                .requestMatchers("/error").permitAll()
-                .requestMatchers(
-                        HttpMethod.GET,
-                        "/index*", "/static/**", "/*.js", "/*.css", "/*.json", "/*.ico")
-                .permitAll()
-                .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/auth/authenticate").permitAll();
+                    auth.requestMatchers("/user/save").permitAll();
+                    auth.requestMatchers("/actuator/**").permitAll();
+                    auth.requestMatchers("/error").permitAll();
+                    auth.requestMatchers(
+                                    HttpMethod.GET,
+                                    "/index*", "/static/**", "/*.js", "/*.css", "/*.json", "/*.ico")
+                            .permitAll();
+                    auth.requestMatchers(HttpMethod.OPTIONS).permitAll();
+                    auth.anyRequest().authenticated();
+                })
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
