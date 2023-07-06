@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  mysqldb:
+  database:
     image: mariadb:10.8-jammy
     restart: unless-stopped
     container_name: mysql
@@ -15,10 +15,10 @@ services:
     volumes:
       - db:/var/lib/mysql
     networks:
-      springboot-mysql-net:
+      - backend-network
   app:
     depends_on:
-      - mysqldb
+      - database
     build: .
     restart: on-failure
     container_name: backend
@@ -32,9 +32,10 @@ services:
     stdin_open: true
     tty: true
     networks:
-      springboot-mysql-net:
+      - backend-network
 
 volumes:
   db:
 networks:
-  springboot-mysql-net:
+  backend-network:
+    driver: bridge
