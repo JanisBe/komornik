@@ -44,6 +44,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/user/save").permitAll();
                     auth.requestMatchers("/actuator/**").permitAll();
                     auth.requestMatchers("/error").permitAll();
+                    auth.requestMatchers("/").permitAll();
                     auth.requestMatchers(
                                     HttpMethod.GET,
                                     "/index*", "/static/**", "/*.js", "/*.css", "/*.json", "/*.ico")
