@@ -37,7 +37,7 @@ export class AllCategoriesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.categoryService.deleteCategory(category.id).subscribe(
+        this.categoryService.deleteCategory(category.id!).subscribe(
           () => {
             this.snackbarService.displayMessage(`Kategoria ${category.name} została skasowana`);
             this.refreshData();

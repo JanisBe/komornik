@@ -44,7 +44,7 @@ export class AllExpensesComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.expenseService.deleteExpense(expense.id).subscribe(
+                this.expenseService.deleteExpense(expense.id!).subscribe(
                   () => {
                     this.snackbarService.displayMessage(`Wydatek ${expense.description} został skasowany`);
                     this.fetchExpensesForGroup(expense.groupId);

@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
 import {GroupService} from "../../../service/group.service";
-import {Group} from "../../../model/group";
 import {User} from 'src/app/model/user';
 import {AuthService} from "../../../auth/auth.service";
 
@@ -16,10 +15,10 @@ import {AuthService} from "../../../auth/auth.service";
 export class AllGroupsComponent implements OnInit {
   allGroups: {
     userNames: string[];
-    id?: number | undefined;
+    id?: number;
     name: string;
     defaultCurrency?: string;
-    description: string;
+    description?: string;
     users: User[];
   }[];
   displayedColumns: string[] = ['name', 'users', 'defaultCurrency', 'actions'];
@@ -33,7 +32,6 @@ export class AllGroupsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('all groups');
     this.userId = this.authService.user.value?.id!;
     this.findAllGroupsForUser();
   }
@@ -49,20 +47,20 @@ export class AllGroupsComponent implements OnInit {
 
   }
 
-  editGroup(group: Group) {
-    this.router.navigate(['group/details', group.id]);
+  editGroup(groupId: number) {
+    this.router.navigate(['group/details', groupId]);
   }
 
-  deleteGroup(group: Group) {
+  deleteGroup(groupId: number, groupName: string) {
     let dialogRef = this.dialog.open(ConfirmationComponent, {
-      data: {content: group.name, category: 'group'},
+      data: {content: groupName, category: 'group'},
       height: '400px',
       width: '600px',
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.groupService.deleteGroup(group.id).subscribe(() => {
-          this.snackBarService.displayMessage(`Grupa ${group.name} skasowany`);
+        this.groupService.deleteGroup(groupId).subscribe(() => {
+          this.snackBarService.displayMessage(`Grupa ${groupName} skasowana`);
           this.findAllGroupsForUser();
         });
       }

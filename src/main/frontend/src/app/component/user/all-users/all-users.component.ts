@@ -12,7 +12,7 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./all-users.component.scss']
 })
 export class AllUsersComponent implements OnInit {
-  allUsers: [User];
+  allUsers: User[];
   displayedColumns: string[] = ['name', 'mail', 'password', 'actions'];
 
   constructor(private userService: UserService,
@@ -42,7 +42,7 @@ export class AllUsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.userService.delete(user.id).subscribe(() => {
+        this.userService.deleteUser(user.id).subscribe(() => {
           this.snackBarService.displayMessage(`Użytkownik ${user.name} skasowany`);
           this.findAll();
         });

@@ -18,7 +18,7 @@ export class CategoryService {
     return this.httpClient.patch<Category>("http://localhost:8080/category/edit", category);
   }
 
-  deleteCategory(categoryId: number | undefined) {
+  deleteCategory(categoryId: number) {
     return this.httpClient.delete(`http://localhost:8080/category/delete/${categoryId}`);
   }
 

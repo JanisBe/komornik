@@ -14,8 +14,8 @@ export class ExpenseService {
         return this.httpClient.post<Expense>("http://localhost:8080/expense/save", expense);
     }
 
-    deleteExpense(expenseId: number | undefined) {
-        return this.httpClient.delete(`http://localhost:8080/expense/delete/${expenseId}`);
+    deleteExpense(expenseId: number) {
+      return this.httpClient.delete(`http://localhost:8080/expense/delete/${expenseId}`);
     }
 
   editExpense(expense: Expense) {

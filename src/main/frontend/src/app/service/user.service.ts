@@ -17,11 +17,11 @@ export class UserService {
     return this.http.post<User>("http://localhost:8080/user/save", user, {observe: "response"});
   }
 
-  delete(userId: number | undefined) {
+  deleteUser(userId: number | undefined) {
     return this.http.delete<User>("http://localhost:8080/user/delete/" + userId);
   }
 
-  edit(user: User) {
+  editUser(user: User) {
     return this.http.patch<User>("http://localhost:8080/user/edit", user,)
   }
 

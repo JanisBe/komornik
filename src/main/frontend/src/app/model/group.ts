@@ -5,5 +5,5 @@ export interface Group {
   name: string,
   description: string,
   defaultCurrency?: string,
-  users: [User]
+  users: User[]
 }
