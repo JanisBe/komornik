@@ -1,4 +1,5 @@
 @import "../../app.component";
+
 tr.example-element-row:not(.example-expanded-row):hover {
   background: whitesmoke;
 }
@@ -6,3 +7,24 @@ tr.example-element-row:not(.example-expanded-row):hover {
 tr.example-element-row:not(.example-expanded-row):active {
   background: #efefef;
 }
+
+.card {
+  max-width: 300px;
+  width: 300px;
+  min-width: 250px;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card-header {
+  flex-shrink: 0;
+}
+
+mat-card-content {
+  flex-grow: 1;
+  overflow: auto;
+}
+

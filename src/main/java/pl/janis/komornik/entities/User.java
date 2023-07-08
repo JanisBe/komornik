@@ -17,7 +17,7 @@ import java.util.List;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "users", schema = "test")
+@Table(name = "users", schema = "komornik")
 public class User implements UserDetails {
 
 	@Id

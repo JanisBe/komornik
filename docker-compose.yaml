@@ -9,7 +9,7 @@ services:
       - MARIADB_USER=root
       - MARIADB_PASSWORD=haslo
       - MARIADB_ROOT_PASSWORD=haslo
-      - MARIADB_DATABASE=test
+      - MARIADB_DATABASE=komornik
     ports:
       - "3307:3306"
     volumes:

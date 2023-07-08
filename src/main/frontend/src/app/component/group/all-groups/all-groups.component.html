@@ -1,52 +1,33 @@
-<div class="container">
-  <mat-card *ngFor="let group of allGroups">
-    <mat-card-header>
-      <mat-card-title>{{group.name}}</mat-card-title>
-      <mat-card-subtitle>{{group.description}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
+<div class="container-fluid">
+  <div *ngIf="!!allGroups; else noGroups;" class="d-flex flex-wrap p-2 gap-3">
+    <mat-card *ngFor="let group of allGroups" class="card">
+      <mat-card-header>
+        <mat-card-title (click)="addExpense(group.id!)" class="pointer">{{group.name}}</mat-card-title>
+        <mat-card-subtitle>{{group.description}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        Członkowie:
         <span *ngFor="let user of group.users, let isLast = last">
       <span matTooltip="{{user.mail}}">{{user.name}}{{isLast ? '' : ', '}}</span>
     </span>
-    </mat-card-content>
-    <mat-card-actions>
-      <mat-icon (click)="editGroup(group.id!)" class="pointer" matTooltip="Edytuj grupę">edit</mat-icon>&nbsp;
-      <mat-icon (click)="deleteGroup(group.id!, group.name)" class="pointer" matTooltip="Skasuj grupę">delete</mat-icon>
-      <mat-icon (click)="addExpense(group.id!)" class="pointer" matTooltip="Dodaj wydatek w tej grupie">add</mat-icon>
-      <mat-icon (click)="listExpense(group.id!)" class="pointer" matTooltip="Lista wydatków">list</mat-icon>
-    </mat-card-actions>
-  </mat-card>
+      </mat-card-content>
+      <mat-card-actions class="d-flex justify-content-evenly">
+        <mat-icon (click)="editGroup(group.id!)" class="pointer shadow" matTooltip="Edytuj grupę">edit</mat-icon>
+        <mat-icon (click)="deleteGroup(group.id!, group.name)" class="pointer shadow" matTooltip="Skasuj grupę">delete
+        </mat-icon>
+        <mat-icon (click)="addExpense(group.id!)" class="pointer shadow" matTooltip="Dodaj wydatek w tej grupie">add
+        </mat-icon>
+        <mat-icon (click)="listExpense(group.id!)" class="pointer shadow" matTooltip="Lista wydatków">list</mat-icon>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <ng-template #noGroups>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col h3 d-flex align-items-center justify-content-center">
+          Wygląda na to że nie masz żadnych grup. <u routerLink="group/add">Załóż nową grupę</u>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>
-
-
-<table [dataSource]="allGroups" class="mat-elevation-z8" mat-table>
-  <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell> Group name</th>
-    <td *matCellDef="let group" mat-cell routerLink="/expense/add/{{group.id}}">
-      <span class="pointer">{{group.name}}</span>
-    </td>
-  </ng-container>
-  <ng-container matColumnDef="defaultCurrency">
-    <th *matHeaderCellDef mat-header-cell> Default currency</th>
-    <td *matCellDef="let group" mat-cell> {{group.defaultCurrency}} </td>
-  </ng-container>
-  <ng-container matColumnDef="users">
-    <th *matHeaderCellDef mat-header-cell> users</th>
-    <td *matCellDef="let group" mat-cell>
-    <span *ngFor="let user of group.users, let isLast = last">
-      <span matTooltip="{{user.mail}}">{{user.name}}{{isLast ? '' : ', '}}</span>
-    </span>
-    </td>
-  </ng-container>
-  <ng-container matColumnDef="actions">
-    <th *matHeaderCellDef mat-header-cell> Actions</th>
-    <td *matCellDef="let group" mat-cell>
-      <mat-icon (click)="editGroup(group.id!)" class="pointer" matTooltip="Edytuj grupę">edit</mat-icon>&nbsp;
-      <mat-icon (click)="deleteGroup(group.id!, group.name)" class="pointer" matTooltip="Skasuj grupę">delete</mat-icon>
-      <mat-icon (click)="addExpense(group.id!)" class="pointer" matTooltip="Dodaj wydatek w tej grupie">add</mat-icon>
-      <mat-icon (click)="listExpense(group.id!)" class="pointer" matTooltip="Lista wydatków">list</mat-icon>
-    </td>
-  </ng-container>
-  <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-  <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
-</table>
