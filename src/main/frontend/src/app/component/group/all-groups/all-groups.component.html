@@ -13,11 +13,12 @@
       </mat-card-content>
       <mat-card-actions class="d-flex justify-content-evenly">
         <mat-icon (click)="editGroup(group.id!)" class="pointer shadow" matTooltip="Edytuj grupę">edit</mat-icon>
-        <mat-icon (click)="deleteGroup(group.id!, group.name)" class="pointer shadow" matTooltip="Skasuj grupę">delete
-        </mat-icon>
         <mat-icon (click)="addExpense(group.id!)" class="pointer shadow" matTooltip="Dodaj wydatek w tej grupie">add
         </mat-icon>
         <mat-icon (click)="listExpense(group.id!)" class="pointer shadow" matTooltip="Lista wydatków">list</mat-icon>
+        <mat-icon (click)="deleteGroup(group.id!, group.name)" class="pointer shadow warning-border"
+                  matTooltip="Skasuj grupę">delete
+        </mat-icon>
       </mat-card-actions>
     </mat-card>
   </div>
