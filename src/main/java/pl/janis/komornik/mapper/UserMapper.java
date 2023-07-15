@@ -2,12 +2,11 @@ package pl.janis.komornik.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import pl.janis.komornik.dto.UserDto;
 import pl.janis.komornik.entities.User;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.WARN, componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.WARN)
 public abstract class UserMapper {
 
     @Mapping(target = "groups", ignore = true)

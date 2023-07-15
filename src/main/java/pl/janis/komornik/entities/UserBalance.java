@@ -1,6 +1,17 @@
 package pl.janis.komornik.entities;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 
-public record UserBalance(int userId, BigDecimal balance) {
+@Data
+public class UserBalance implements Comparable<UserBalance> {
+    private int userId;
+    private BigDecimal balance;
+
+    @Override
+    public int compareTo(UserBalance ub) {
+        return ub.getBalance().compareTo(this.balance);
+    }
+
 }

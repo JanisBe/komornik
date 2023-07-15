@@ -2,7 +2,7 @@ package pl.janis.komornik.rest;
 
 import org.springframework.web.bind.annotation.*;
 import pl.janis.komornik.dto.GroupDto;
-import pl.janis.komornik.entities.Group;
+import pl.janis.komornik.mapper.GroupMapper;
 import pl.janis.komornik.service.GroupService;
 
 import java.util.List;
@@ -12,9 +12,11 @@ import java.util.List;
 @RequestMapping("/group")
 public class GroupRestController {
     private final GroupService groupService;
+    private final GroupMapper groupMapper;
 
-    public GroupRestController(GroupService groupService) {
+    public GroupRestController(GroupService groupService, GroupMapper groupMapper) {
         this.groupService = groupService;
+        this.groupMapper = groupMapper;
     }
 
     @GetMapping("/findAllGroupsForUser/{userId}")
@@ -23,8 +25,8 @@ public class GroupRestController {
     }
 
     @GetMapping("/findById/{id}")
-    public Group findAll(@PathVariable int id) {
-        return groupService.findById(id);
+    public GroupDto findAll(@PathVariable int id) {
+        return groupMapper.toDto(groupService.findById(id));
     }
 
     @GetMapping("/getDefaultCurrencyForGroup/{id}")

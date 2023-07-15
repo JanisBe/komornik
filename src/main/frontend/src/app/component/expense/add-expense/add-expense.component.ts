@@ -195,7 +195,8 @@ export class AddExpenseComponent implements OnInit {
   }
 
   calc() {
-    this.expenseService.calculateExpenses(1).subscribe();
+    console.log(this.currentGroupId);
+    this.expenseService.calculateExpenses(this.currentGroupId).subscribe();
   }
 
   private patchForm(expense: Expense) {

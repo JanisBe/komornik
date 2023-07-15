@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Expense} from "../model/expense";
+import {Settlement} from "../model/settlement";
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,7 @@ export class ExpenseService {
   }
 
   calculateExpenses(groupId: number) {
-    return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/calculateSettlements/${groupId}`);
+    return this.httpClient.get<Settlement[]>(`http://localhost:8080/expense/calculateSettlements/${groupId}`);
   }
 
   findAllByUser(userId: number) {

@@ -18,29 +18,17 @@ public class CustomControllerAdvice {
 
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleNullPointerExceptions(Exception e) {
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(Exception e) {
         HttpStatus status = HttpStatus.FORBIDDEN;
 
-        return new ResponseEntity<>(
-                new ErrorResponse(
-                        status,
-                        e.getMessage()
-                ),
-                status
-        );
+        return new ResponseEntity<>(new ErrorResponse(status, e.getMessage()), status);
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<ErrorResponse> handleNullPointerExceptionds(Exception e) {
+    public ResponseEntity<ErrorResponse> handleResponseStatusException(Exception e) {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
-        return new ResponseEntity<>(
-                new ErrorResponse(
-                        status,
-                        e.getMessage()
-                ),
-                status
-        );
+        return new ResponseEntity<>(new ErrorResponse(status, e.getMessage()), status);
     }
 
     @ExceptionHandler(value = NoHandlerFoundException.class)
@@ -52,8 +40,17 @@ public class CustomControllerAdvice {
             return "redirect:/index.html";
         }
     }
+//    @ExceptionHandler(value = HttpMessageNotWritableException.class)
+//    public Object handleHttpMessageNotWritableException(final HttpMessageNotWritableException ex, HttpServletRequest req, RedirectAttributes redirectAttributes) {
+//        if (req.getRequestURI().startsWith("/api"))
+//            return this.getApiResourceNotFoundBody(ex, req);
+//        else {
+//            redirectAttributes.addFlashAttribute("errorMessage", "My Custom error message");
+//            return "redirect:/index.html";
+//        }
+//    }
 
-    private ResponseEntity<String> getApiResourceNotFoundBody(NoHandlerFoundException ex, HttpServletRequest req) {
+    private ResponseEntity<String> getApiResourceNotFoundBody(Exception ex, HttpServletRequest req) {
         return new ResponseEntity<>("Not Found !!", HttpStatus.NOT_FOUND);
     }
 
