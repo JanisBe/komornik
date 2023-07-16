@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.janis.komornik.entities.Category;
+import pl.janis.komornik.exception.ElementDoesNotExistException;
 import pl.janis.komornik.repository.CategoryRepository;
 
 import java.util.List;
@@ -32,6 +33,6 @@ public class CategoryService {
     }
 
     public Category findById(int id) {
-        return categoryRepository.findById(id).orElseThrow();
+        return categoryRepository.findById(id).orElseThrow(() -> new ElementDoesNotExistException("No results"));
     }
 }

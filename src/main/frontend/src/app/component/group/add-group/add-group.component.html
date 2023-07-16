@@ -1,4 +1,4 @@
-<div class="row">
+<div *ngIf="isUserInGroup && !noResults; else notAllowed" class="row">
   <div class="col-6">
     <form (ngSubmit)="onSubmit()" [formGroup]="groupForm">
 
@@ -8,10 +8,10 @@
             <mat-form-field appearance="outline">
               <mat-label>Nazwa grupy</mat-label>
               <input
-                formControlName="name"
-                id="name"
-                matInput
-                type="text">
+                      formControlName="name"
+                      id="name"
+                      matInput
+                      type="text">
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -81,3 +81,22 @@
     </form>
   </div>
 </div>
+<ng-template #notAllowed>
+  <div *ngIf="!noResults" class="container-fluid">
+    <div class="row">
+      <div class="col h3 d-flex align-items-center justify-content-center">
+        Nie możesz edytować tej grupy. <u routerLink="/group/list">Wybierz inną grupę</u>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-container *ngIf="noResults">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col h3 d-flex align-items-center justify-content-center">
+        <p>Nie ma wyników dla powyższego zapytania. </p>
+        <p><u routerLink="/group/list">Wybierz inną grupę</u></p>
+      </div>
+    </div>
+  </div>
+</ng-container>

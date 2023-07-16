@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.janis.komornik.dto.GroupDto;
 import pl.janis.komornik.entities.Group;
 import pl.janis.komornik.entities.User;
+import pl.janis.komornik.exception.ElementDoesNotExistException;
+import pl.janis.komornik.exception.UserNotInGroupException;
 import pl.janis.komornik.mapper.GroupMapper;
 import pl.janis.komornik.repository.GroupRepository;
 import pl.janis.komornik.repository.UserRepository;
@@ -24,7 +26,13 @@ public class GroupService {
     }
 
     public Group findById(int id) {
-        return groupRepository.findById(id).orElseThrow();
+        return groupRepository.findById(id).orElseThrow(() -> new ElementDoesNotExistException("No results"));
+    }
+
+    public void checkIfUserBelongsToGroup(int userId, int groupId) {
+        if (!groupRepository.existsByUsers_IdAndId(userId, groupId)) {
+            throw new UserNotInGroupException();
+        }
     }
 
     @Transactional

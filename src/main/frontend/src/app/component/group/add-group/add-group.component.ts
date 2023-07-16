@@ -12,6 +12,7 @@ import {Observable} from "rxjs";
 import {CategoryService} from "../../../service/category.service";
 import {Category} from "../../../model/category";
 import {AuthService} from "../../../auth/auth.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'add-group',
@@ -19,7 +20,7 @@ import {AuthService} from "../../../auth/auth.service";
   styleUrls: ['./add-group.component.scss']
 })
 export class AddGroupComponent implements OnInit {
-  id: number;
+  groupId: number;
   editMode = false;
   groupForm: FormGroup;
   users$: Observable<User[]>;
@@ -28,6 +29,8 @@ export class AddGroupComponent implements OnInit {
   categories$: Observable<Category[]>;
   currentUser: User;
   private userGroupAdded = 0;
+  isUserInGroup = false;
+  noResults = false;
 
   constructor(private groupService: GroupService,
               private snackbarService: SnackbarService,
@@ -45,6 +48,9 @@ export class AddGroupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.groupId = this.route.snapshot.params['groupId'];
+    this.editMode = !!this.groupId;
+    this.isUserInGroup = this.editMode;
     this.currentUser = this.authService.user.value!;
     this.initForm();
     this.users$ = this.userService.getAllUsers();
@@ -60,16 +66,16 @@ export class AddGroupComponent implements OnInit {
       name: data.name,
       defaultCurrency: data.defaultCurrency
     };
-    if (!!this.id) {
-      newGroup.id = this.id;
+    if (!!this.groupId) {
+      newGroup.id = this.groupId;
     }
     this.groupService.createGroup(newGroup).subscribe({
       next: (group) => {
-        this.snackbarService.displayMessage(`Nowa grupa ${group.name} założona!`);
+        this.snackbarService.displayMessage(`Nowa grupa ${group.body!.name} założona!`);
         this.onCancel();
       },
-      error: () => {
-        this.snackbarService.displayMessage(`Nie udało się założyć grupy ${newGroup.name}`);
+      error: (error: HttpErrorResponse) => {
+        this.snackbarService.displayMessage(`Nie udało się założyć grupy ${newGroup.name}, bład ${error.message}`);
       }
     });
 
@@ -123,21 +129,25 @@ export class AddGroupComponent implements OnInit {
       defaultCurrency: new FormControl(null),
       users: groupUsers
     });
-    this.id = this.route.snapshot.params['id'];
-    this.editMode = !!this.id;
     if (this.editMode) {
-      this.groupService.findById(this.id).subscribe(result => {
-        this.groupForm.get('name')?.patchValue(result.name);
-        if (result.users) {
-          for (let user of result.users) {
-            groupUsers.push(
-                new FormGroup({
-                  id: new FormControl(user.id),
-                  name: new FormControl(user.name, Validators.required),
-                  mail: new FormControl(user.mail, Validators.email)
-                })
-            )
+      this.groupService.findById(this.groupId).subscribe({
+        next: (group) => {
+          this.isUserInGroup = group.users.map(user => user.id).includes(this.currentUser.id);
+          this.groupForm.get('name')?.patchValue(group.name);
+          if (group.users) {
+            for (let user of group.users) {
+              groupUsers.push(
+                  new FormGroup({
+                    id: new FormControl(user.id),
+                    name: new FormControl(user.name, Validators.required),
+                    mail: new FormControl(user.mail, Validators.email)
+                  })
+              )
+            }
           }
+        },
+        error: () => {
+          this.noResults = true;
         }
       });
     } else {

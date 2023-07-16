@@ -1,11 +1,16 @@
 package pl.janis.komornik.rest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import pl.janis.komornik.dto.UserDto;
 import pl.janis.komornik.entities.User;
 import pl.janis.komornik.exception.UserAlreadyExistsException;
+import pl.janis.komornik.exception.UserNotAllowedToEditException;
 import pl.janis.komornik.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -35,8 +40,12 @@ public class UserRestController {
     }
 
     @PatchMapping("/edit")
-    public User editUser(@RequestBody User user) {
-        return userService.editUser(user);
+    public ResponseEntity<User> editUser(@RequestBody User user, Principal principal) {
+        User currentUser = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        if (!user.getId().equals(currentUser.getId())) {
+            throw new UserNotAllowedToEditException("Nie możesz edytować tego użytkownika");
+        }
+        return new ResponseEntity<>(userService.editUser(user), HttpStatus.OK);
     }
 
     @GetMapping("/findCommonUsers/{userId}")

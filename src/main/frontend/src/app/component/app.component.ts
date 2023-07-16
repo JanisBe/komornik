@@ -21,10 +21,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('app-component')
     this.authService.autoLogin();
     this.loggedUser = this.authService.user.value!;
-    if (!!this.loggedUser) {
+    console.log('app-component', this.loggedUser);
+    if (!this.loggedUser) {
       this.router.navigate(['/login']);
     }
   }

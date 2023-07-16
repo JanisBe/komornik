@@ -1,11 +1,14 @@
 package pl.janis.komornik.rest;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import pl.janis.komornik.dto.DebtDto;
 import pl.janis.komornik.dto.ExpenseDto;
+import pl.janis.komornik.entities.User;
 import pl.janis.komornik.service.ExpenseService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -16,13 +19,15 @@ public class ExpenseRestController {
     private final ExpenseService expenseService;
 
     @GetMapping("/findAllByGroup/{groupId}")
-    public List<ExpenseDto> findAllByGroup(@PathVariable int groupId) {
-        return expenseService.findAllByGroup(groupId);
+    public List<ExpenseDto> findAllByGroup(@PathVariable int groupId, Principal principal) {
+        User currentUser = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        return expenseService.findAllByGroup(groupId, currentUser.getId());
     }
 
-    @GetMapping("/findAllByUser/{id}")
-    public List<ExpenseDto> findAllByUser(@PathVariable int id) {
-        return expenseService.findAllByUserId(id);
+    @GetMapping("/findAllByUser/")
+    public List<ExpenseDto> findAllByUser(Principal principal) {
+        User currentUser = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        return expenseService.findAllByUserId(currentUser.getId());
     }
 
     @GetMapping("/findById/{id}")
@@ -41,8 +46,9 @@ public class ExpenseRestController {
     }
 
     @PostMapping("/save")
-    public ExpenseDto save(@RequestBody ExpenseDto expense) {
-        return expenseService.saveExpense(expense);
+    public ExpenseDto save(@RequestBody ExpenseDto expense, Principal principal) {
+        User currentUser = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        return expenseService.saveExpense(expense, currentUser);
     }
 
     @DeleteMapping("/delete/{id}")

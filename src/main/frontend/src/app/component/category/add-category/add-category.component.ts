@@ -35,13 +35,13 @@ export class AddCategoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!!this.route.snapshot.params['id']) {
-      this.currentCategoryId = this.route.snapshot.params['id'];
+    if (!!this.route.snapshot.params['categoryId']) {
+      this.currentCategoryId = this.route.snapshot.params['categoryId'];
       this.categoryService.findById(this.currentCategoryId).subscribe(
-        category => {
-          this.currentCategory = category;
-          this.form.get('name')?.patchValue(category.name);
-        }
+          category => {
+            this.currentCategory = category;
+            this.form.get('name')?.patchValue(category.name);
+          }
       )
     }
     this.initForm();

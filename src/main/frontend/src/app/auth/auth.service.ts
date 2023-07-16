@@ -94,7 +94,7 @@ export class AuthService {
     const user: User = {name: name, id: userId, token: token, mail: email}
     this.user.next(user);
     localStorage.setItem('userData', JSON.stringify(user));
-    this.router.navigate(['/group/list']);
+    // this.router.navigate(['/group/list']);
   }
 
   private handleError(errorRes: HttpErrorResponse) {

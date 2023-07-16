@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.janis.komornik.dto.UserDto;
 import pl.janis.komornik.entities.User;
+import pl.janis.komornik.exception.ElementDoesNotExistException;
 import pl.janis.komornik.exception.UserAlreadyExistsException;
 import pl.janis.komornik.mapper.UserMapper;
 import pl.janis.komornik.repository.UserRepository;
@@ -44,7 +45,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public User editUser(User user) {
-        User existingUser = userRepository.findById(user.getId()).orElseThrow();
+        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new ElementDoesNotExistException("No results"));
         existingUser.setMail(user.getMail());
         existingUser.setName(user.getName());
         existingUser.setAvatar(user.getAvatar());
@@ -52,7 +53,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User findById(int id) {
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id).orElseThrow(() -> new ElementDoesNotExistException("No results"));
     }
 
     public List<User> findCommonUsers(int userId) {

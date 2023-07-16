@@ -5,17 +5,26 @@ import {SnackbarService} from "../../../service/snackbar.service";
 import {Expense} from "../../../model/expense";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
 import {MatDialog} from "@angular/material/dialog";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'all-expenses',
   templateUrl: './all-expenses.component.html',
-  styleUrls: ['./all-expenses.component.scss']
+  styleUrls: ['./all-expenses.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class AllExpensesComponent implements OnInit {
   displayedColumns: string[] = ['description', 'amount', 'with', 'currency', 'date', 'actions'];
+  columnsToDisplayWithExpand = [...this.displayedColumns, 'szczegóły'];
   expenses: Expense[];
   private groupId: number = 1;
-
+  expandedElement: Expense | null;
   constructor(private expenseService: ExpenseService,
               private router: Router,
               private snackbarService: SnackbarService,

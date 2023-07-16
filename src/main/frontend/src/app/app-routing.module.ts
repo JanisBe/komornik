@@ -13,13 +13,13 @@ import {LoginComponent} from "./component/common/login/login.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
-  {path: 'category/details/:id', component: AddCategoryComponent},
+  {path: 'category/details/:categoryId', component: AddCategoryComponent},
   {path: 'category/add', component: AddCategoryComponent},
   {path: 'category/list', component: AllCategoriesComponent},
-  {path: 'user/details/:id', component: UserDetailsComponent},
+  {path: 'user/details/:userId', component: UserDetailsComponent},
   {path: 'user/list', component: AllUsersComponent},
   {path: 'user/add', component: AddUserComponent},
-  {path: 'group/details/:id', component: AddGroupComponent},
+  {path: 'group/details/:groupId', component: AddGroupComponent},
   {path: 'group/list', component: AllGroupsComponent},
   {path: 'group/add', component: AddGroupComponent},
   {path: 'expense/details/:expenseId', component: AddExpenseComponent},

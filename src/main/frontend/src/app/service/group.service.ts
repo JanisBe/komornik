@@ -11,7 +11,7 @@ export class GroupService {
   }
 
   createGroup(group: Group) {
-    return this.httpClient.post<Group>("http://localhost:8080/group/save", group);
+    return this.httpClient.post<Group>("http://localhost:8080/group/save", group, {observe: "response"});
   }
 
   editGroup(group: Group) {
@@ -22,8 +22,8 @@ export class GroupService {
     return this.httpClient.delete<Group>("http://localhost:8080/group/delete/" + groupId);
   }
 
-  findAllGroupsForUser(userId: number) {
-    return this.httpClient.get<Group[]>("http://localhost:8080/group/findAllGroupsForUser/" + userId);
+  findAllGroupsForUser() {
+    return this.httpClient.get<Group[]>("http://localhost:8080/group/findAllGroupsForCurrentUser/", {observe: "response"});
   }
 
   findById(id: number) {

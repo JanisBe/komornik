@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.janis.komornik.dto.DebtDto;
 import pl.janis.komornik.dto.ExpenseDto;
 import pl.janis.komornik.entities.Expense;
+import pl.janis.komornik.entities.User;
 import pl.janis.komornik.entities.UserBalance;
+import pl.janis.komornik.exception.ElementDoesNotExistException;
 import pl.janis.komornik.mapper.ExpenseMapper;
 import pl.janis.komornik.repository.ExpenseRepository;
 
@@ -27,9 +29,10 @@ public class ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final ExpenseMapper expenseMapper;
     private final UserService userService;
+    private final GroupService groupService;
 
     public ExpenseDto findById(int id) {
-        return expenseMapper.toDto(expenseRepository.findById(id).orElseThrow());
+        return expenseMapper.toDto(expenseRepository.findById(id).orElseThrow(() -> new ElementDoesNotExistException("No results")));
     }
 
     public List<ExpenseDto> findAllByUserId(int userId) {
@@ -40,7 +43,8 @@ public class ExpenseService {
         return expenseRepository.findAllByOrderByDate().stream().map(expenseMapper::toDto).toList();
     }
 
-    public List<ExpenseDto> findAllByGroup(int groupId) {
+    public List<ExpenseDto> findAllByGroup(int groupId, int userId) {
+        groupService.checkIfUserBelongsToGroup(userId, groupId);
         return expenseRepository.findAllByGroup_IdOrderByDate(groupId).stream().map(expenseMapper::toDto).toList();
     }
 
@@ -104,7 +108,8 @@ public class ExpenseService {
     }
 
     @Transactional
-    public ExpenseDto saveExpense(ExpenseDto expenseDto) {
+    public ExpenseDto saveExpense(ExpenseDto expenseDto, User currentUser) {
+        groupService.checkIfUserBelongsToGroup(currentUser.getId(), expenseDto.groupId());
         final Expense expense = expenseMapper.toEntity(expenseDto);
         return expenseMapper.toDto(expenseRepository.save(expense));
     }

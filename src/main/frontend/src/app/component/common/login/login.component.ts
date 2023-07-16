@@ -18,13 +18,13 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     console.log('login');
     if (!!this.authService.user.value) {
-      this.router.navigate(['/group/list']);
+      // this.router.navigate(['/group/list']);
     }
     this.initForm();
   }
 
   onSubmit() {
-    this.authService.login(this.loginForm.value.login, this.loginForm.value.password)
+    this.authService.login(this.loginForm.value.login, this.loginForm.value.password);
   }
 
   private initForm() {

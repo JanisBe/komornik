@@ -7,7 +7,6 @@ import {Expense} from "../../../model/expense";
 import {User} from "../../../model/user";
 import {UserService} from "../../../service/user.service";
 import {CurrencyService} from "../../../service/currency.service";
-import {Observable} from "rxjs";
 import {Category} from "../../../model/category";
 import {CategoryService} from "../../../service/category.service";
 import {GroupService} from "../../../service/group.service";
@@ -30,16 +29,17 @@ export class AddExpenseComponent implements OnInit {
   usersOriginalList: User[];
   categories: Category[];
   currentUser: User;
-  currentGroupId: number = 1;
-  currentGroup$: Observable<Group>;
+  currentGroupId: number;
+  currentGroup: Group;
   currentExpense: Expense;
-  userGroups$: Observable<Group[]>;
+  userGroups: Group[];
   defaultSplit: number = 50;
   currencies: string[] = [];
   defaultCurrency: string;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   userName = new FormControl('');
-
+  isUserInGroup = false;
+  noResults = false;
   @ViewChild("slider") slider: ElementRef;
   @ViewChild("sliderInput") sliderInput: ElementRef;
   @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
@@ -60,25 +60,42 @@ export class AddExpenseComponent implements OnInit {
     this.currentUser = this.authService.user.value!;
     if (!!this.route.snapshot.params['groupId']) {
       this.currentGroupId = this.route.snapshot.params['groupId'];
-      this.currentGroup$ = this.groupService.findById(this.currentGroupId);
+      this.groupService.findById(this.currentGroupId).subscribe(group => {
+        this.currentGroup = group;
+        this.isUserInGroup = this.currentGroup.users.map(user => user.id).includes(this.currentUser.id);
+        this.userService.findUsersInGroup(this.currentGroupId).subscribe(((users) => {
+          this.users = users.filter(user => user.id !== this.currentUser.id);
+          this.usersOriginalList = [...this.users];
+        }));
+      });
+      this.currencyService.getDefaultCurrencyForGroup(this.currentGroupId)
+          .subscribe(response => {
+            this.defaultCurrency = response;
+            this.form.get('currency')?.patchValue(this.defaultCurrency)
+          });
     } else {
-      this.userGroups$ = this.groupService.findAllGroupsForUser(this.currentUser.id);
+      this.groupService.findAllGroupsForUser().subscribe(groups => {
+        this.userGroups = groups.body!
+      });
     }
-    this.userService.findUsersInGroup(this.currentGroupId).subscribe(((users) => {
-      this.users = users.filter(user => user.id !== this.currentUser.id);
-      this.usersOriginalList = [...this.users];
-    }));
     this.categoryService.findAllCategories().subscribe(category => this.categories = category);
     this.currencies = this.currencyService.getAllCurrencies();
-    this.currencyService.getDefaultCurrencyForGroup(this.currentGroupId)
-      .subscribe(response => {
-        this.defaultCurrency = response;
-        this.form.get('currency')?.patchValue(this.defaultCurrency)
-      });
+
     if (!!this.route.snapshot.params['expenseId']) {
-      this.expenseService.findById(this.route.snapshot.params['expenseId']).subscribe(expense => {
-        this.currentExpense = expense;
-        this.patchForm(expense);
+      this.expenseService.findById(this.route.snapshot.params['expenseId']).subscribe({
+        next: (expense) => {
+          this.currentExpense = expense;
+          let debtors = expense.debt.flatMap(d => d.from);
+          let creditors = expense.debt.flatMap(d => d.to);
+          let allUsers = creditors.concat(debtors.filter((item) => debtors.indexOf(item) < 0));
+          this.isUserInGroup = allUsers.map(user => user.id).includes(this.currentUser.id);
+          this.patchForm(expense);
+          this.users = allUsers.filter(user => user.id !== this.currentUser.id);
+          this.usersOriginalList = [...this.users];
+        }, error: () => {
+          this.snackbarService.displayMessage("nie ma wyników");
+          this.noResults = true;
+        }
       });
     }
   }

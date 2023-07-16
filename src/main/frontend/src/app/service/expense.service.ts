@@ -31,8 +31,8 @@ export class ExpenseService {
     return this.httpClient.get<Debt[]>(`http://localhost:8080/expense/calculateSettlements/${groupId}`);
   }
 
-  findAllByUser(userId: number) {
-    return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAllByUser/${userId}`);
+  findAllByUser() {
+    return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAllByUser/`);
   }
 
   findAll() {

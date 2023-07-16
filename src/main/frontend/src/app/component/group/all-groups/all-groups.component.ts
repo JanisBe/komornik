@@ -15,8 +15,7 @@ import {Group} from "../../../model/group";
   styleUrls: ['./all-groups.component.scss']
 })
 export class AllGroupsComponent implements OnInit {
-  allGroups: AllGroups[];
-  displayedColumns: string[] = ['name', 'users', 'defaultCurrency', 'actions'];
+  allGroups: Group[];
   private userId: number;
 
   constructor(private groupService: GroupService,
@@ -33,13 +32,7 @@ export class AllGroupsComponent implements OnInit {
   }
 
   findAllGroupsForUser() {
-    this.groupService.findAllGroupsForUser(this.userId).subscribe(groups => {
-        this.allGroups = groups.map((group) => ({
-          ...group,
-          userNames: group.users.map((user) => (user.name))
-        }));
-      }
-    );
+    this.groupService.findAllGroupsForUser().subscribe(groups => this.allGroups = groups.body!);
 
   }
 
@@ -69,15 +62,11 @@ export class AllGroupsComponent implements OnInit {
     this.router.navigate(['expense/list', groupId]);
   }
 
-  settle(group: AllGroups) {
+  settle(group: Group) {
     this.expenseService.calculateExpenses(group.id!).subscribe(debts => {
-      let dialogRef = this.dialog.open(SettlementDialogComponent, {
+      this.dialog.open(SettlementDialogComponent, {
         data: {debts: debts, group: group}
       });
     });
   }
-}
-
-export interface AllGroups extends Group {
-  userNames: string[]
 }
