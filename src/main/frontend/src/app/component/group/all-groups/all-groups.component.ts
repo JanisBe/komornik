@@ -6,6 +6,7 @@ import {ConfirmationComponent} from "../../common/confirmation/confirmation.comp
 import {GroupService} from "../../../service/group.service";
 import {User} from 'src/app/model/user';
 import {AuthService} from "../../../auth/auth.service";
+import {ExpenseService} from "../../../service/expense.service";
 
 @Component({
   selector: 'all-groups',
@@ -26,6 +27,7 @@ export class AllGroupsComponent implements OnInit {
 
   constructor(private groupService: GroupService,
               private snackBarService: SnackbarService,
+              private expenseService: ExpenseService,
               private router: Router,
               private dialog: MatDialog,
               private authService: AuthService) {
@@ -73,5 +75,9 @@ export class AllGroupsComponent implements OnInit {
 
   listExpense(groupId: number) {
     this.router.navigate(['expense/list', groupId]);
+  }
+
+  settle(groupId: number) {
+    this.expenseService.calculateExpenses(groupId).subscribe(console.log);
   }
 }

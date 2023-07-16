@@ -52,7 +52,7 @@ public class ExpenseService {
             while (iterCreditors.hasNext()) {
                 UserBalance creditor = iterCreditors.next();
                 if (creditor.getBalance().abs().equals(debtor.getBalance().abs())) {
-                    settlement.add(new DebtDto(userService.userIdToUserDto(creditor.getUserId()), userService.userIdToUserDto(debtor.getUserId()), debtor.getBalance().abs()));
+                    settlement.add(new DebtDto(userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debtor.getBalance().abs()));
                     iterCreditors.remove();
                     iterDebtors.remove();
                 }
@@ -76,18 +76,18 @@ public class ExpenseService {
                 UserBalance debtor = iterDebtors.next();
                 switch (debtor.getBalance().compareTo(debt.abs())) {
                     case 1 -> {
-                        settlement.add(new DebtDto(userService.userIdToUserDto(creditor.getUserId()), userService.userIdToUserDto(debtor.getUserId()), debtor.getBalance().abs()));
+                        settlement.add(new DebtDto(userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debtor.getBalance().abs()));
                         debt = debt.add(debtor.getBalance());
                         debtor.setBalance(debt);
                         iterCreditors.remove();
                     }
                     case 0 -> {
-                        settlement.add(new DebtDto(userService.userIdToUserDto(creditor.getUserId()), userService.userIdToUserDto(debtor.getUserId()), debt));
+                        settlement.add(new DebtDto(userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debt.abs()));
                         iterCreditors.remove();
                         iterDebtors.remove();
                     }
                     case -1 -> {
-                        settlement.add(new DebtDto(userService.userIdToUserDto(creditor.getUserId()), userService.userIdToUserDto(debtor.getUserId()), debtor.getBalance().abs()));
+                        settlement.add(new DebtDto(userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debtor.getBalance().abs()));
                         debt = debt.add(debtor.getBalance());
                         iterDebtors.remove();
                     }

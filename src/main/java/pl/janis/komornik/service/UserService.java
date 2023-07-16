@@ -73,7 +73,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public UserDto userIdToUserDto(int userId) {
+    public UserDto getUserDtoByUserId(int userId) {
         return userMapper.toDto(findById(userId));
     }
 }
