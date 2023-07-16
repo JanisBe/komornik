@@ -56,28 +56,23 @@ export class AddExpenseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initForm();
     this.currentUser = this.authService.user.value!;
-    if (!!this.route.snapshot.params['groupId']) {
-      this.currentGroupId = this.route.snapshot.params['groupId'];
-      this.groupService.findById(this.currentGroupId).subscribe(group => {
-        this.currentGroup = group;
-        this.isUserInGroup = this.currentGroup.users.map(user => user.id).includes(this.currentUser.id);
-        this.userService.findUsersInGroup(this.currentGroupId).subscribe(((users) => {
-          this.users = users.filter(user => user.id !== this.currentUser.id);
-          this.usersOriginalList = [...this.users];
-        }));
-      });
-      this.currencyService.getDefaultCurrencyForGroup(this.currentGroupId)
-          .subscribe(response => {
-            this.defaultCurrency = response;
-            this.form.get('currency')?.patchValue(this.defaultCurrency)
-          });
-    } else {
-      this.groupService.findAllGroupsForUser().subscribe(groups => {
-        this.userGroups = groups.body!
-      });
-    }
+    this.currentGroupId = this.route.snapshot.params['groupId'];
+    this.initForm();
+    this.groupService.findById(this.currentGroupId).subscribe(group => {
+      this.currentGroup = group;
+      this.isUserInGroup = this.currentGroup.users.map(user => user.id).includes(this.currentUser.id);
+      this.userService.findUsersInGroup(this.currentGroupId).subscribe(((users) => {
+        this.users = users.filter(user => user.id !== this.currentUser.id);
+        this.usersOriginalList = [...this.users];
+      }));
+    });
+    this.currencyService.getDefaultCurrencyForGroup(this.currentGroupId)
+        .subscribe(response => {
+          this.defaultCurrency = response;
+          this.form.get('currency')?.patchValue(this.defaultCurrency)
+        });
+
     this.categoryService.findAllCategories().subscribe(category => this.categories = category);
     this.currencies = this.currencyService.getAllCurrencies();
 
@@ -101,7 +96,7 @@ export class AddExpenseComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['expense/list']);
+    this.router.navigate(['group/list']);
   }
 
   onSubmit() {
@@ -138,7 +133,7 @@ export class AddExpenseComponent implements OnInit {
     this.expenseService.saveExpense(newExpense).subscribe({
       next: (result) => {
         this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`);
-        // this.onCancel();
+        this.onCancel();
       },
       error: () => {
         this.snackbarService.displayMessage(`Nie udało się założyć wydatku ${newExpense.description}`);
@@ -214,6 +209,7 @@ export class AddExpenseComponent implements OnInit {
   calc() {
     this.expenseService.calculateExpenses(this.currentGroupId).subscribe(console.log);
   }
+
 
   private patchForm(expense: Expense) {
     const debt = expense.debt.reduce((sum, {amount}) => ({

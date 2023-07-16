@@ -18,6 +18,10 @@ export class SettlementDialogComponent {
   closeDialog() {
     this.dialogRef.close(false);
   }
+
+  calculateDebts(debts: Debt[]): boolean {
+    return debts.reduce((accumulator, curValue) => accumulator + curValue.amount, 0) > 0;
+  }
 }
 
 export interface SettlementDialogData {

@@ -1,10 +1,17 @@
 <h2 mat-dialog-title>Rozliczenie dla grupy {{data.group.name}}</h2>
 <mat-dialog-content>
-    <div *ngFor="let debt of data.debts">
-        <div><b matTooltip="{{debt.from.mail}}">{{debt.from.name}}</b>
-            <mat-icon class="smaller">arrow_right_alt</mat-icon>
-            <b matTooltip="{{debt.to.mail}}">{{debt.to.name}}</b> przekazuje {{debt.amount}}</div>
+    <div *ngIf="!data.debts || calculateDebts(data.debts); else noData">
+        <div *ngFor="let debt of data.debts">
+            <div><b matTooltip="{{debt.from.mail}}">{{debt.from.name}}</b>
+                <mat-icon class="smaller">arrow_right_alt</mat-icon>
+                <b matTooltip="{{debt.to.mail}}">{{debt.to.name}}</b> przekazuje {{debt.amount}}</div>
+        </div>
     </div>
+    <ng-template #noData>
+        <div>
+            Nie ma żadnych wydatków lub wszystko rozliczone
+        </div>
+    </ng-template>
 </mat-dialog-content>
 <div mat-dialog-actions>
     <button (click)="closeDialog()" cdkFocusInitial mat-button>Zamknij</button>
