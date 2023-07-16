@@ -1,23 +1,23 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Expense} from "../model/expense";
-import {Settlement} from "../model/settlement";
+import {Debt} from "../model/debt";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class ExpenseService {
 
-    constructor(private httpClient: HttpClient) {
-    }
+  constructor(private httpClient: HttpClient) {
+  }
 
-    saveExpense(expense: Expense) {
-        return this.httpClient.post<Expense>("http://localhost:8080/expense/save", expense);
-    }
+  saveExpense(expense: Expense) {
+    return this.httpClient.post<Expense>("http://localhost:8080/expense/save", expense);
+  }
 
-    deleteExpense(expenseId: number) {
-      return this.httpClient.delete(`http://localhost:8080/expense/delete/${expenseId}`);
-    }
+  deleteExpense(expenseId: number) {
+    return this.httpClient.delete(`http://localhost:8080/expense/delete/${expenseId}`);
+  }
 
   editExpense(expense: Expense) {
     return this.httpClient.patch<Expense>("http://localhost:8080/expense/edit", expense);
@@ -28,7 +28,7 @@ export class ExpenseService {
   }
 
   calculateExpenses(groupId: number) {
-    return this.httpClient.get<Settlement[]>(`http://localhost:8080/expense/calculateSettlements/${groupId}`);
+    return this.httpClient.get<Debt[]>(`http://localhost:8080/expense/calculateSettlements/${groupId}`);
   }
 
   findAllByUser(userId: number) {

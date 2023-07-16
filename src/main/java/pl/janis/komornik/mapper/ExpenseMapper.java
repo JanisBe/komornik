@@ -1,20 +1,14 @@
 package pl.janis.komornik.mapper;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.janis.komornik.dto.ExpenseDto;
-import pl.janis.komornik.dto.UserDto;
 import pl.janis.komornik.entities.Category;
 import pl.janis.komornik.entities.Expense;
 import pl.janis.komornik.entities.Group;
 import pl.janis.komornik.service.CategoryService;
 import pl.janis.komornik.service.GroupService;
 import pl.janis.komornik.service.UserService;
-
-import java.math.BigDecimal;
-import java.util.Map;
 
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
@@ -52,12 +46,4 @@ public abstract class ExpenseMapper {
     Group mapGroupIdToGroup(int groupId) {
         return groupService.findById(groupId);
     }
-
-    public abstract Map<Pair<UserDto, UserDto>, BigDecimal> mapToDto(Map<Pair<Integer, Integer>, BigDecimal> settlement);
-
-    Pair<UserDto, UserDto> map(Pair<Integer, Integer> userIds) {
-        UserMapper userMapper = Mappers.getMapper(UserMapper.class);
-        return Pair.of(userMapper.toDto(userService.findById(userIds.getLeft())), userMapper.toDto(userService.findById(userIds.getRight())));
-    }
-
 }

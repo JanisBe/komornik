@@ -2,18 +2,19 @@ package pl.janis.komornik.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.janis.komornik.dto.DebtDto;
 import pl.janis.komornik.dto.ExpenseDto;
-import pl.janis.komornik.dto.UserDto;
 import pl.janis.komornik.entities.Expense;
 import pl.janis.komornik.entities.UserBalance;
 import pl.janis.komornik.mapper.ExpenseMapper;
 import pl.janis.komornik.repository.ExpenseRepository;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 import static java.math.BigDecimal.ZERO;
 import static java.util.Comparator.reverseOrder;
@@ -25,6 +26,7 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final ExpenseMapper expenseMapper;
+    private final UserService userService;
 
     public ExpenseDto findById(int id) {
         return expenseMapper.toDto(expenseRepository.findById(id).orElseThrow());
@@ -42,7 +44,7 @@ public class ExpenseService {
         return expenseRepository.findAllByGroup_IdOrderByDate(groupId).stream().map(expenseMapper::toDto).toList();
     }
 
-    private static void simplifyDebts(Map<Pair<Integer, Integer>, BigDecimal> settlement, List<UserBalance> debtors, List<UserBalance> creditors) {
+    private void simplifyDebts(List<DebtDto> settlement, List<UserBalance> debtors, List<UserBalance> creditors) {
         ListIterator<UserBalance> iterDebtors = debtors.listIterator();
         while (iterDebtors.hasNext()) {
             UserBalance debtor = iterDebtors.next();
@@ -50,7 +52,7 @@ public class ExpenseService {
             while (iterCreditors.hasNext()) {
                 UserBalance creditor = iterCreditors.next();
                 if (creditor.getBalance().abs().equals(debtor.getBalance().abs())) {
-                    settlement.put(Pair.of(creditor.getUserId(), debtor.getUserId()), debtor.getBalance().abs());
+                    settlement.add(new DebtDto(userService.userIdToUserDto(creditor.getUserId()), userService.userIdToUserDto(debtor.getUserId()), debtor.getBalance().abs()));
                     iterCreditors.remove();
                     iterDebtors.remove();
                 }
@@ -59,9 +61,9 @@ public class ExpenseService {
         }
     }
 
-    public Map<Pair<UserDto, UserDto>, BigDecimal> calculateSettlesForGroup(int groupId) {
+    public List<DebtDto> calculateSettlesForGroup(int groupId) {
         List<UserBalance> debtBalanceForUserAndGroup = expenseRepository.findBalanceForGroup(groupId);
-        Map<Pair<Integer, Integer>, BigDecimal> settlement = new HashMap<>();
+        List<DebtDto> settlement = new ArrayList<>();
         List<UserBalance> debtors = new ArrayList<>(debtBalanceForUserAndGroup.stream().filter(user -> user.getBalance().compareTo(ZERO) > 0).sorted().toList());
         List<UserBalance> creditors = new ArrayList<>(debtBalanceForUserAndGroup.stream().filter(user -> user.getBalance().compareTo(ZERO) < 0).sorted(reverseOrder()).toList());
         simplifyDebts(settlement, debtors, creditors);
@@ -74,18 +76,18 @@ public class ExpenseService {
                 UserBalance debtor = iterDebtors.next();
                 switch (debtor.getBalance().compareTo(debt.abs())) {
                     case 1 -> {
-                        settlement.put(Pair.of(creditor.getUserId(), debtor.getUserId()), debt);
+                        settlement.add(new DebtDto(userService.userIdToUserDto(creditor.getUserId()), userService.userIdToUserDto(debtor.getUserId()), debtor.getBalance().abs()));
                         debt = debt.add(debtor.getBalance());
                         debtor.setBalance(debt);
                         iterCreditors.remove();
                     }
                     case 0 -> {
-                        settlement.put(Pair.of(creditor.getUserId(), debtor.getUserId()), debt);
+                        settlement.add(new DebtDto(userService.userIdToUserDto(creditor.getUserId()), userService.userIdToUserDto(debtor.getUserId()), debt));
                         iterCreditors.remove();
                         iterDebtors.remove();
                     }
                     case -1 -> {
-                        settlement.put(Pair.of(creditor.getUserId(), debtor.getUserId()), debtor.getBalance().abs());
+                        settlement.add(new DebtDto(userService.userIdToUserDto(creditor.getUserId()), userService.userIdToUserDto(debtor.getUserId()), debtor.getBalance().abs()));
                         debt = debt.add(debtor.getBalance());
                         iterDebtors.remove();
                     }
@@ -93,7 +95,7 @@ public class ExpenseService {
             }
         }
 
-        return expenseMapper.mapToDto(settlement);
+        return settlement;
     }
 
     @Transactional

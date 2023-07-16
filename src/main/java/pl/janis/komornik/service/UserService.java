@@ -72,4 +72,8 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User not exist with name :" + name);
         }
     }
+
+    public UserDto userIdToUserDto(int userId) {
+        return userMapper.toDto(findById(userId));
+    }
 }

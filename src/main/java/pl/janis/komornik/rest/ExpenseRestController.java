@@ -1,15 +1,12 @@
 package pl.janis.komornik.rest;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.web.bind.annotation.*;
+import pl.janis.komornik.dto.DebtDto;
 import pl.janis.komornik.dto.ExpenseDto;
-import pl.janis.komornik.dto.UserDto;
 import pl.janis.komornik.service.ExpenseService;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4401")
@@ -34,7 +31,7 @@ public class ExpenseRestController {
     }
 
     @GetMapping("/calculateSettlements/{groupId}")
-    public Map<Pair<UserDto, UserDto>, BigDecimal> calculateSettlements(@PathVariable int groupId) {
+    public List<DebtDto> calculateSettlements(@PathVariable int groupId) {
         return expenseService.calculateSettlesForGroup(groupId);
     }
 
