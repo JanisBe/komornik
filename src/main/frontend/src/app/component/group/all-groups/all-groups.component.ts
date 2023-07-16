@@ -4,9 +4,10 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
 import {GroupService} from "../../../service/group.service";
-import {User} from 'src/app/model/user';
 import {AuthService} from "../../../auth/auth.service";
 import {ExpenseService} from "../../../service/expense.service";
+import {SettlementDialogComponent} from "../../expense/settlement-dialog/settlement-dialog.component";
+import {Group} from "../../../model/group";
 
 @Component({
   selector: 'all-groups',
@@ -14,14 +15,7 @@ import {ExpenseService} from "../../../service/expense.service";
   styleUrls: ['./all-groups.component.scss']
 })
 export class AllGroupsComponent implements OnInit {
-  allGroups: {
-    userNames: string[];
-    id?: number;
-    name: string;
-    defaultCurrency?: string;
-    description?: string;
-    users: User[];
-  }[];
+  allGroups: AllGroups[];
   displayedColumns: string[] = ['name', 'users', 'defaultCurrency', 'actions'];
   private userId: number;
 
@@ -55,9 +49,7 @@ export class AllGroupsComponent implements OnInit {
 
   deleteGroup(groupId: number, groupName: string) {
     let dialogRef = this.dialog.open(ConfirmationComponent, {
-      data: {content: groupName, category: 'group'},
-      height: '400px',
-      width: '600px',
+      data: {content: groupName, category: 'group'}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -77,7 +69,15 @@ export class AllGroupsComponent implements OnInit {
     this.router.navigate(['expense/list', groupId]);
   }
 
-  settle(groupId: number) {
-    this.expenseService.calculateExpenses(groupId).subscribe(console.log);
+  settle(group: AllGroups) {
+    this.expenseService.calculateExpenses(group.id!).subscribe(debts => {
+      let dialogRef = this.dialog.open(SettlementDialogComponent, {
+        data: {debts: debts, group: group}
+      });
+    });
   }
+}
+
+export interface AllGroups extends Group {
+  userNames: string[]
 }

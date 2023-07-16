@@ -22,12 +22,14 @@ import {MatSliderModule} from "@angular/material/slider";
 import {MatChipsModule} from "@angular/material/chips";
 import {AllExpensesComponent} from "./all-expenses/all-expenses.component";
 import {AddExpenseComponent} from "./add-expense/add-expense.component";
+import {SettlementDialogComponent} from './settlement-dialog/settlement-dialog.component';
 
 
 @NgModule({
   declarations: [
     AllExpensesComponent,
     AddExpenseComponent,
+    SettlementDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -1,6 +1,6 @@
 <div class="container-fluid">
-  <div *ngIf="!!allGroups; else noGroups;" class="d-flex flex-wrap p-2 gap-3">
-    <mat-card *ngFor="let group of allGroups" class="card">
+  <div *ngIf="!!allGroups; else noGroups;" class="d-flex flex-wrap p-2 gap-4">
+    <mat-card *ngFor="let group of allGroups" class="card shadow">
       <mat-card-header>
         <mat-card-title (click)="addExpense(group.id!)" class="pointer">{{group.name}}</mat-card-title>
         <mat-card-subtitle>{{group.description}}</mat-card-subtitle>
@@ -13,6 +13,7 @@
       </mat-card-content>
       <mat-card-actions class="d-flex justify-content-evenly">
         <mat-icon (click)="editGroup(group.id!)" class="pointer shadow" matTooltip="Edytuj grupę">edit</mat-icon>
+        <mat-icon (click)="settle(group)" class="pointer shadow" matTooltip="Rozliczenie">attach_money</mat-icon>
         <mat-icon (click)="addExpense(group.id!)" class="pointer shadow" matTooltip="Dodaj wydatek w tej grupie">add
         </mat-icon>
         <mat-icon (click)="listExpense(group.id!)" class="pointer shadow" matTooltip="Lista wydatków">list</mat-icon>

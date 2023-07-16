@@ -38,9 +38,7 @@ export class AllExpensesComponent implements OnInit {
 
     deleteExpense(expense: Expense) {
         let dialogRef = this.dialog.open(ConfirmationComponent, {
-            data: {content: expense.description, category: 'expense'},
-            height: '400px',
-            width: '600px',
+            data: {content: expense.description, category: 'expense'}
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {

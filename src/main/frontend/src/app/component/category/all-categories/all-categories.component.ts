@@ -31,9 +31,7 @@ export class AllCategoriesComponent implements OnInit {
 
   deleteCategory(category: Category) {
     let dialogRef = this.dialog.open(ConfirmationComponent, {
-      data: {content: category.name, category: 'category'},
-      height: '400px',
-      width: '600px',
+      data: {content: category.name, category: 'category'}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

@@ -36,9 +36,7 @@ export class AllUsersComponent implements OnInit {
 
   deleteUser(user: User) {
     let dialogRef = this.dialog.open(ConfirmationComponent, {
-      data: {content: user.name, category: 'user'},
-      height: '400px',
-      width: '600px',
+      data: {content: user.name, category: 'user'}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
