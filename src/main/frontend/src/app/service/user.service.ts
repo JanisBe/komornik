@@ -32,4 +32,8 @@ export class UserService {
   findUsersInGroup(groupId: number) {
     return this.http.get<User[]>("http://localhost:8080/user/findUsersInGroup/" + groupId)
   }
+
+  forgotPassword(user: User) {
+    return this.http.post<string>("http://localhost:8080/user/forgotPassword", user, {observe: "response"});
+  }
 }

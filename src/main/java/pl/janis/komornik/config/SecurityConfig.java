@@ -20,9 +20,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsConfiguration;
 import pl.janis.komornik.service.UserService;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+import java.util.Collections;
 
 @EnableWebSecurity
 @Component
@@ -42,12 +43,20 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
+                .cors(cors -> cors.configurationSource(request -> {
+                    var corsConfiguration = new CorsConfiguration();
+                    corsConfiguration.setAllowCredentials(true);
+                    corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("*"));
+                    corsConfiguration.addAllowedHeader("*");
+                    corsConfiguration.addAllowedMethod("*");
+                    return corsConfiguration;
+                }))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/auth/authenticate").permitAll();
                     auth.requestMatchers("/user/save").permitAll();
+                    auth.requestMatchers("/user/forgotPassword/").permitAll();
                     auth.requestMatchers("/actuator/**").permitAll();
                     auth.requestMatchers("/error").permitAll();
-                    auth.requestMatchers(toH2Console()).permitAll();
                     auth.requestMatchers("/").permitAll();
                     auth.requestMatchers(
                                     HttpMethod.GET,

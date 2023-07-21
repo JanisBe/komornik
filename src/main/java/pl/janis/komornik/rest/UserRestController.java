@@ -57,4 +57,13 @@ public class UserRestController {
     public List<User> findUsersInGroup(@PathVariable int groupId) {
         return userService.findUsersInGroup(groupId);
     }
+
+    @PostMapping("/forgotPassword/")
+    public ResponseEntity<String> forgotPassword(@RequestBody User user) {
+        Integer newPass = userService.forgotPassword(user);
+        if (newPass == null) {
+            return new ResponseEntity<>("Nie znaleziono użytkownika " + user.getName(), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("Nowe hasło ustawione na 1234, zmień je", HttpStatus.OK);
+    }
 }

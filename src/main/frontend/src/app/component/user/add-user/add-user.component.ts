@@ -46,11 +46,6 @@ export class AddUserComponent implements OnInit {
     });
   }
 
-
-  forgotPass() {
-    console.log('not implemented');
-  }
-
   onCancel() {
     this.router.navigate(['/']);
   }

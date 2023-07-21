@@ -31,6 +31,7 @@ import {CategoryModule} from "./component/category/category.module";
 import {ExpenseModule} from "./component/expense/expense.module";
 import {GroupModule} from "./component/group/group.module";
 import {UserModule} from "./component/user/user.module";
+import {ForgotPasswordComponent} from './component/common/forgot-password/forgot-password.component';
 
 registerLocaleData(myLocalePl);
 
@@ -39,7 +40,8 @@ registerLocaleData(myLocalePl);
     AppComponent,
     LoginComponent,
     HeaderMenuComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     CategoryModule,

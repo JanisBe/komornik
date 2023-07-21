@@ -10,6 +10,7 @@ import {AllExpensesComponent} from "./component/expense/all-expenses/all-expense
 import {AddGroupComponent} from "./component/group/add-group/add-group.component";
 import {AllGroupsComponent} from "./component/group/all-groups/all-groups.component";
 import {LoginComponent} from "./component/common/login/login.component";
+import {ForgotPasswordComponent} from "./component/common/forgot-password/forgot-password.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'user/details/:userId', component: UserDetailsComponent},
   {path: 'user/list', component: AllUsersComponent},
   {path: 'user/add', component: AddUserComponent},
+  {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'group/details/:groupId', component: AddGroupComponent},
   {path: 'group/list', component: AllGroupsComponent},
   {path: 'group/add', component: AddGroupComponent},

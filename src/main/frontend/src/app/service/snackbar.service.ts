@@ -13,4 +13,10 @@ export class SnackbarService {
     this._snackBar.open(text, "Zamknij",
       {horizontalPosition: "center", verticalPosition: "top", duration: 3000});
   }
+
+
+  displayError(text: string) {
+    this._snackBar.open(text, "Zamknij",
+      {horizontalPosition: "center", verticalPosition: "top", duration: 3000});
+  }
 }

@@ -15,6 +15,7 @@ import pl.janis.komornik.mapper.UserMapper;
 import pl.janis.komornik.repository.UserRepository;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder encoder;
+    private final EmailService emailService;
 
     @Transactional
     public User addUser(User user) throws UserAlreadyExistsException {
@@ -76,5 +78,17 @@ public class UserService implements UserDetailsService {
 
     public UserDto getUserDtoByUserId(int userId) {
         return userMapper.toDto(findById(userId));
+    }
+
+    public Integer forgotPassword(User currentUser) {
+        User user = userRepository.findByMail(currentUser.getMail());
+        if (user != null) {
+            final int newPass = new Random().nextInt(999999);
+            user.setPassword(encoder.encode(Integer.toString(newPass)));
+            userRepository.save(user);
+            emailService.sendEmail(user.getMail(), newPass);
+            return newPass;
+        }
+        return null;
     }
 }
