@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../auth/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -10,17 +10,20 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
   constructor(private authService: AuthService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   loginForm: FormGroup;
 
   ngOnInit(): void {
-    console.log('login');
     if (!!this.authService.user.value) {
       // this.router.navigate(['/group/list']);
     }
     this.initForm();
+    if (this.route.snapshot.queryParams['email']) {
+      this.loginForm.patchValue({login: this.route.snapshot.queryParams['email']})
+    }
   }
 
   onSubmit() {
@@ -36,6 +39,6 @@ export class LoginComponent implements OnInit {
 
   forgotPass() {
     console.log("here")
-    this.router.navigate(['/forgot-password']);
+    this.router.navigate(['/forgot-password'], {queryParams: {login: this.loginForm.value.login}});
   }
 }

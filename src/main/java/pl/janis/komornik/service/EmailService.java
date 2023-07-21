@@ -17,7 +17,6 @@ public class EmailService {
         message.setTo(to);
         message.setSubject("Reset hasła");
         message.setText("Twoje nowe hasło to: " + newPassword);
-        message.setFrom("admin@komornik.com");
 
         mailSender.send(message);
     }

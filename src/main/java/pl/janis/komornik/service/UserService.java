@@ -83,11 +83,13 @@ public class UserService implements UserDetailsService {
     public Integer forgotPassword(User currentUser) {
         User user = userRepository.findByMail(currentUser.getMail());
         if (user != null) {
-            final int newPass = new Random().nextInt(999999);
-            user.setPassword(encoder.encode(Integer.toString(newPass)));
-            userRepository.save(user);
-            emailService.sendEmail(user.getMail(), newPass);
-            return newPass;
+            if (user.getName().equals(currentUser.getName())) {
+                final int newPass = new Random().nextInt(999999);
+                user.setPassword(encoder.encode(Integer.toString(newPass)));
+                userRepository.save(user);
+                emailService.sendEmail(user.getMail(), newPass);
+                return newPass;
+            } else return -1;
         }
         return null;
     }

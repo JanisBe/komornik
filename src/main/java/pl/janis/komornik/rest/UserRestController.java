@@ -62,8 +62,10 @@ public class UserRestController {
     public ResponseEntity<String> forgotPassword(@RequestBody User user) {
         Integer newPass = userService.forgotPassword(user);
         if (newPass == null) {
-            return new ResponseEntity<>("Nie znaleziono użytkownika " + user.getName(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Nie znaleziono użytkownika o mailu " + user.getMail(), HttpStatus.NOT_FOUND);
+        } else if (newPass == -1) {
+            return new ResponseEntity<>("Login " + user.getName() + " i mail " + user.getMail() + " nie pasują", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>("Nowe hasło ustawione na 1234, zmień je", HttpStatus.OK);
+        return new ResponseEntity<>("Nowe hasło ustawione na " + newPass + ", zmień je!", HttpStatus.OK);
     }
 }

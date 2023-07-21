@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {UserService} from "../../../service/user.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../../../model/user";
 
 @Component({
@@ -18,7 +18,8 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(private http: HttpClient,
               private snackbarService: SnackbarService,
               private userService: UserService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   onSubmit() {
@@ -29,17 +30,22 @@ export class ForgotPasswordComponent implements OnInit {
     }
     this.userService.forgotPassword(user).subscribe({
       next: (response) => {
+        console.log(response);
         this.snackbarService.displayMessage(response.body!);
+        this.router.navigate(['/login'], {queryParams: {email: this.userForm.value.email}});
       },
       error: (err) => {
         console.log(err.error);
-        this.snackbarService.displayError(err.error.message);
+        this.snackbarService.displayError(err.error);
       }
     });
   }
 
   ngOnInit(): void {
     this.initializeForm();
+    if (this.route.snapshot.queryParams['login']) {
+      this.userForm.patchValue({userName: this.route.snapshot.queryParams['login']})
+    }
   }
 
   onCancel() {

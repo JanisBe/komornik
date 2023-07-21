@@ -34,6 +34,9 @@ export class UserService {
   }
 
   forgotPassword(user: User) {
-    return this.http.post<string>("http://localhost:8080/user/forgotPassword", user, {observe: "response"});
+    return this.http.post<string>("http://localhost:8080/user/forgotPassword/", user, {
+      observe: "response",
+      responseType: "text" as "json"
+    });
   }
 }
