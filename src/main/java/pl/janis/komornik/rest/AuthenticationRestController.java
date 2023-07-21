@@ -7,9 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import pl.janis.komornik.config.JwtUtil;
 import pl.janis.komornik.dto.AuthenticationRequestDto;
 import pl.janis.komornik.dto.UserDto;
@@ -31,16 +29,13 @@ public class AuthenticationRestController {
     public ResponseEntity<UserDto> authenticate(@RequestBody AuthenticationRequestDto request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password()));
-        try {
-            final UserDetails user = userDetailsService.loadUserByUsername(request.username());
-            if (user != null) {
-                UserDto userDto = userMapper.toDto((User) user);
-                return new ResponseEntity<>(userDto.withToken(jwtUtil.generateToken(user)), HttpStatus.OK);
-            }
-        } catch (UsernameNotFoundException ex) {
-            throw new ResponseStatusException(
-                    HttpStatus.FORBIDDEN, "Nie ma takiego użytkownika", ex);
+
+        final UserDetails user = userDetailsService.loadUserByUsername(request.username());
+        if (user != null) {
+            UserDto userDto = userMapper.toDto((User) user);
+            return new ResponseEntity<>(userDto.withToken(jwtUtil.generateToken(user)), HttpStatus.OK);
         }
+
         return null;
     }
 }

@@ -4,7 +4,7 @@
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="row">
           <div class="form-group">
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" style="width:30vw">
               <mat-label>Username</mat-label>
               <input class="form-control"
                      formControlName="login"
@@ -14,7 +14,7 @@
             </mat-form-field>
           </div>
           <div class="form-group">
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" style="width:30vw">
               <mat-label>Password</mat-label>
               <input
                 class="form-control"
@@ -24,13 +24,10 @@
                 type="password">
             </mat-form-field>
           </div>
-          <div class="col-9">
-            <div class="d-flex justify-content-around">
-              <button color="primary" mat-raised-button type="submit">Login</button>
-              <button color="primary" mat-raised-button routerLink="/user/add">Register</button>
-              <button (click)="forgotPass()" color="primary" mat-raised-button>Forgot Password</button>
-              <button color="warn" mat-raised-button type="reset">Clear</button>
-            </div>
+          <div class="button-container" style="width:40vw">
+            <button color="primary" mat-raised-button type="submit">Login</button>
+            <button color="primary" mat-raised-button routerLink="/user/add">Register</button>
+            <button (click)="forgotPass()" color="primary" mat-raised-button>Forgot Password</button>
           </div>
         </div>
       </form>

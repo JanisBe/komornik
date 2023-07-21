@@ -1,53 +1,53 @@
 <div class="container">
-    <div class="row">
-        <div class="col-xs-8 col-sm-8 col-md-8 col-sm-offset-1 col-md-offset-2">
-            <form (ngSubmit)="onSubmit()" [formGroup]="form">
-                <div class="row">
-                    <div class="form-group">
-                        <mat-form-field appearance="outline">
-                            <mat-label> Nazwa / login</mat-label>
-                            <input
-                                    class="form-control"
-                                    formControlName="name"
-                                    id="name"
-                                    matInput
-                                    type="text">
-                        </mat-form-field>
-                    </div>
-                    <div class="form-group">
-                        <mat-form-field appearance="outline">
-                            <mat-label> email</mat-label>
-                            <input
-                                    class="form-control"
-                                    formControlName="mail"
-                                    id="email"
-                                    matInput
-                                    type="email">
-                        </mat-form-field>
-                    </div>
-                    <div class="form-group">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Hasło</mat-label>
-                            <input
-                                    class="form-control"
-                                    formControlName="password"
-                                    id="password"
-                                    matInput
-                                    type="password">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-xs-12">
-                        <button
-                          [disabled]="this.form.invalid"
-                          class="btn btn-success" type="submit">Submit
-                        </button>
-                        <button
-                                (click)="onCancel()"
-                                class="btn btn-danger" type="button">Cancel
-                        </button>
-                    </div>
-                </div>
-            </form>
+  <div class="row">
+    <div class="col-xs-8 col-sm-8 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form (ngSubmit)="onSubmit()" [formGroup]="form">
+        <div class="row">
+          <div class="form-group">
+            <mat-form-field appearance="outline">
+              <mat-label> Nazwa / login</mat-label>
+              <input
+                class="form-control"
+                formControlName="name"
+                id="name"
+                matInput
+                type="text">
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="outline">
+              <mat-label> email</mat-label>
+              <input
+                class="form-control"
+                formControlName="mail"
+                id="email"
+                matInput
+                type="email">
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="outline">
+              <mat-label>Hasło</mat-label>
+              <input
+                class="form-control"
+                formControlName="password"
+                id="password"
+                matInput
+                type="password">
+            </mat-form-field>
+          </div>
+          <div class="button-container">
+            <button
+              [disabled]="this.form.invalid"
+              color="primary" mat-raised-button type="submit">Submit
+            </button>
+            <button
+              (click)="onCancel()"
+              color="warn" mat-raised-button type="button">Cancel
+            </button>
+          </div>
         </div>
+      </form>
     </div>
+  </div>
 </div>

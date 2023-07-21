@@ -46,6 +46,7 @@ export class AuthService {
         },
         error: error => {
           this.handleError(error);
+          console.log(error);
           this.snackbarService.displayMessage(error.error.message);
         }
       });

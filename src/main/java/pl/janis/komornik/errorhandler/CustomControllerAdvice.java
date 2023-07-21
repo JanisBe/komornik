@@ -2,6 +2,8 @@ package pl.janis.komornik.errorhandler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -30,10 +32,22 @@ public class CustomControllerAdvice {
         return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, "Użytkownik nie należy do tej grupy"), FORBIDDEN);
     }
 
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(Exception e) {
+        return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, "Złe hasło"), FORBIDDEN);
+    }
+
     @ExceptionHandler(UserNotAllowedToEditException.class)
     @ResponseStatus(BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleUserNotAllowedToEditException(Exception e) {
         return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, "Użytkownik nie może tego edytować"), FORBIDDEN);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(Exception e) {
+        return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, "Nie ma takiego użytkownika"), FORBIDDEN);
     }
 
     @ExceptionHandler(ResponseStatusException.class)
