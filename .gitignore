@@ -3,6 +3,7 @@
 /src/main/frontend/node_modules/
 /target/
 /src/main/resources/frontend/
+/src/main/resources/application-secrets.properties
 /backend/target/
 /node/
 /frontend/bin/
