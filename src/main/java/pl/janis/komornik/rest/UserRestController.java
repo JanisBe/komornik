@@ -1,13 +1,10 @@
 package pl.janis.komornik.rest;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import pl.janis.komornik.dto.UserDto;
 import pl.janis.komornik.entities.User;
 import pl.janis.komornik.exception.UserAlreadyExistsException;
-import pl.janis.komornik.exception.UserNotAllowedToEditException;
 import pl.janis.komornik.service.UserService;
 
 import java.security.Principal;
@@ -29,9 +26,8 @@ public class UserRestController {
     }
 
     @PostMapping("/save")
-    public User save(@RequestBody User user) throws UserAlreadyExistsException {
+    public UserDto save(@RequestBody User user) throws UserAlreadyExistsException {
         return userService.addUser(user);
-
     }
 
     @DeleteMapping("/delete/{id}")
@@ -40,32 +36,24 @@ public class UserRestController {
     }
 
     @PatchMapping("/edit")
-    public ResponseEntity<User> editUser(@RequestBody User user, Principal principal) {
+    public UserDto editUser(@RequestBody User user, Principal principal) {
         User currentUser = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-        if (!user.getId().equals(currentUser.getId())) {
-            throw new UserNotAllowedToEditException("Nie możesz edytować tego użytkownika");
-        }
-        return new ResponseEntity<>(userService.editUser(user), HttpStatus.OK);
+        return userService.editUser(user, currentUser);
     }
 
     @GetMapping("/findCommonUsers/{userId}")
-    public List<User> findCommonUser(@PathVariable int userId) {
+    public List<UserDto> findCommonUser(@PathVariable int userId) {
         return userService.findCommonUsers(userId);
     }
 
     @GetMapping("/findUsersInGroup/{groupId}")
-    public List<User> findUsersInGroup(@PathVariable int groupId) {
+    public List<UserDto> findUsersInGroup(@PathVariable int groupId) {
         return userService.findUsersInGroup(groupId);
     }
 
     @PostMapping("/forgotPassword/")
-    public ResponseEntity<String> forgotPassword(@RequestBody User user) {
+    public String forgotPassword(@RequestBody User user) {
         Integer newPass = userService.forgotPassword(user);
-        if (newPass == null) {
-            return new ResponseEntity<>("Nie znaleziono użytkownika o mailu " + user.getMail(), HttpStatus.NOT_FOUND);
-        } else if (newPass == -1) {
-            return new ResponseEntity<>("Login " + user.getName() + " i mail " + user.getMail() + " nie pasują", HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>("Nowe hasło ustawione na " + newPass + ", zmień je!", HttpStatus.OK);
+        return "Nowe hasło ustawione na " + newPass + ", zmień je!";
     }
 }

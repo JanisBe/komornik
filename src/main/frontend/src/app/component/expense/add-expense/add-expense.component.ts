@@ -109,11 +109,11 @@ export class AddExpenseComponent implements OnInit {
         let debt: Debt = {
           from: this.currentUser,
           to: user,
-          amount: +(sanitizedAmount / (this.users.length)).toFixed(2)
+          amount: +(sanitizedAmount / (currentUsers.length)).toFixed(2)
         }
         debts.push(debt);
       } else {
-        const myDue = (sanitizedAmount / (this.users.length)) * (this.users.length - 1);
+        const myDue = (sanitizedAmount / (currentUsers.length)) * (currentUsers.length - 1);
         let debt: Debt = {
           from: this.currentUser,
           to: user,

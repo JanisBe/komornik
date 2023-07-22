@@ -29,25 +29,25 @@ public class CustomControllerAdvice {
     @ExceptionHandler(UserNotInGroupException.class)
     @ResponseStatus(BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleUserNotInGroupException(Exception e) {
-        return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, "Użytkownik nie należy do tej grupy"), FORBIDDEN);
+        return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, e.getMessage()), FORBIDDEN);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(Exception e) {
-        return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, "Złe hasło"), FORBIDDEN);
+        return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, e.getMessage()), FORBIDDEN);
     }
 
     @ExceptionHandler(UserNotAllowedToEditException.class)
     @ResponseStatus(BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleUserNotAllowedToEditException(Exception e) {
-        return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, "Użytkownik nie może tego edytować"), FORBIDDEN);
+        return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, e.getMessage()), FORBIDDEN);
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseStatus(BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(Exception e) {
-        return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, "Nie ma takiego użytkownika"), FORBIDDEN);
+        return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, e.getMessage()), FORBIDDEN);
     }
 
     @ExceptionHandler(ResponseStatusException.class)

@@ -11,6 +11,7 @@ import pl.janis.komornik.dto.UserDto;
 import pl.janis.komornik.entities.User;
 import pl.janis.komornik.exception.ElementDoesNotExistException;
 import pl.janis.komornik.exception.UserAlreadyExistsException;
+import pl.janis.komornik.exception.UserNotAllowedToEditException;
 import pl.janis.komornik.mapper.UserMapper;
 import pl.janis.komornik.repository.UserRepository;
 
@@ -27,10 +28,10 @@ public class UserService implements UserDetailsService {
     private final EmailService emailService;
 
     @Transactional
-    public User addUser(User user) throws UserAlreadyExistsException {
+    public UserDto addUser(User user) throws UserAlreadyExistsException {
         if (userRepository.findByMail(user.getMail()) == null) {
             user.setPassword(encoder.encode(user.getPassword()));
-            return userRepository.save(user);
+            return userMapper.toDto(userRepository.save(user));
         } else {
             throw new UserAlreadyExistsException("Użytkownik z tym mailem już istnieje");
         }
@@ -46,24 +47,27 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User editUser(User user) {
+    public UserDto editUser(User user, User currentUser) {
+        if (!user.getId().equals(currentUser.getId())) {
+            throw new UserNotAllowedToEditException("Nie możesz edytować tego użytkownika");
+        }
         User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new ElementDoesNotExistException("No results"));
         existingUser.setMail(user.getMail());
         existingUser.setName(user.getName());
         existingUser.setAvatar(user.getAvatar());
-        return userRepository.save(user);
+        return userMapper.toDto(userRepository.save(user));
     }
 
     public User findById(int id) {
         return userRepository.findById(id).orElseThrow(() -> new ElementDoesNotExistException("No results"));
     }
 
-    public List<User> findCommonUsers(int userId) {
-        return userRepository.findCommonUsers(userId);
+    public List<UserDto> findCommonUsers(int userId) {
+        return userRepository.findCommonUsers(userId).stream().map(userMapper::toDto).toList();
     }
 
-    public List<User> findUsersInGroup(int groupId) {
-        return userRepository.findUsersInGroups(groupId);
+    public List<UserDto> findUsersInGroup(int groupId) {
+        return userRepository.findUsersInGroups(groupId).stream().map(userMapper::toDto).toList();
     }
 
     @Override
@@ -89,8 +93,9 @@ public class UserService implements UserDetailsService {
                 userRepository.save(user);
                 emailService.sendEmail(user.getMail(), newPass);
                 return newPass;
-            } else return -1;
+            } else
+                throw new UserNotAllowedToEditException("Login " + currentUser.getName() + " i mail " + currentUser.getMail() + " nie pasują");
         }
-        return null;
+        throw new UsernameNotFoundException("Nie znaleziono użytkownika o mailu " + currentUser.getMail());
     }
 }
