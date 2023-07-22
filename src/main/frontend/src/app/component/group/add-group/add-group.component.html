@@ -8,10 +8,10 @@
             <mat-form-field appearance="outline">
               <mat-label>Nazwa grupy</mat-label>
               <input
-                      formControlName="name"
-                      id="name"
-                      matInput
-                      type="text">
+                formControlName="name"
+                id="name"
+                matInput
+                type="text">
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -50,24 +50,20 @@
               </mat-form-field>
             </div>
             <div class="col-xs-4">
-                <mat-form-field appearance="outline" class="example-full-width">
-                    <mat-label>User email</mat-label>
-                    <input [value]="mail[i]" formControlName="mail" matInput placeholder="email" type="email">
-                </mat-form-field>
+              <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>User email</mat-label>
+                <input [value]="mail[i]" formControlName="mail" matInput placeholder="email" type="email">
+              </mat-form-field>
             </div>
             <div class="col-xs-2">
-              <button
-                (click)="onDeleteUser(i)"
-                class="btn btn-danger"
-                type="button">X
-              </button>
+              <button (click)="onDeleteUser(i)" color="warn" mat-raised-button type="button">X</button>
             </div>
 
           </div>
           <hr>
           <div class="row">
             <div class="col-6">
-              <button (click)="onAddUser()" class="btn btn-success" type="button">Add user</button>
+              <button (click)="onAddUser()" mat-raised-button type="button">Add user</button>
             </div>
           </div>
         </div>
