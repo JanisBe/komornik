@@ -3,7 +3,7 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="groupForm">
 
       <div class="row">
-        <div class="col-6">
+        <div class="col-10">
           <div class="form-group">
             <mat-form-field appearance="outline">
               <mat-label>Nazwa grupy</mat-label>
@@ -14,7 +14,7 @@
                 type="text">
             </mat-form-field>
           </div>
-          <div class="form-group">
+          <div class="form-group inline-inputs">
             <mat-form-field appearance="outline">
               <mat-label>Domyślna waluta</mat-label>
               <mat-select formControlName="defaultCurrency">
@@ -23,18 +23,21 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+            <button (click)="onAddUser()" class="float-end" mat-raised-button style="width: 150px" type="button">Add
+              user
+            </button>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-6" formArrayName="users">
+        <div class="col-10" formArrayName="users">
           <div
             *ngFor="let userCtrl of usersControls; let i = index"
             [formGroupName]="i"
             class="row"
             style="margin-top: 10px;">
-            <div class="col-xs-4">
-              <mat-form-field appearance="outline" class="example-full-width">
+            <div class="inline-inputs">
+              <mat-form-field appearance="outline">
                 <mat-label>Name</mat-label>
                 <input [matAutocomplete]="auto"
                        aria-label="Name"
@@ -48,37 +51,28 @@
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
-            </div>
-            <div class="col-xs-4">
-              <mat-form-field appearance="outline" class="example-full-width">
+
+              <mat-form-field appearance="outline">
                 <mat-label>User email</mat-label>
                 <input [value]="mail[i]" formControlName="mail" matInput placeholder="email" type="email">
               </mat-form-field>
-            </div>
-            <div class="col-xs-2">
+
               <button (click)="onDeleteUser(i)" color="warn" mat-raised-button type="button">X</button>
             </div>
 
           </div>
           <hr>
-          <div class="row">
-            <div class="col-6">
-              <button (click)="onAddUser()" mat-raised-button type="button">Add user</button>
-            </div>
-          </div>
         </div>
       </div>
-      <div class="col-9">
-        <div class="d-flex justify-content-around">
-          <button [disabled]="groupForm.invalid" color="primary" mat-raised-button type="submit">Save</button>
-          <button (click)="onCancel()" color="warning" mat-raised-button type="button">Cancel</button>
-        </div>
+      <div class="button-container">
+        <button [disabled]="groupForm.invalid" color="primary" mat-raised-button type="submit">Save</button>
+        <button (click)="onCancel()" color="warning" mat-raised-button type="button">Cancel</button>
       </div>
     </form>
   </div>
 </div>
 <ng-template #notAllowed>
-  <div *ngIf="!noResults" class="container-fluid">
+  <div class="container-fluid">
     <div class="row">
       <div class="col h3 d-flex align-items-center justify-content-center">
         Nie możesz edytować tej grupy. <u routerLink="/group/list">Wybierz inną grupę</u>

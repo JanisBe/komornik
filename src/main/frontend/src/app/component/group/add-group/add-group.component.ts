@@ -50,7 +50,7 @@ export class AddGroupComponent implements OnInit {
   ngOnInit() {
     this.groupId = this.route.snapshot.params['groupId'];
     this.editMode = !!this.groupId;
-    this.isUserInGroup = this.editMode;
+    this.isUserInGroup = !this.editMode;
     this.currentUser = this.authService.user.value!;
     this.initForm();
     this.users$ = this.userService.getAllUsers();
