@@ -13,7 +13,7 @@ import {AuthService} from "../../../auth/auth.service";
 })
 export class AddUserComponent implements OnInit {
 
-  form: FormGroup;
+  userForm: FormGroup;
   private currentUser: User | null;
 
   constructor(private userService: UserService,
@@ -28,7 +28,7 @@ export class AddUserComponent implements OnInit {
   }
 
   onSubmit() {
-    const user: User = this.form.value;
+    const user: User = this.userForm.value;
     this.userService.addUser(user).subscribe({
       next: (response) => {
         const newUser = response.body!;
@@ -51,7 +51,7 @@ export class AddUserComponent implements OnInit {
   }
 
   private initForm() {
-    this.form = new FormGroup({
+    this.userForm = new FormGroup({
       name: new FormControl(null, Validators.required),
       mail: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, Validators.required)

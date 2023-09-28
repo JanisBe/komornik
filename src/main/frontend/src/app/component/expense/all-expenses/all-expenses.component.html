@@ -1,72 +1,70 @@
 <table [dataSource]="expenses" class="mat-elevation-z8" mat-table multiTemplateDataRows>
-    <ng-container matColumnDef="description">
-        <th *matHeaderCellDef mat-header-cell> Expense description</th>
-        <td *matCellDef="let expense" mat-cell> {{expense.description}} </td>
-    </ng-container>
-    <ng-container matColumnDef="amount">
-        <th *matHeaderCellDef mat-header-cell> Expense amount</th>
-        <td *matCellDef="let expense" mat-cell>
-            <div [innerHTML]="printAmount(expense)"></div>
-        </td>
-    </ng-container>
-    <ng-container matColumnDef="with">
-        <th *matHeaderCellDef mat-header-cell> With</th>
-        <td *matCellDef="let expense" mat-cell>
-            <div [innerHTML]="printUsers(expense)"></div>
-        </td>
-    </ng-container>
-    <ng-container matColumnDef="currency">
-        <th *matHeaderCellDef mat-header-cell> Expense currency</th>
-        <td *matCellDef="let expense" mat-cell> {{expense.currency}} </td>
-    </ng-container>
-    <ng-container matColumnDef="date">
-        <th *matHeaderCellDef mat-header-cell> Expense date</th>
-        <td *matCellDef="let expense" mat-cell> {{expense.date | date:'medium':'':'pl'}} </td>
-    </ng-container>
-    <ng-container matColumnDef="actions">
-        <th *matHeaderCellDef mat-header-cell> Actions</th>
-        <td *matCellDef="let expense" mat-cell>
-            <mat-icon (click)="editExpense(expense)" class="pointer">edit</mat-icon>&nbsp;
-            <mat-icon (click)="deleteExpense(expense)" class="pointer">delete</mat-icon>
-        </td>
-    </ng-container>
+  <ng-container matColumnDef="description">
+    <th *matHeaderCellDef mat-header-cell> Expense description</th>
+    <td *matCellDef="let expense" mat-cell> {{expense.description}} </td>
+  </ng-container>
+  <ng-container matColumnDef="amount">
+    <th *matHeaderCellDef mat-header-cell> Expense amount</th>
+    <td *matCellDef="let expense" mat-cell>
+      <div [innerHTML]="printAmount(expense)"></div>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="with">
+    <th *matHeaderCellDef mat-header-cell> With</th>
+    <td *matCellDef="let expense" mat-cell>
+      <div [innerHTML]="printUsers(expense)"></div>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="currency">
+    <th *matHeaderCellDef mat-header-cell> Expense currency</th>
+    <td *matCellDef="let expense" mat-cell> {{expense.currency}} </td>
+  </ng-container>
+  <ng-container matColumnDef="date">
+    <th *matHeaderCellDef mat-header-cell> Expense date</th>
+    <td *matCellDef="let expense" mat-cell> {{expense.date | date:'medium':'':'pl'}} </td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th *matHeaderCellDef mat-header-cell> Actions</th>
+    <td *matCellDef="let expense" mat-cell>
+      <mat-icon (click)="editExpense(expense)" class="pointer">edit</mat-icon>&nbsp;
+      <mat-icon (click)="deleteExpense(expense)" class="pointer">delete</mat-icon>
+    </td>
+  </ng-container>
 
-    <ng-container matColumnDef="szczegóły">
-        <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
-        <td *matCellDef="let expense" mat-cell>
-            <button (click)="(expandedElement = expandedElement === expense ? null : expense); $event.stopPropagation()"
-                    aria-label="expand row"
-                    mat-icon-button>
-                <mat-icon *ngIf="expandedElement !== expense">keyboard_arrow_down</mat-icon>
-                <mat-icon *ngIf="expandedElement === expense">keyboard_arrow_up</mat-icon>
-            </button>
-        </td>
-    </ng-container>
+  <ng-container matColumnDef="szczegóły">
+    <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
+    <td *matCellDef="let expense" mat-cell>
+      <button (click)="(expandedElement = expandedElement === expense ? null : expense); $event.stopPropagation()"
+              aria-label="expand row"
+              mat-icon-button>
+        <mat-icon *ngIf="expandedElement !== expense">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="expandedElement === expense">keyboard_arrow_up</mat-icon>
+      </button>
+    </td>
+  </ng-container>
 
-    <ng-container matColumnDef="expandedDetail">
-        <td *matCellDef="let expense" [attr.colspan]="columnsToDisplayWithExpand.length" mat-cell>
-            <div [@detailExpand]="expense == expandedElement ? 'expanded' : 'collapsed'"
-                 class="example-element-detail">
-                <div class="example-element-diagram">
-                    <div class="example-element-position"> {{expense.currency}} </div>
-                    <div class="example-element-symbol"> {{expense.date | date:'medium':'':'pl'}} </div>
-                    <div [innerHTML]="printAmount(expense)"></div>
-                    <div [innerHTML]="printUsers(expense)"></div>
-                </div>
-                <div class="example-element-description">
-                    {{expense.description}}
-                </div>
-            </div>
-        </td>
-    </ng-container>
+  <ng-container matColumnDef="expandedDetail">
+    <td *matCellDef="let expense" [attr.colspan]="columnsToDisplayWithExpand.length" mat-cell>
+      <div [@detailExpand]="expense == expandedElement ? 'expanded' : 'collapsed'"
+           class="example-element-detail">
+        <div class="example-element-diagram">
+          <div> {{expense.currency}} </div>
+          <div> {{expense.date | date:'medium':'':'pl'}} </div>
+          <div [innerHTML]="printAmount(expense)"></div>
+          <div [innerHTML]="printUsers(expense)"></div>
+        </div>
+        <div>{{expense.description}}</div>
+      </div>
+    </td>
+  </ng-container>
 
-    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+  <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
 
-    <tr (click)="expandedElement = expandedElement === expense ? null : expense"
-        *matRowDef="let expense; columns: columnsToDisplayWithExpand;"
-        [class.example-expanded-row]="expandedElement === expense"
-        class="example-element-row"
-        mat-row>
-    </tr>
-    <tr *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row" mat-row></tr>
+  <tr (click)="expandedElement = expandedElement === expense ? null : expense"
+      *matRowDef="let expense; columns: columnsToDisplayWithExpand;"
+      [class.example-expanded-row]="expandedElement === expense"
+      class="example-element-row"
+      mat-row>
+  </tr>
+  <tr *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row" mat-row></tr>
 </table>
