@@ -32,6 +32,7 @@ import {ExpenseModule} from "./component/expense/expense.module";
 import {GroupModule} from "./component/group/group.module";
 import {UserModule} from "./component/user/user.module";
 import {ForgotPasswordComponent} from './component/common/forgot-password/forgot-password.component';
+import { DashboardComponent } from './component/dashboard/dashboard/dashboard.component';
 
 registerLocaleData(myLocalePl);
 
@@ -41,7 +42,8 @@ registerLocaleData(myLocalePl);
     LoginComponent,
     HeaderMenuComponent,
     ConfirmationComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    DashboardComponent
   ],
   imports: [
     CategoryModule,
