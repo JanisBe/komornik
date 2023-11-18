@@ -17,7 +17,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    private final String SECRET_KEY = "topsecret";
+    private final String SECRET_KEY = "testestestsecretnytestestestsecretnytestestestsecretny";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -33,8 +33,11 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        SecretKey secret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
-        return Jwts.parser().verifyWith(secret).build().parseSignedClaims(token).getPayload();
+        return Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -46,15 +49,19 @@ public class JwtUtil {
         return createToken(claims, userDetails.getUsername());
     }
 
+    private SecretKey getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
     private String createToken(Map<String, Object> claims, String subject) {
-        SecretKey secret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
 
         return Jwts.builder()
                 .claims(claims)
                 .subject(subject)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(365)))
-                .signWith(secret, Jwts.SIG.HS256).compact();
+                .signWith(getSigningKey(), Jwts.SIG.HS512).compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
