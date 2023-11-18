@@ -2,10 +2,12 @@ package pl.janis.komornik.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +33,8 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        SecretKey secret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
+        return Jwts.parser().verifyWith(secret).build().parseSignedClaims(token).getPayload();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -44,10 +47,14 @@ public class JwtUtil {
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
+        SecretKey secret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
 
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(365)))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
+        return Jwts.builder()
+                .claims(claims)
+                .subject(subject)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(365)))
+                .signWith(secret, Jwts.SIG.HS256).compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
