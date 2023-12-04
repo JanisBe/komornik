@@ -1,1 +1,21 @@
-<p>dashboard works!</p>
+<div class="grid-container">
+  <div class="logo">
+    <div class="pointer" routerLink="/">
+      <span class="logo-font">Komornik</span>
+      <img [src]="'../../assets/logo.png'" alt="logo" height="45px" width="45px">
+    </div>
+  </div>
+  <header>
+    <header-menu></header-menu>
+  </header>
+  <div class="sidebar">
+    <my-groups></my-groups>
+  </div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+
+  <footer>footer</footer>
+
+
+</div>

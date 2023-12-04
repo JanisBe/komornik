@@ -1,4 +1,6 @@
 <ng-container *ngIf="isAuthenticated">
+  <button mat-button routerLink="dashboard">Dashboard</button>
+
   <button [matMenuTriggerFor]="categoryMenu" mat-button>Category</button>
   <mat-menu #categoryMenu="matMenu">
     <button mat-menu-item routerLink="category/add">Add</button>
@@ -9,7 +11,7 @@
   <mat-menu #groupMenu="matMenu">
     <button mat-menu-item routerLink="group/add">Add</button>
     <button mat-menu-item routerLink="group/list">List</button>
-</mat-menu>
+  </mat-menu>
 
   <button [matMenuTriggerFor]="expenseMenu" mat-button>Expense</button>
   <mat-menu #expenseMenu="matMenu">

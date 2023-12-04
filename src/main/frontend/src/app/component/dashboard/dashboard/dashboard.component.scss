@@ -1,0 +1,43 @@
+@import "../../app.component";
+
+.grid-container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 60px 1fr;
+}
+
+.content {
+  background: #0a53be;
+  grid-column: 2/3;
+  grid-row: 2/3;
+}
+
+.logo {
+  vertical-align: baseline !important;
+  grid-row: 1/2;
+  grid-column: 1/2;
+}
+
+header {
+  background: #0dcaf0;
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+
+footer {
+  background: #0f5132;
+}
+
+.sidebar {
+  background: #20c997;
+  grid-row: 2/3;
+  grid-column: 1/2;
+}
+
+.logo-font {
+  font-family: "Arial Black", cursive;
+  font-size: 26px;
+  padding-right: 10px;
+  vertical-align: middle;
+}

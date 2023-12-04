@@ -32,6 +32,9 @@ import {MatCardModule} from "@angular/material/card";
     AllGroupsComponent,
     AddGroupComponent
   ],
+  exports: [
+    AllGroupsComponent
+  ],
   imports: [
     CommonModule,
     BrowserAnimationsModule,

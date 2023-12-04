@@ -1,8 +1,8 @@
 INSERT INTO komornik.users (id, avatar, mail, name, password)
-VALUES (1, null, 'a@a.pl', 'a', '$2a$10$l5bC8ZnoYyRK3Cgp9wdMLu3amHTLvaTlBYeHbB8ID.OtBMEAuvkAW'),
-       (2, null, 'aa@aa.pl', 'aa', '$2a$10$l5bC8ZnoYyRK3Cgp9wdMLu3amHTLvaTlBYeHbB8ID.OtBMEAuvkAW'),
-       (3, null, 'aaa@a.pl', 'aaa', '$2a$10$l5bC8ZnoYyRK3Cgp9wdMLu3amHTLvaTlBYeHbB8ID.OtBMEAuvkAW'),
-       (4, null, 'aaaa@a.pl', 'aaaa', '$2a$10$l5bC8ZnoYyRK3Cgp9wdMLu3amHTLvaTlBYeHbB8ID.OtBMEAuvkAW');
+VALUES (1, null, 'a@a.pl', 'a', '$2a$10$SvGq/.3m22JqbnHbRQ07KuJmLf3O9b9vBJ93EYfuElXn6PrnAK2CG'),
+       (2, null, 'aa@aa.pl', 'aa', '$2a$10$SvGq/.3m22JqbnHbRQ07KuJmLf3O9b9vBJ93EYfuElXn6PrnAK2CG'),
+       (3, null, 'aaa@a.pl', 'aaa', '$2a$10$SvGq/.3m22JqbnHbRQ07KuJmLf3O9b9vBJ93EYfuElXn6PrnAK2CG'),
+       (4, null, 'aaaa@a.pl', 'aaaa', '$2a$10$SvGq/.3m22JqbnHbRQ07KuJmLf3O9b9vBJ93EYfuElXn6PrnAK2CG');
 INSERT INTO komornik.categories (id, name)
 VALUES (1, 'kategoria'),
        (2, 'drugaKategoriaaa');

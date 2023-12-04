@@ -11,9 +11,11 @@ import {AddGroupComponent} from "./component/group/add-group/add-group.component
 import {AllGroupsComponent} from "./component/group/all-groups/all-groups.component";
 import {LoginComponent} from "./component/common/login/login.component";
 import {ForgotPasswordComponent} from "./component/common/forgot-password/forgot-password.component";
+import {DashboardComponent} from "./component/dashboard/dashboard/dashboard.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
+  {path: 'dashboard', component: DashboardComponent},
   {path: 'category/details/:categoryId', component: AddCategoryComponent},
   {path: 'category/add', component: AddCategoryComponent},
   {path: 'category/list', component: AllCategoriesComponent},

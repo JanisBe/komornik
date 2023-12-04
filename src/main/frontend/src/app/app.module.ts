@@ -26,13 +26,14 @@ import {MatSliderModule} from "@angular/material/slider";
 import {JwtInterceptor} from "./auth/jwt.interceptor";
 import {MatChipsModule} from "@angular/material/chips";
 import myLocalePl from '@angular/common/locales/pl';
-import {registerLocaleData} from "@angular/common";
+import {NgOptimizedImage, registerLocaleData} from "@angular/common";
 import {CategoryModule} from "./component/category/category.module";
 import {ExpenseModule} from "./component/expense/expense.module";
 import {GroupModule} from "./component/group/group.module";
 import {UserModule} from "./component/user/user.module";
 import {ForgotPasswordComponent} from './component/common/forgot-password/forgot-password.component';
-import { DashboardComponent } from './component/dashboard/dashboard/dashboard.component';
+import {DashboardComponent} from './component/dashboard/dashboard/dashboard.component';
+import {MyGroupsComponent} from "./component/dashboard/my-groups/my-groups.component";
 
 registerLocaleData(myLocalePl);
 
@@ -43,7 +44,8 @@ registerLocaleData(myLocalePl);
     HeaderMenuComponent,
     ConfirmationComponent,
     ForgotPasswordComponent,
-    DashboardComponent
+    DashboardComponent,
+    MyGroupsComponent
   ],
   imports: [
     CategoryModule,
@@ -70,7 +72,8 @@ registerLocaleData(myLocalePl);
     MatDatepickerModule,
     MatNativeDateModule,
     MatSliderModule,
-    MatChipsModule
+    MatChipsModule,
+    NgOptimizedImage
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
