@@ -107,7 +107,7 @@ export class AddGroupComponent implements OnInit {
 
   onCancel() {
     console.log(this.groupForm);
-    // this.router.navigate(['group/list'])
+    this.router.navigate(['group/list'])
   }
 
   onOptionSelected(selectedUser: MatAutocompleteSelectedEvent, i: number) {

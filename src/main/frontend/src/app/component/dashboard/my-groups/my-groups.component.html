@@ -1,0 +1,16 @@
+<div class="flex">
+  <div class="your-groups">Twoje grupy to:</div>
+  <div class="add-group" routerLink="/group/add">Dodaj
+    <mat-icon class="add-group-icon">group_add</mat-icon>
+  </div>
+</div>
+<div class="sidenav">
+  <ul class="sidenav-nav">
+    <li *ngFor="let group of allGroups" class="sidenav-nav-item">
+      <a (click)="navigate(group.id!)" class="sidenav-nav-link">
+        <mat-icon class="icon">groups</mat-icon>
+        <span class="sidenav-link-text pointer">{{group.name}}</span>
+      </a>
+    </li>
+  </ul>
+</div>

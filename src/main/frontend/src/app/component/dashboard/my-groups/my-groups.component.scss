@@ -1,0 +1,90 @@
+@import "../../app.component";
+
+.sidenav {
+  list-style-type: none;
+  font-size: 14px;
+  background: #263238;
+  //transition: all .5s ease;
+  position: fixed;
+
+}
+
+.sidenav-nav {
+  list-style: none;
+  padding: 0.938rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+
+  .sidenav-nav-item {
+    width: 100%;
+    margin-bottom: 0.625rem;
+
+    .sidenav-nav-link {
+      display: flex;
+      align-items: center;
+      height: 3rem;
+      color: #f3f3f3;
+      text-decoration: none;
+      border-radius: 0.625rem;
+      transition: all .3s ease;
+      padding: 10px;
+
+      .sidenav-link-icon {
+        font-size: 22px;
+        width: 2rem;
+        min-width: 2rem;
+        margin: 0 0.5rem;
+        text-align: center;
+      }
+
+      .sidenav-link-text {
+        margin-left: 1.5rem;
+      }
+    }
+
+    .sidenav-nav-link:hover {
+      background-color: #fff;
+      color: #000;
+
+      .menu-collapse-icon {
+        color: #000;
+      }
+    }
+  }
+}
+
+.active {
+  background-color: #fff;
+
+  .menu-collapse-icon,
+  .sidenav-link-icon,
+  .sidenav-link-text {
+    color: #000;
+  }
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.your-groups {
+  font-size: 26px;
+  color: white;
+  padding: 10px;
+}
+
+.add-group {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: white;
+  padding-right: 10px;
+}
+
+.add-group-icon {
+  margin-left: 1rem;
+}

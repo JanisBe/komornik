@@ -8,9 +8,9 @@
 }
 
 .content {
-  background: #0a53be;
   grid-column: 2/3;
   grid-row: 2/3;
+  padding: 20px;
 }
 
 .logo {
@@ -20,19 +20,18 @@
 }
 
 header {
-  background: #0dcaf0;
   grid-column: 2/3;
   grid-row: 1/2;
 }
 
 footer {
-  background: #0f5132;
 }
 
 .sidebar {
-  background: #20c997;
+  background: #263238;
   grid-row: 2/3;
   grid-column: 1/2;
+  box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
 }
 
 .logo-font {
