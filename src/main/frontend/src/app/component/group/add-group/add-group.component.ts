@@ -49,6 +49,7 @@ export class AddGroupComponent implements OnInit {
 
   ngOnInit() {
     this.groupId = this.route.snapshot.params['groupId'];
+    console.log(this.groupId);
     this.editMode = !!this.groupId;
     this.isUserInGroup = !this.editMode;
     this.currentUser = this.authService.user.value!;
@@ -106,7 +107,6 @@ export class AddGroupComponent implements OnInit {
   }
 
   onCancel() {
-    console.log(this.groupForm);
     this.router.navigate(['group/list'])
   }
 

@@ -91,7 +91,7 @@ public class UserService implements UserDetailsService {
                 final int newPass = new Random().nextInt(999999);
                 user.setPassword(encoder.encode(Integer.toString(newPass)));
                 userRepository.save(user);
-                emailService.sendEmail(user.getMail(), newPass);
+                emailService.resetPasswordEmail(user.getMail(), newPass);
                 return newPass;
             } else
                 throw new UserNotAllowedToEditException("Login " + currentUser.getName() + " i mail " + currentUser.getMail() + " nie pasują");

@@ -25,6 +25,6 @@ export class MyGroupsComponent {
   }
 
   navigate(groupId: number) {
-    this.router.navigate(['group/details', groupId]);
+    this.router.navigate(['expense/add', groupId]);
   }
 }

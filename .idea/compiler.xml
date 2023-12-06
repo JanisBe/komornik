@@ -21,19 +21,10 @@
         <module name="komornik" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="angular-test" target="17" />
-      <module name="demo" target="17" />
-      <module name="splitwise-clone" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="angular-test" options="-parameters" />
-      <module name="demo" options="-parameters -Amapstruct.defaultComponentModel=spring" />
       <module name="komornik" options="-parameters -Amapstruct.defaultComponentModel=spring" />
-      <module name="openapi-java-client" options="-Xlint:all -J-Xss4m" />
-      <module name="splitwise-clone" options="-parameters -Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>
 </project>
