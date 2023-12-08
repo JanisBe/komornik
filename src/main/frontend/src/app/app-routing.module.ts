@@ -12,25 +12,26 @@ import {AllGroupsComponent} from "./component/group/all-groups/all-groups.compon
 import {LoginComponent} from "./component/common/login/login.component";
 import {ForgotPasswordComponent} from "./component/common/forgot-password/forgot-password.component";
 import {DashboardComponent} from "./component/dashboard/dashboard/dashboard.component";
+import {authGuard} from "./auth/auth.guard";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'category/details/:categoryId', component: AddCategoryComponent},
-  {path: 'category/add', component: AddCategoryComponent},
-  {path: 'category/list', component: AllCategoriesComponent},
-  {path: 'user/details/:userId', component: UserDetailsComponent},
-  {path: 'user/list', component: AllUsersComponent},
-  {path: 'user/add', component: AddUserComponent},
-  {path: 'forgot-password', component: ForgotPasswordComponent},
-  {path: 'group/details/:groupId', component: AddGroupComponent},
-  {path: 'group/list', component: AllGroupsComponent},
-  {path: 'group/add', component: AddGroupComponent},
-  {path: 'expense/details/:expenseId', component: AddExpenseComponent},
-  {path: 'expense/list', component: AllExpensesComponent},
-  {path: 'expense/list/:groupId', component: AllExpensesComponent},
-  {path: 'expense/add', component: AddExpenseComponent},
-  {path: 'expense/add/:groupId', component: AddExpenseComponent},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
+  {path: 'category/details/:categoryId', component: AddCategoryComponent, canActivate: [authGuard]},
+  {path: 'category/add', component: AddCategoryComponent, canActivate: [authGuard]},
+  {path: 'category/list', component: AllCategoriesComponent, canActivate: [authGuard]},
+  {path: 'user/details/:userId', component: UserDetailsComponent, canActivate: [authGuard]},
+  {path: 'user/list', component: AllUsersComponent, canActivate: [authGuard]},
+  {path: 'user/add', component: AddUserComponent, canActivate: [authGuard]},
+  {path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [authGuard]},
+  {path: 'group/details/:groupId', component: AddGroupComponent, canActivate: [authGuard]},
+  {path: 'group/list', component: AllGroupsComponent, canActivate: [authGuard]},
+  {path: 'group/add', component: AddGroupComponent, canActivate: [authGuard]},
+  {path: 'expense/details/:expenseId', component: AddExpenseComponent, canActivate: [authGuard]},
+  {path: 'expense/list', component: AllExpensesComponent, canActivate: [authGuard]},
+  {path: 'expense/list/:groupId', component: AllExpensesComponent, canActivate: [authGuard]},
+  {path: 'expense/add', component: AddExpenseComponent, canActivate: [authGuard]},
+  {path: 'expense/add/:groupId', component: AddExpenseComponent, canActivate: [authGuard]},
   {path: '', component: AllGroupsComponent, pathMatch: 'full'},
 
 ];

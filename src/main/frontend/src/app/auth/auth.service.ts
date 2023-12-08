@@ -86,6 +86,10 @@ export class AuthService {
     this.handleAuth(user.mail, user.name, user.id, user.token!);
   }
 
+  isLoggedIn(): boolean {
+    return this.user.value != null;
+  }
+
   private handleAuth(
     email: string,
     name: string,
