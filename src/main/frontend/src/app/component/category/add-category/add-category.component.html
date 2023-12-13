@@ -12,6 +12,17 @@
                      matInput
                      type="text">
             </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Ikonka</mat-label>
+
+              <mat-icon (click)="pickIcon()" matPrefix>${{categoryIconName}}</mat-icon>
+              <input class="form-control"
+                     formControlName="categoryIconName"
+                     id="categoryIconName"
+                     matInput
+                     type="text">
+            </mat-form-field>
           </div>
           <div class="col-xs-12">
             <button [disabled]="this.form.invalid" color="primary" mat-raised-button type="submit">Submit</button>

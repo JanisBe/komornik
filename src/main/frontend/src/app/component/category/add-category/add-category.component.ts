@@ -5,6 +5,8 @@ import {Category} from "../../../model/category";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Observer} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {IconPickerComponent} from "../../common/icon-picker/icon-picker.component";
 
 @Component({
   selector: 'add-category',
@@ -15,13 +17,14 @@ export class AddCategoryComponent implements OnInit {
   form: FormGroup;
   currentCategory: Category;
   currentCategoryId: number;
+  categoryIconName: "euro";
 
   constructor(private categoryService: CategoryService,
               private router: Router,
               private snackbarService: SnackbarService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private dialog: MatDialog) {
   }
-
   resolve: Observer<Category> = {
     next: (result) => {
       this.snackbarService.displayMessage(`Nowa kategoria ${result.name} założona!`);
@@ -55,28 +58,37 @@ export class AddCategoryComponent implements OnInit {
     }
   }
 
-  private saveCategory() {
-    const newCategory: Category = {
-      name: this.form.value.name
-    }
-    this.categoryService.createCategory(newCategory).subscribe(this.resolve);
+  pickIcon() {
+    this.dialog.open(IconPickerComponent)
+    console.log("click")
   }
 
   onCancel() {
     this.router.navigate(['category/list']);
   }
 
+  private saveCategory() {
+    const newCategory: Category = {
+      name: this.form.value.name,
+      categoryIconName: this.form.value.categoryIconName
+    }
+    this.categoryService.createCategory(newCategory).subscribe(this.resolve);
+  }
+
   private patchCategory() {
     const categoryToSave: Category = {
       name: this.form.value.name,
-      id: this.currentCategory.id
+      id: this.currentCategory.id,
+      categoryIconName: this.form.value.categoryIconName
+
     }
     this.categoryService.editCategory(categoryToSave).subscribe(this.resolve);
   }
 
   private initForm() {
     this.form = new FormGroup({
-      name: new FormControl(null, Validators.required)
+      name: new FormControl(null, Validators.required),
+      categoryIconName: new FormControl(null)
     });
   }
 }

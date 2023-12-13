@@ -1,5 +1,5 @@
 <ng-container *ngIf="isAuthenticated">
-
+  <button mat-button routerLink="icons">Icons</button>
   <button [matMenuTriggerFor]="categoryMenu" mat-button>Category</button>
   <mat-menu #categoryMenu="matMenu">
     <button mat-menu-item routerLink="category/add">Add</button>

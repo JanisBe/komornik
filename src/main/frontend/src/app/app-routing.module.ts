@@ -13,9 +13,11 @@ import {LoginComponent} from "./component/common/login/login.component";
 import {ForgotPasswordComponent} from "./component/common/forgot-password/forgot-password.component";
 import {DashboardComponent} from "./component/dashboard/dashboard/dashboard.component";
 import {authGuard} from "./auth/auth.guard";
+import {IconPickerComponent} from "./component/common/icon-picker/icon-picker.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
+  {path: 'icons', component: IconPickerComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
   {path: 'category/details/:categoryId', component: AddCategoryComponent, canActivate: [authGuard]},
   {path: 'category/add', component: AddCategoryComponent, canActivate: [authGuard]},

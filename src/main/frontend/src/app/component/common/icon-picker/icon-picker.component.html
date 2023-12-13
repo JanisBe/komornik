@@ -1,0 +1,7 @@
+<mat-form-field appearance="outline">
+  <input #searchIcon (keyup)="search()" matInput name="iconName" type="text">
+</mat-form-field>
+<div *ngFor="let entry of iconMap | keyvalue; let key = index">
+  <p style="font-size: 20px">{{ entry.key }}:</p>
+  <mat-icon (click)="pickIcon(value.name)" *ngFor="let value of entry.value">{{ value.name }}</mat-icon>
+</div>

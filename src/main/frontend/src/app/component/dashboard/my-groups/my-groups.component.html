@@ -6,16 +6,10 @@
 </div>
 <div class="sidenav">
   <ul class="sidenav-nav">
-    <li class="sidenav-nav-item">
-      <a (click)="navigate(1)" class="sidenav-nav-link">
+    <li *ngFor="let group of allGroups" class="sidenav-nav-item">
+      <a (click)="navigate(group.id!)" class="sidenav-nav-link">
         <mat-icon class="icon">groups</mat-icon>
-        <span class="sidenav-link-text pointer">pierwsza</span>
-      </a>
-    </li>
-    <li class="sidenav-nav-item">
-      <a (click)="navigate(2)" class="sidenav-nav-link">
-        <mat-icon class="icon">groups</mat-icon>
-        <span class="sidenav-link-text pointer">druga</span>
+        <span class="sidenav-link-text pointer">{{group.name}}</span>
       </a>
     </li>
   </ul>

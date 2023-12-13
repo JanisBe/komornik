@@ -14,7 +14,7 @@ export class EditCategoryComponent implements OnInit {
   form: FormGroup;
   categoryId: number;
   editedCategory: Category;
-
+  categoryIconName = "euro"
   constructor(private categoryService: CategoryService,
               private router: Router,
               private snackbarService: SnackbarService,
@@ -55,5 +55,9 @@ export class EditCategoryComponent implements OnInit {
     this.form = new FormGroup({
       name: new FormControl('this.editedCategory.name', Validators.required)
     });
+  }
+
+  pickIcon() {
+    // this.dialog.open(IconPickerComponent)
   }
 }

@@ -3,6 +3,7 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <div class="form-group">
         <label for="name">Name</label>
+        <mat-icon *ngIf="iconName">${{iconName}}</mat-icon>
         <input formControlName="name" id="name" name="name" type="text">
         <input formControlName="id" id="id" type="hidden">
       </div>
