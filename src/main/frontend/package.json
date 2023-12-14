@@ -24,8 +24,7 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2",
     "@fortawesome/fontawesome-free": "5.15.4",
-    "bootstrap": "3.3.7",
-    "ngx-icon-picker": "^1.11.2"
+    "bootstrap": "3.3.7"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.1",
