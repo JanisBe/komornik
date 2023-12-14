@@ -43,6 +43,7 @@ export class AddExpenseComponent implements OnInit {
   @ViewChild("slider") slider: ElementRef;
   @ViewChild("sliderInput") sliderInput: ElementRef;
   @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
+  private editMode: boolean;
 
   constructor(private expenseService: ExpenseService,
               private router: Router,
@@ -77,6 +78,7 @@ export class AddExpenseComponent implements OnInit {
     this.currencies = this.currencyService.getAllCurrencies();
 
     if (!!this.route.snapshot.params['expenseId']) {
+      this.editMode = true;
       this.expenseService.findById(this.route.snapshot.params['expenseId']).subscribe({
         next: (expense) => {
           this.currentExpense = expense;
@@ -132,6 +134,8 @@ export class AddExpenseComponent implements OnInit {
     }
     this.expenseService.saveExpense(newExpense).subscribe({
       next: (result) => {
+        this.editMode ?
+            this.snackbarService.displayMessage(`Zapisano wydatek ${result.description}!`) :
         this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`);
         this.onCancel();
       },
@@ -205,11 +209,6 @@ export class AddExpenseComponent implements OnInit {
       date: new FormControl(new Date(), Validators.required)
     })
   }
-
-  calc() {
-    this.expenseService.calculateExpenses(this.currentGroupId).subscribe(console.log);
-  }
-
 
   private patchForm(expense: Expense) {
     const debt = expense.debt.reduce((sum, {amount}) => ({

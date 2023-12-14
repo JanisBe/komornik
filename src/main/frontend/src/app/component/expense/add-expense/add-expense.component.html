@@ -44,8 +44,8 @@
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="example-full-width">
-              <mat-label>Nazwa użytkownika</mat-label>
+            <mat-form-field appearance="outline">
+              <mat-label>Do podziału pomiędzy <b>{{currentUser.name}}</b> oraz</mat-label>
               <mat-chip-grid #chipGrid>
                 <mat-chip-row (removed)="remove(user)" *ngFor="let user of users">
                   {{user.name}}
@@ -57,7 +57,7 @@
               <input #userNameInput (matChipInputTokenEnd)="add($event)" [matAutocomplete]="auto"
                      [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                      formControlName="name"
-                     placeholder="New User..."/>
+                     placeholder="Użytkownik"/>
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                 <mat-option *ngFor="let user of usersOriginalList" [value]="user">
                   {{user.name}}
@@ -78,6 +78,7 @@
               <mat-label>Kategoria</mat-label>
               <mat-select formControlName="category">
                 <mat-option *ngFor="let category of categories" [value]="category.id">
+                  <mat-icon>{{category.categoryIconName}}</mat-icon>
                   {{category.categoryName}}
                 </mat-option>
               </mat-select>
@@ -100,7 +101,6 @@
           <div class="button-container">
             <button [disabled]="this.form.invalid" mat-raised-button type="submit">Submit</button>
             <button (click)="onCancel()" mat-raised-button type="button">Cancel</button>
-            <button (click)="calc()" mat-raised-button type="button">Calculate</button>
           </div>
         </div>
       </form>
