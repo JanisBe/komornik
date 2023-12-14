@@ -33,6 +33,9 @@ public class Group {
     @Column(name = "default_Currency")
     private String defaultCurrency;
 
+    @Column(name = "group_icon_name")
+    private String groupIconName;
+
     @OneToMany(mappedBy = "group")
     @ToString.Exclude
     private List<Expense> expenses;

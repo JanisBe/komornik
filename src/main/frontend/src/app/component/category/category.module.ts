@@ -1,9 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AllCategoriesComponent} from "./all-categories/all-categories.component";
-import {EditCategoryComponent} from "./category-details/edit-category.component";
 import {AddCategoryComponent} from "./add-category/add-category.component";
-import {CategoryDetailsComponent} from "./category-details/category-details.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
 import {AppRoutingModule} from "../../app-routing.module";
@@ -25,13 +23,10 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatChipsModule} from "@angular/material/chips";
 
-
 @NgModule({
   declarations: [
     AllCategoriesComponent,
-    EditCategoryComponent,
     AddCategoryComponent,
-    CategoryDetailsComponent
   ],
   imports: [
     CommonModule,

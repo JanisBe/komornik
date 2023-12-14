@@ -2,6 +2,7 @@
   <div *ngIf="!!allGroups; else noGroups;" class="d-flex flex-wrap p-2 gap-4">
     <mat-card *ngFor="let group of allGroups" class="card shadow">
       <mat-card-header>
+        <mat-icon (click)="pickIcon()" mat-card-avatar>{{ categoryIconName }}</mat-icon>
         <mat-card-title (click)="addExpense(group.id!)" class="pointer">{{group.name}}</mat-card-title>
         <mat-card-subtitle>{{group.description}}</mat-card-subtitle>
       </mat-card-header>

@@ -17,6 +17,7 @@ import {Group} from "../../../model/group";
 export class AllGroupsComponent implements OnInit {
   allGroups: Group[];
   private userId: number;
+  categoryIconName: "euro";
 
   constructor(private groupService: GroupService,
               private snackBarService: SnackbarService,
@@ -68,5 +69,9 @@ export class AllGroupsComponent implements OnInit {
         data: {debts: debts, group: group}
       });
     });
+  }
+
+  pickIcon() {
+
   }
 }

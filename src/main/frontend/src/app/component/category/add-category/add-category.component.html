@@ -6,22 +6,16 @@
           <div class="form-group">
             <mat-form-field appearance="outline">
               <mat-label>Nazwa kategorii</mat-label>
+              <mat-icon (click)="pickIcon()" matPrefix>{{ categoryIconName }}</mat-icon>
               <input class="form-control"
                      formControlName="name"
                      id="name"
                      matInput
                      type="text">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Ikonka</mat-label>
-
-              <mat-icon (click)="pickIcon()" matPrefix>${{categoryIconName}}</mat-icon>
-              <input class="form-control"
-                     formControlName="categoryIconName"
+              <input
+                formControlName="categoryIcon"
                      id="categoryIconName"
-                     matInput
-                     type="text">
+                type="hidden">
             </mat-form-field>
           </div>
           <div class="col-xs-12">

@@ -1,7 +1,15 @@
-<mat-form-field appearance="outline">
-  <input #searchIcon (keyup)="search()" matInput name="iconName" type="text">
-</mat-form-field>
-<div *ngFor="let entry of iconMap | keyvalue; let key = index">
-  <p style="font-size: 20px">{{ entry.key }}:</p>
-  <mat-icon (click)="pickIcon(value.name)" *ngFor="let value of entry.value">{{ value.name }}</mat-icon>
+<div class="container">
+  <mat-form-field appearance="outline">
+    <input #input (keyup)="submit(input)" matInput placeholder="Wpisz nazwę (eng)" type="text">
+  </mat-form-field>
+  <p class="display-4 mt-1 mb-3">Icons</p>
+  <div *ngIf="icons.length>0; else nothingFound" class="row">
+    <div *ngFor="let iconName of icons" class="col-xl-1 col-lg-1 col-md-2 col-3 h1 text-center">
+      <i (click)="selectIcon(iconName)" class="material-icons h1">{{ iconName }}</i>
+    </div>
+  </div>
 </div>
+
+<ng-template #nothingFound>
+  <h1 class="text-center py-3">Nie ma takiej.</h1>
+</ng-template>

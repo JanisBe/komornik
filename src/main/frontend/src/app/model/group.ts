@@ -5,5 +5,6 @@ export interface Group {
   name: string,
   description: string,
   defaultCurrency?: string,
+  groupIconName?: string,
   users: User[]
 }

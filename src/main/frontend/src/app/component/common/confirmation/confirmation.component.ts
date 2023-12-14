@@ -22,7 +22,7 @@ export class ConfirmationComponent {
   }
 }
 
-export interface DialogData {
+interface DialogData {
   content: string;
   category: string;
 }

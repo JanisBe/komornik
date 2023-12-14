@@ -27,6 +27,9 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "category_icon_name")
+    private String categoryIconName;
+
     @OneToMany(mappedBy = "category")
     @ToString.Exclude
     private Set<Expense> expenses = new LinkedHashSet<>();

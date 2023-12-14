@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.authService.autoLogin();
     this.loggedUser = this.authService.user.value!;
-    console.log('app-component', this.loggedUser);
     if (!this.loggedUser) {
       this.router.navigate(['/login']);
     }

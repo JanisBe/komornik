@@ -15,7 +15,7 @@ export class CategoryService {
   }
 
   editCategory(category: Category) {
-    return this.httpClient.patch<Category>("http://localhost:8080/category/edit", category);
+    return this.httpClient.patch<Category>(`http://localhost:8080/category/edit/${category.id}`, category);
   }
 
   deleteCategory(categoryId: number) {

@@ -17,7 +17,7 @@ export class AddCategoryComponent implements OnInit {
   form: FormGroup;
   currentCategory: Category;
   currentCategoryId: number;
-  categoryIconName: "euro";
+  categoryIconName: string;
 
   constructor(private categoryService: CategoryService,
               private router: Router,
@@ -25,6 +25,7 @@ export class AddCategoryComponent implements OnInit {
               private route: ActivatedRoute,
               private dialog: MatDialog) {
   }
+
   resolve: Observer<Category> = {
     next: (result) => {
       this.snackbarService.displayMessage(`Nowa kategoria ${result.name} założona!`);
@@ -38,13 +39,14 @@ export class AddCategoryComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.categoryIconName = "euro";
     if (!!this.route.snapshot.params['categoryId']) {
       this.currentCategoryId = this.route.snapshot.params['categoryId'];
       this.categoryService.findById(this.currentCategoryId).subscribe(
-          category => {
-            this.currentCategory = category;
-            this.form.get('name')?.patchValue(category.name);
-          }
+        category => {
+          this.currentCategory = category;
+          this.form.get('name')?.patchValue(category.name);
+        }
       )
     }
     this.initForm();
@@ -59,8 +61,16 @@ export class AddCategoryComponent implements OnInit {
   }
 
   pickIcon() {
-    this.dialog.open(IconPickerComponent)
-    console.log("click")
+    const dialogRef = this.dialog.open(IconPickerComponent, {
+      height: '400px',
+      width: '600px',
+    });
+    dialogRef.afterClosed().subscribe(iconName => {
+      if (iconName) {
+        this.form.get('categoryIcon')?.patchValue(iconName);
+        this.categoryIconName = iconName;
+      }
+    });
   }
 
   onCancel() {
@@ -70,7 +80,7 @@ export class AddCategoryComponent implements OnInit {
   private saveCategory() {
     const newCategory: Category = {
       name: this.form.value.name,
-      categoryIconName: this.form.value.categoryIconName
+      categoryIconName: this.form.value.categoryIcon
     }
     this.categoryService.createCategory(newCategory).subscribe(this.resolve);
   }
@@ -79,7 +89,7 @@ export class AddCategoryComponent implements OnInit {
     const categoryToSave: Category = {
       name: this.form.value.name,
       id: this.currentCategory.id,
-      categoryIconName: this.form.value.categoryIconName
+      categoryIconName: this.form.value.categoryIcon
 
     }
     this.categoryService.editCategory(categoryToSave).subscribe(this.resolve);
@@ -88,7 +98,7 @@ export class AddCategoryComponent implements OnInit {
   private initForm() {
     this.form = new FormGroup({
       name: new FormControl(null, Validators.required),
-      categoryIconName: new FormControl(null)
+      categoryIcon: new FormControl(this.categoryIconName)
     });
   }
 }

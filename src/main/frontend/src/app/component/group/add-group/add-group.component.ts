@@ -13,6 +13,8 @@ import {CategoryService} from "../../../service/category.service";
 import {Category} from "../../../model/category";
 import {AuthService} from "../../../auth/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {IconPickerComponent} from "../../common/icon-picker/icon-picker.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'add-group',
@@ -31,6 +33,7 @@ export class AddGroupComponent implements OnInit {
   private userGroupAdded = 0;
   isUserInGroup = false;
   noResults = false;
+  groupIconName = "euro";
 
   constructor(private groupService: GroupService,
               private snackbarService: SnackbarService,
@@ -39,7 +42,8 @@ export class AddGroupComponent implements OnInit {
               private userService: UserService,
               private currencyService: CurrencyService,
               private categoryService: CategoryService,
-              private authService: AuthService
+              private authService: AuthService,
+              private dialog: MatDialog
   ) {
   }
 
@@ -49,7 +53,6 @@ export class AddGroupComponent implements OnInit {
 
   ngOnInit() {
     this.groupId = this.route.snapshot.params['groupId'];
-    console.log(this.groupId);
     this.editMode = !!this.groupId;
     this.isUserInGroup = !this.editMode;
     this.currentUser = this.authService.user.value!;
@@ -153,5 +156,18 @@ export class AddGroupComponent implements OnInit {
     } else {
       this.onAddUser();
     }
+  }
+
+  pickIcon() {
+    const dialogRef = this.dialog.open(IconPickerComponent, {
+      height: '400px',
+      width: '600px',
+    });
+    dialogRef.afterClosed().subscribe(iconName => {
+      if (iconName) {
+        this.groupForm.get('categoryIcon')?.patchValue(iconName);
+        this.groupIconName = iconName;
+      }
+    });
   }
 }

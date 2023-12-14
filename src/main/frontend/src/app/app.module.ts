@@ -75,7 +75,7 @@ registerLocaleData(myLocalePl);
     MatNativeDateModule,
     MatSliderModule,
     MatChipsModule,
-    NgOptimizedImage
+    NgOptimizedImage,
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},

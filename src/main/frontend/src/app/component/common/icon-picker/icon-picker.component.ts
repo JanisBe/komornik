@@ -1,5 +1,6 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import icons from './icons.json';
+import {Component, Inject} from '@angular/core';
+import {google_icons} from './data';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'icon-picker',
@@ -7,72 +8,37 @@ import icons from './icons.json';
   styleUrl: './icon-picker.component.scss'
 })
 export class IconPickerComponent {
-  iconMap = new Map;
-  pristineIconMap = {...this.iconMap};
-  @ViewChild('searchIcon') searchIconText!: ElementRef;
+  icons = google_icons
 
-  constructor() {
-
-    let sortedAndFiltered = icons.icons
-      .filter(icon => icon.version == 240)
-      .sort((icon, icon2) => icon.popularity - icon2.popularity);
-    this.iconMap = Utility.groupBy(sortedAndFiltered, (a: { categories: any; }) => a.categories);
+  constructor(
+    public dialogRef: MatDialogRef<IconPickerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) {
   }
 
-  pickIcon(name: string) {
-    console.log(name);
-
+  selectIcon(iconName: string) {
+    this.dialogRef.close(iconName);
   }
 
-  search() {
-    let searchValue = this.searchIconText.nativeElement.value;
-    console.log(searchValue);
-
-    const allIcons = Array.from(this.iconMap.values()).flatMap((icons) => icons);
-
-    // Filter icons based on the name
-    const filteredIcons = allIcons.filter((icon) => icon.name === searchValue);
-
-    // Optionally, you can convert the result back to a Map if needed
-    const result = new Map(Array.from(this.iconMap).map(([key]) => [key, filteredIcons]));
-    if (!!searchValue) {
-      this.iconMap = result;
-      console.log(result);
+  submit(input: HTMLInputElement) {
+    if (input.value != null) {
+      this.filter(input.value)
+    } else {
+      this.icons = google_icons
     }
   }
-}
 
-interface IconList {
-  icons: (Icon)[];
-}
-
-interface Icon {
-  name: string;
-  version: number;
-  popularity: number;
-  codepoint: number;
-  categories?: (string)[] | null;
-  tags?: (string | null)[] | null;
-  sizes_px?: (number)[] | null;
-}
-
-class Utility {
-  static groupBy(xs: any[], f: Function) {
-    const groupByObjects = xs.reduce(
-      (
-        previous: any,
-        current: any,
-        i: number,
-        dataRef: any,
-        k = f(current)) => ((previous[k] || (previous[k] = [])).push(current), previous), {}
-    );
-    const groupByModels = new Map<string, Icon[]>;
-    for (const obj in groupByObjects) {
-      if (!groupByObjects.hasOwnProperty(obj)) {
-        continue;
+  filter(query: string) {
+    this.icons = google_icons.filter((ele) => {
+      if (ele.includes(query.toLowerCase())) {
+        return ele;
       }
-      groupByModels.set(obj, groupByObjects[obj]);
-    }
-    return groupByModels;
+      return;
+    })
   }
+
+}
+
+interface DialogData {
+  iconName: string
 }
