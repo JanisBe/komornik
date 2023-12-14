@@ -64,22 +64,26 @@ export class AddGroupComponent implements OnInit {
 
   onSubmit() {
     const data = this.groupForm.value;
+    console.log(data)
     let newGroup: Group = {
       description: data.description,
       users: data.users,
-      name: data.name,
-      defaultCurrency: data.defaultCurrency
+      groupName: data.groupName,
+      defaultCurrency: data.defaultCurrency,
+      groupIconName: data.groupIconName
     };
     if (!!this.groupId) {
       newGroup.id = this.groupId;
     }
     this.groupService.createGroup(newGroup).subscribe({
       next: (group) => {
-        this.snackbarService.displayMessage(`Nowa grupa ${group.body!.name} założona!`);
+        this.editMode ?
+            this.snackbarService.displayMessage(`Grupa ${group.body!.groupName} zaktualizowana!`) :
+            this.snackbarService.displayMessage(`Nowa grupa ${group.body!.groupName} założona!`);
         this.onCancel();
       },
       error: (error: HttpErrorResponse) => {
-        this.snackbarService.displayMessage(`Nie udało się założyć grupy ${newGroup.name}, bład ${error.message}`);
+        this.snackbarService.displayMessage(`Nie udało się założyć grupy ${newGroup.groupName}, bład ${error.message}`);
       }
     });
 
@@ -124,19 +128,33 @@ export class AddGroupComponent implements OnInit {
     console.log(control);
   }
 
+  pickIcon() {
+    const dialogRef = this.dialog.open(IconPickerComponent, {
+      height: '400px',
+      width: '600px',
+    });
+    dialogRef.afterClosed().subscribe(iconName => {
+      if (iconName) {
+        this.groupForm.get('groupIconName')?.patchValue(iconName);
+        this.groupIconName = iconName;
+      }
+    });
+  }
+
   private initForm() {
-    let name = '';
     let groupUsers = new FormArray<FormGroup>([]);
     this.groupForm = new FormGroup({
-      name: new FormControl(name, Validators.required),
+      groupName: new FormControl(null, Validators.required),
       defaultCurrency: new FormControl(null),
+      groupIconName: new FormControl(null),
       users: groupUsers
     });
     if (this.editMode) {
       this.groupService.findById(this.groupId).subscribe({
         next: (group) => {
           this.isUserInGroup = group.users.map(user => user.id).includes(this.currentUser.id);
-          this.groupForm.get('name')?.patchValue(group.name);
+          this.groupForm.get('groupName')?.patchValue(group.groupName);
+          this.groupForm.get('defaultCurrency')?.patchValue(group.defaultCurrency);
           if (group.users) {
             for (let user of group.users) {
               groupUsers.push(
@@ -156,18 +174,5 @@ export class AddGroupComponent implements OnInit {
     } else {
       this.onAddUser();
     }
-  }
-
-  pickIcon() {
-    const dialogRef = this.dialog.open(IconPickerComponent, {
-      height: '400px',
-      width: '600px',
-    });
-    dialogRef.afterClosed().subscribe(iconName => {
-      if (iconName) {
-        this.groupForm.get('categoryIcon')?.patchValue(iconName);
-        this.groupIconName = iconName;
-      }
-    });
   }
 }

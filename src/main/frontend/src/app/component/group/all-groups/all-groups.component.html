@@ -2,8 +2,8 @@
   <div *ngIf="!!allGroups; else noGroups;" class="d-flex flex-wrap p-2 gap-4">
     <mat-card *ngFor="let group of allGroups" class="card shadow">
       <mat-card-header>
-        <mat-icon (click)="pickIcon()" mat-card-avatar>{{ categoryIconName }}</mat-icon>
-        <mat-card-title (click)="addExpense(group.id!)" class="pointer">{{group.name}}</mat-card-title>
+        <mat-icon (click)="pickIcon()" mat-card-avatar>{{ group.groupIconName }}</mat-icon>
+        <mat-card-title (click)="addExpense(group.id!)" class="pointer">{{group.groupName}}</mat-card-title>
         <mat-card-subtitle>{{group.description}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
@@ -18,7 +18,7 @@
         <mat-icon (click)="addExpense(group.id!)" class="pointer shadow" matTooltip="Dodaj wydatek w tej grupie">add
         </mat-icon>
         <mat-icon (click)="listExpense(group.id!)" class="pointer shadow" matTooltip="Lista wydatków">list</mat-icon>
-        <mat-icon (click)="deleteGroup(group.id!, group.name)" class="pointer shadow warning-border"
+        <mat-icon (click)="deleteGroup(group.id!, group.groupName)" class="pointer shadow warning-border"
                   matTooltip="Skasuj grupę">delete
         </mat-icon>
       </mat-card-actions>

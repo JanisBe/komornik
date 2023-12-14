@@ -1,13 +1,20 @@
 <div class="container">
-  <mat-form-field appearance="outline">
-    <input #input (keyup)="submit(input)" matInput placeholder="Wpisz nazwę (eng)" type="text">
-  </mat-form-field>
-  <p class="display-4 mt-1 mb-3">Icons</p>
-  <div *ngIf="icons.length>0; else nothingFound" class="row">
-    <div *ngFor="let iconName of icons" class="col-xl-1 col-lg-1 col-md-2 col-3 h1 text-center">
-      <i (click)="selectIcon(iconName)" class="material-icons h1">{{ iconName }}</i>
-    </div>
+  <div class="text-input">
+    <mat-form-field appearance="outline">
+      <input #input
+             (keyup)="submit(input)"
+             matInput
+             placeholder="Wpisz nazwę (eng)"
+             type="text">
+    </mat-form-field>
   </div>
+  <mat-dialog-content>
+    <div *ngIf="icons.length>0; else nothingFound" class="row">
+      <div *ngFor="let iconName of icons" class="col-xl-1 col-lg-1 col-md-1 col-1 h1 text-center">
+        <i (click)="selectIcon(iconName)" class="material-icons h1">{{ iconName }}</i>
+      </div>
+    </div>
+  </mat-dialog-content>
 </div>
 
 <ng-template #nothingFound>

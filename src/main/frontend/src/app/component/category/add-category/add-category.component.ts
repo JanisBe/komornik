@@ -18,6 +18,7 @@ export class AddCategoryComponent implements OnInit {
   currentCategory: Category;
   currentCategoryId: number;
   categoryIconName: string;
+  private editMode: boolean;
 
   constructor(private categoryService: CategoryService,
               private router: Router,
@@ -28,7 +29,9 @@ export class AddCategoryComponent implements OnInit {
 
   resolve: Observer<Category> = {
     next: (result) => {
-      this.snackbarService.displayMessage(`Nowa kategoria ${result.name} założona!`);
+      this.editMode ?
+          this.snackbarService.displayMessage(`Kategoria ${result.categoryName} zaktualizowana!`) :
+          this.snackbarService.displayMessage(`Nowa kategoria ${result.categoryName} założona!`);
       this.onCancel();
     },
     error: () => {
@@ -41,11 +44,12 @@ export class AddCategoryComponent implements OnInit {
   ngOnInit() {
     this.categoryIconName = "euro";
     if (!!this.route.snapshot.params['categoryId']) {
+      this.editMode = true;
       this.currentCategoryId = this.route.snapshot.params['categoryId'];
       this.categoryService.findById(this.currentCategoryId).subscribe(
         category => {
           this.currentCategory = category;
-          this.form.get('name')?.patchValue(category.name);
+          this.form.get('categoryName')?.patchValue(category.categoryName);
         }
       )
     }
@@ -79,7 +83,7 @@ export class AddCategoryComponent implements OnInit {
 
   private saveCategory() {
     const newCategory: Category = {
-      name: this.form.value.name,
+      categoryName: this.form.value.categoryName,
       categoryIconName: this.form.value.categoryIcon
     }
     this.categoryService.createCategory(newCategory).subscribe(this.resolve);
@@ -87,7 +91,7 @@ export class AddCategoryComponent implements OnInit {
 
   private patchCategory() {
     const categoryToSave: Category = {
-      name: this.form.value.name,
+      categoryName: this.form.value.categoryName,
       id: this.currentCategory.id,
       categoryIconName: this.form.value.categoryIcon
 
@@ -97,7 +101,7 @@ export class AddCategoryComponent implements OnInit {
 
   private initForm() {
     this.form = new FormGroup({
-      name: new FormControl(null, Validators.required),
+      categoryName: new FormControl(null, Validators.required),
       categoryIcon: new FormControl(this.categoryIconName)
     });
   }

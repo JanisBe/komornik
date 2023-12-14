@@ -23,8 +23,8 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public List<Category> findByName(String name) {
-        return categoryRepository.findAllByName(name);
+    public List<Category> findByName(String categoryName) {
+        return categoryRepository.findAllByCategoryName(categoryName);
     }
 
     @Transactional

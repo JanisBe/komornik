@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Rozliczenie dla grupy {{data.group.name}}</h2>
+<h2 mat-dialog-title>Rozliczenie dla grupy {{data.group.groupName}}</h2>
 <mat-dialog-content>
     <div *ngIf="!data.debts || calculateDebts(data.debts); else noData">
         <div *ngFor="let debt of data.debts">

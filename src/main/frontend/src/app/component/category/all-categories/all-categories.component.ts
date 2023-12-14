@@ -31,13 +31,13 @@ export class AllCategoriesComponent implements OnInit {
 
   deleteCategory(category: Category) {
     let dialogRef = this.dialog.open(ConfirmationComponent, {
-      data: {content: category.name, category: 'category'}
+      data: {content: category.categoryName, category: 'category'}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.categoryService.deleteCategory(category.id!).subscribe(
           () => {
-            this.snackbarService.displayMessage(`Kategoria ${category.name} została skasowana`);
+            this.snackbarService.displayMessage(`Kategoria ${category.categoryName} została skasowana`);
             this.refreshData();
           }
         );

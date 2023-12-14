@@ -8,8 +8,8 @@
   <ul class="sidenav-nav">
     <li *ngFor="let group of allGroups" class="sidenav-nav-item">
       <a (click)="navigate(group.id!)" class="sidenav-nav-link">
-        <mat-icon class="icon">groups</mat-icon>
-        <span class="sidenav-link-text pointer">{{group.name}}</span>
+        <mat-icon class="icon">{{group.groupIconName ? group.groupIconName : "groups"}}</mat-icon>
+        <span class="sidenav-link-text pointer">{{group.groupName}}</span>
       </a>
     </li>
   </ul>

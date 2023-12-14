@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
 import {GroupService} from "../../../service/group.service";
-import {AuthService} from "../../../auth/auth.service";
 import {ExpenseService} from "../../../service/expense.service";
 import {SettlementDialogComponent} from "../../expense/settlement-dialog/settlement-dialog.component";
 import {Group} from "../../../model/group";
@@ -16,19 +15,16 @@ import {Group} from "../../../model/group";
 })
 export class AllGroupsComponent implements OnInit {
   allGroups: Group[];
-  private userId: number;
   categoryIconName: "euro";
 
   constructor(private groupService: GroupService,
               private snackBarService: SnackbarService,
               private expenseService: ExpenseService,
               private router: Router,
-              private dialog: MatDialog,
-              private authService: AuthService) {
+              private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.userId = this.authService.user.value?.id!;
     this.findAllGroupsForUser();
   }
 

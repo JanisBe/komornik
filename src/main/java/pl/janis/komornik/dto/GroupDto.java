@@ -9,7 +9,7 @@ import java.util.List;
  * A DTO for the {@link Group} entity
  */
 public record GroupDto(Integer id,
-                       String name,
+                       String groupName,
                        String description,
                        String defaultCurrency,
                        String groupIconName,

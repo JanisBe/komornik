@@ -2,3 +2,14 @@
   min-height: 95vh;
   padding: 20px;
 }
+
+.material-icons {
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.material-icons:hover {
+  border: 1px solid #4d5154;
+  border-radius: 5px;
+  background: #c9c7c7;
+}

@@ -25,7 +25,7 @@ public class Group {
     private Integer id;
 
     @Column(name = "name", nullable = false)
-    private String name;
+    private String groupName;
 
     @Column(name = "description")
     private String description;

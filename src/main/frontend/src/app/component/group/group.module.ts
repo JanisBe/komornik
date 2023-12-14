@@ -20,7 +20,6 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatChipsModule} from "@angular/material/chips";
-import {GroupDetailsComponent} from "./group-details/group-details.component";
 import {AllGroupsComponent} from "./all-groups/all-groups.component";
 import {AddGroupComponent} from "./add-group/add-group.component";
 import {MatCardModule} from "@angular/material/card";
@@ -28,7 +27,6 @@ import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
-    GroupDetailsComponent,
     AllGroupsComponent,
     AddGroupComponent
   ],
