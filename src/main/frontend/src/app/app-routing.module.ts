@@ -14,6 +14,7 @@ import {ForgotPasswordComponent} from "./component/common/forgot-password/forgot
 import {DashboardComponent} from "./component/dashboard/dashboard/dashboard.component";
 import {authGuard} from "./auth/auth.guard";
 import {IconPickerComponent} from "./component/common/icon-picker/icon-picker.component";
+import {GroupSummaryComponent} from "./component/group/group-summary/group-summary.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -27,6 +28,7 @@ const routes: Routes = [
   {path: 'user/add', component: AddUserComponent, canActivate: [authGuard]},
   {path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [authGuard]},
   {path: 'group/details/:groupId', component: AddGroupComponent, canActivate: [authGuard]},
+  {path: 'group/summary/:groupId', component: GroupSummaryComponent, canActivate: [authGuard]},
   {path: 'group/list', component: AllGroupsComponent, canActivate: [authGuard]},
   {path: 'group/add', component: AddGroupComponent, canActivate: [authGuard]},
   {path: 'expense/details/:expenseId', component: AddExpenseComponent, canActivate: [authGuard]},

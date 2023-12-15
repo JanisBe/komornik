@@ -23,15 +23,20 @@ import {MatChipsModule} from "@angular/material/chips";
 import {AllGroupsComponent} from "./all-groups/all-groups.component";
 import {AddGroupComponent} from "./add-group/add-group.component";
 import {MatCardModule} from "@angular/material/card";
+import {GroupSummaryComponent} from './group-summary/group-summary.component';
+import {MyGroupsComponent} from "./my-groups/my-groups.component";
 
 
 @NgModule({
   declarations: [
     AllGroupsComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    GroupSummaryComponent,
+    MyGroupsComponent
   ],
   exports: [
-    AllGroupsComponent
+    AllGroupsComponent,
+    MyGroupsComponent
   ],
   imports: [
     CommonModule,

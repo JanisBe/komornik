@@ -45,7 +45,7 @@ public class ExpenseService {
 
     public List<ExpenseDto> findAllByGroup(int groupId, int userId) {
         groupService.checkIfUserBelongsToGroup(userId, groupId);
-        return expenseRepository.findAllByGroup_IdOrderByDate(groupId).stream().map(expenseMapper::toDto).toList();
+        return expenseRepository.findAllByGroup_IdOrderByDateDesc(groupId).stream().map(expenseMapper::toDto).toList();
     }
 
     private void simplifyDebts(List<DebtDto> settlement, List<UserBalance> debtors, List<UserBalance> creditors) {

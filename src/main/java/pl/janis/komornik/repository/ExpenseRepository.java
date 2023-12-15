@@ -12,7 +12,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
     @Query("select u from User u")
     List<Expense> findAllByUserIdOrderByDate(@Param("userId") int userId);
 
-    List<Expense> findAllByGroup_IdOrderByDate(int groupId);
+    List<Expense> findAllByGroup_IdOrderByDateDesc(int groupId);
 
     @Query(name = "findBalanceForGroup", nativeQuery = true)
     List<UserBalance> findBalanceForGroup(int groupId);

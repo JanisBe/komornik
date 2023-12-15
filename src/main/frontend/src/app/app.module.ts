@@ -33,7 +33,6 @@ import {GroupModule} from "./component/group/group.module";
 import {UserModule} from "./component/user/user.module";
 import {ForgotPasswordComponent} from './component/common/forgot-password/forgot-password.component';
 import {DashboardComponent} from './component/dashboard/dashboard/dashboard.component';
-import {MyGroupsComponent} from "./component/dashboard/my-groups/my-groups.component";
 import {IconPickerComponent} from './component/common/icon-picker/icon-picker.component';
 
 registerLocaleData(myLocalePl);
@@ -46,7 +45,6 @@ registerLocaleData(myLocalePl);
     ConfirmationComponent,
     ForgotPasswordComponent,
     DashboardComponent,
-    MyGroupsComponent,
     IconPickerComponent
   ],
   imports: [
@@ -87,4 +85,5 @@ registerLocaleData(myLocalePl);
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
