@@ -1,6 +1,63 @@
+@use '@angular/material' as mat;
+@import "../../app.component";
+
 .button-container {
   display: flex;
   justify-content: space-around;
   width: 100%;
   height: 75px;
+}
+
+@mixin my-form-field-density($density) {
+  $field-typography: mat.define-typography-config(
+    $body-1: mat.define-typography-level(12px, 24px, 400),
+  );
+  @include mat.typography-level($field-typography, 'body-1');
+  @include mat.private-form-field-density($density);
+  margin-bottom: -15px; //  leaving a bottom margin 8px
+}
+
+.my-mat-form-field-density-5 {
+  @include my-form-field-density(-5);
+}
+
+.my-mat-form-field-density-8 {
+  @include my-form-field-density(-8);
+}
+
+.expense-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-gap: 10px;
+  grid-template-areas:
+    "category description"
+    "category amount"
+    "who who"
+    "date date";
+}
+
+.expense-category {
+  grid-area: category;
+}
+
+.expense-amount {
+  grid-area: amount;
+}
+
+.expense-who {
+  grid-area: who;
+}
+
+.expense-date {
+  grid-area: date;
+}
+
+.expense-description {
+  grid-area: description;
+}
+
+.expense-icon {
+  transform: scale(2);
+  margin-top: 30px;
 }

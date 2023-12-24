@@ -27,6 +27,7 @@ import {EditExpenseComponent} from './edit-expense/edit-expense.component';
 import {PayerDialogComponent} from './dialogs/payer-dialog/payer-dialog.component';
 import {SplitDialogComponent} from './dialogs/split-dialog/split-dialog.component';
 import {MatListModule} from "@angular/material/list";
+import {CurrencyDialogComponent} from './dialogs/currency-dialog/currency-dialog.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import {MatListModule} from "@angular/material/list";
     EditExpenseComponent,
     PayerDialogComponent,
     SplitDialogComponent,
+    CurrencyDialogComponent,
   ],
   imports: [
     CommonModule,

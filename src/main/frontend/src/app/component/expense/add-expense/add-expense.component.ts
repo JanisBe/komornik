@@ -20,6 +20,8 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {Observable, of} from "rxjs";
 import {PayerDialogComponent} from "../dialogs/payer-dialog/payer-dialog.component";
 import {SplitDialogComponent} from "../dialogs/split-dialog/split-dialog.component";
+import {CurrencyDialogComponent} from "../dialogs/currency-dialog/currency-dialog.component";
+import {IconPickerComponent} from "../../common/icon-picker/icon-picker.component";
 
 
 @Component({
@@ -47,12 +49,15 @@ export class AddExpenseComponent implements OnInit {
   userName = new FormControl('');
   isUserInGroup = false;
   noResults = false;
-  splitDialogRef: MatDialogRef<SplitDialogComponent>;
-  payerDialogRef: MatDialogRef<PayerDialogComponent>;
+  categoryIcon = "description";
+  private splitDialogRef: MatDialogRef<SplitDialogComponent>;
+  private payerDialogRef: MatDialogRef<PayerDialogComponent>;
+  private currencyDialogRef: MatDialogRef<CurrencyDialogComponent>;
   @ViewChild("slider") slider: ElementRef;
   @ViewChild("sliderInput") sliderInput: ElementRef;
   @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
   private editMode: boolean;
+  private expenseIconDialogRef: MatDialogRef<IconPickerComponent>;
 
   constructor(private expenseService: ExpenseService,
               private router: Router,
@@ -262,9 +267,56 @@ export class AddExpenseComponent implements OnInit {
     if (this.splitDialogRef && (this.splitDialogRef as MatDialogRef<SplitDialogComponent>)?.getState() === 0) {
       return;
     }
+
     this.splitDialogRef = this.dialog.open(SplitDialogComponent, {
       data: {users: usersOriginalList},
-      hasBackdrop: false
+      hasBackdrop: false,
+      width: '300px',
+      position: {left: '68%'}
     });
+  }
+
+  openCurrencyDialog(currencies: string[], defaultCurrency: string) {
+
+    if (this.currencyDialogRef && (this.currencyDialogRef as MatDialogRef<CurrencyDialogComponent>)?.getState() === 0) {
+      return;
+    }
+
+    this.currencyDialogRef = this.dialog.open(CurrencyDialogComponent, {
+      data: {currencies: currencies, defaultCurrency: defaultCurrency},
+      hasBackdrop: false,
+      width: '300px',
+      position: {left: '68%'}
+    });
+
+    this.currencyDialogRef.afterClosed().subscribe(currency => {
+      if (currency === undefined) {
+        return;
+      }
+      this.defaultCurrency = currency;
+      this.form.get('currency')?.patchValue(currency);
+    })
+  }
+
+  openExpenseIconDialog() {
+
+    if (this.expenseIconDialogRef && (this.expenseIconDialogRef as MatDialogRef<IconPickerComponent>)?.getState() === 0) {
+      return;
+    }
+    const iconList = this.categories.map(c => c.categoryIconName);
+    this.expenseIconDialogRef = this.dialog.open(IconPickerComponent, {
+      data: {iconList: iconList},
+      hasBackdrop: false,
+      width: '300px',
+      position: {left: '68%'}
+    });
+    this.expenseIconDialogRef.afterClosed().subscribe(icon => {
+      if (icon === undefined) {
+        return;
+      }
+      const category = this.categories.filter(c => c.categoryIconName === icon)[0];
+      this.form.get('category')?.patchValue(category.id);
+      this.categoryIcon = category.categoryIconName!;
+    })
   }
 }

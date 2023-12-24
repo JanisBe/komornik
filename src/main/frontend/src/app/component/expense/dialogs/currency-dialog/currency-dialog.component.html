@@ -1,13 +1,13 @@
-<div mat-dialog-title>Kto płaci
+<div mat-dialog-title>Waluta
   <mat-icon (click)="close()" class="float-end mt-4">close</mat-icon>
 </div>
 <div mat-dialog-content>
   <mat-selection-list #payer [multiple]="false">
-    @for (user of data.usersOriginalList;track user) {
+    @for (currency of data.currencies;track currency) {
       <mat-list-option
-        [value]="user"
-        [selected]="user.id===data.payerName.id">
-        {{ user.name }}
+        [value]="currency"
+        [selected]="currency===data.defaultCurrency">
+        {{ currency }}
       </mat-list-option>
     }
   </mat-selection-list>
