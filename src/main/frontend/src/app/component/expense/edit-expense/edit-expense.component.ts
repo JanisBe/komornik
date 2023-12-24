@@ -1,54 +1,45 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {User} from "../../../model/user";
+import {Category} from "../../../model/category";
+import {Group} from "../../../model/group";
+import {Expense} from "../../../model/expense";
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {ExpenseService} from "../../../service/expense.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
-import {Expense} from "../../../model/expense";
-import {User} from "../../../model/user";
 import {UserService} from "../../../service/user.service";
 import {CurrencyService} from "../../../service/currency.service";
-import {Category} from "../../../model/category";
 import {CategoryService} from "../../../service/category.service";
 import {GroupService} from "../../../service/group.service";
-import {Group} from 'src/app/model/group';
 import {AuthService} from "../../../auth/auth.service";
+import {MatDialog} from "@angular/material/dialog";
 import {Debt} from "../../../model/debt";
 import {MatChipInputEvent} from "@angular/material/chips";
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Observable, of} from "rxjs";
-import {PayerDialogComponent} from "../dialogs/payer-dialog/payer-dialog.component";
-import {SplitDialogComponent} from "../dialogs/split-dialog/split-dialog.component";
-
 
 @Component({
-  selector: 'add-expense',
-  templateUrl: './add-expense.component.html',
-  styleUrls: ['./add-expense.component.scss']
+  selector: 'edit-expense',
+  templateUrl: './edit-expense.component.html',
+  styleUrl: './edit-expense.component.scss'
 })
-export class AddExpenseComponent implements OnInit {
+export class EditExpenseComponent implements OnInit {
   form: FormGroup;
   users: User[];
+  usersOriginalList: User[];
   categories: Category[];
   currentUser: User;
   currentGroupId: number;
   currentGroup: Group;
-  currentGroupName$: Observable<string>;
   currentExpense: Expense;
   userGroups: Group[];
   defaultSplit: number = 50;
   currencies: string[] = [];
   defaultCurrency: string;
-  payer: User;
-  betweenWho = "wszystkimi";
-  splitHow = "po równo";
   separatorKeysCodes: number[] = [ENTER, COMMA];
   userName = new FormControl('');
   isUserInGroup = false;
   noResults = false;
-  splitDialogRef: MatDialogRef<SplitDialogComponent>;
-  payerDialogRef: MatDialogRef<PayerDialogComponent>;
   @ViewChild("slider") slider: ElementRef;
   @ViewChild("sliderInput") sliderInput: ElementRef;
   @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
@@ -63,21 +54,21 @@ export class AddExpenseComponent implements OnInit {
               private route: ActivatedRoute,
               private groupService: GroupService,
               private authService: AuthService,
-              private dialog: MatDialog,
-              @Inject(MAT_DIALOG_DATA) public data: { groupId: number }) {
+              private dialog: MatDialog) {
   }
 
 
   ngOnInit(): void {
     this.currentUser = this.authService.user.value!;
-    this.payer = this.currentUser;
-    this.currentGroupId = this.route.snapshot.params['groupId'] ? this.route.snapshot.params['groupId'] : this.data.groupId;
+    this.currentGroupId = this.route.snapshot.params['groupId'];
     this.initForm();
     this.groupService.findById(this.currentGroupId).subscribe(group => {
       this.currentGroup = group;
-      this.currentGroupName$ = of(this.currentGroup.groupName);
       this.isUserInGroup = this.currentGroup.users.map(user => user.id).includes(this.currentUser.id);
-      this.users = group.users;
+      this.userService.findUsersInGroup(this.currentGroupId).subscribe(((users) => {
+        this.users = users.filter(user => user.id !== this.currentUser.id);
+        this.usersOriginalList = [...this.users];
+      }));
     });
     this.currencyService.getDefaultCurrencyForGroup(this.currentGroupId)
       .subscribe(response => {
@@ -99,6 +90,7 @@ export class AddExpenseComponent implements OnInit {
           this.isUserInGroup = allUsers.map(user => user.id).includes(this.currentUser.id);
           this.patchForm(expense);
           this.users = allUsers.filter(user => user.id !== this.currentUser.id);
+          this.usersOriginalList = [...this.users];
         }, error: () => {
           this.snackbarService.displayMessage("nie ma wyników");
           this.noResults = true;
@@ -108,7 +100,6 @@ export class AddExpenseComponent implements OnInit {
   }
 
   onCancel() {
-    this.dialog.closeAll()
     this.router.navigate(['group/list']);
   }
 
@@ -235,36 +226,5 @@ export class AddExpenseComponent implements OnInit {
     this.form.get('category')?.patchValue(currentCategory.id);
     this.form.get('date')?.patchValue(expense.date);
     this.form.get('group')?.patchValue(expense.groupId);
-  }
-
-  openPayerDialog(payer: User, usersOriginalList: User[]) {
-    if (this.payerDialogRef && (this.payerDialogRef as MatDialogRef<PayerDialogComponent>)?.getState() === 0) {
-      return;
-    }
-    this.payerDialogRef = this.dialog.open(PayerDialogComponent, {
-      data: {payerName: payer, usersOriginalList: usersOriginalList},
-      hasBackdrop: false,
-      width: '300px',
-      position: {left: '68%'}
-    });
-
-    this.payerDialogRef.afterClosed().subscribe(payerId => {
-      if (payerId === undefined) {
-        return;
-      }
-      this.form.get('name')?.patchValue(payerId[0]);
-      this.payer = payerId[0];
-    });
-  }
-
-  openSplitDialog(usersOriginalList: User[]) {
-
-    if (this.splitDialogRef && (this.splitDialogRef as MatDialogRef<SplitDialogComponent>)?.getState() === 0) {
-      return;
-    }
-    this.splitDialogRef = this.dialog.open(SplitDialogComponent, {
-      data: {users: usersOriginalList},
-      hasBackdrop: false
-    });
   }
 }

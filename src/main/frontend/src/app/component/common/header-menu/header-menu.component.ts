@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {AuthService} from "../../../auth/auth.service";
 import {Subscription} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {AddExpenseComponent} from "../../expense/add-expense/add-expense.component";
 
 @Component({
   selector: 'header-menu',
@@ -12,7 +14,8 @@ export class HeaderMenuComponent {
   isAuthenticated = false;
   private userSub: Subscription;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -24,5 +27,9 @@ export class HeaderMenuComponent {
   logout() {
     this.loggedOut.emit();
     this.authService.logout();
+  }
+
+  addExpense() {
+    this.dialog.open(AddExpenseComponent, {data: {groupId: 3}, width: '600px'});
   }
 }

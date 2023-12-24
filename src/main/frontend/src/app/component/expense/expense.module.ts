@@ -23,6 +23,10 @@ import {MatChipsModule} from "@angular/material/chips";
 import {AllExpensesComponent} from "./all-expenses/all-expenses.component";
 import {AddExpenseComponent} from "./add-expense/add-expense.component";
 import {SettlementDialogComponent} from './settlement-dialog/settlement-dialog.component';
+import {EditExpenseComponent} from './edit-expense/edit-expense.component';
+import {PayerDialogComponent} from './dialogs/payer-dialog/payer-dialog.component';
+import {SplitDialogComponent} from './dialogs/split-dialog/split-dialog.component';
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
@@ -30,6 +34,9 @@ import {SettlementDialogComponent} from './settlement-dialog/settlement-dialog.c
     AllExpensesComponent,
     AddExpenseComponent,
     SettlementDialogComponent,
+    EditExpenseComponent,
+    PayerDialogComponent,
+    SplitDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -53,7 +60,8 @@ import {SettlementDialogComponent} from './settlement-dialog/settlement-dialog.c
     MatDatepickerModule,
     MatNativeDateModule,
     MatSliderModule,
-    MatChipsModule
+    MatChipsModule,
+    MatListModule
   ]
 })
 export class ExpenseModule {

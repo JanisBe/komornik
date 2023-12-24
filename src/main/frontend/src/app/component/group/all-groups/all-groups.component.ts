@@ -7,6 +7,7 @@ import {GroupService} from "../../../service/group.service";
 import {ExpenseService} from "../../../service/expense.service";
 import {SettlementDialogComponent} from "../../expense/settlement-dialog/settlement-dialog.component";
 import {Group} from "../../../model/group";
+import {AddExpenseComponent} from "../../expense/add-expense/add-expense.component";
 
 @Component({
   selector: 'all-groups',
@@ -52,7 +53,7 @@ export class AllGroupsComponent implements OnInit {
   }
 
   addExpense(groupId: number) {
-    this.router.navigate(['expense/add', groupId]);
+    this.dialog.open(AddExpenseComponent, {data: {groupId: groupId}, width: '600px'});
   }
 
   listExpense(groupId: number) {

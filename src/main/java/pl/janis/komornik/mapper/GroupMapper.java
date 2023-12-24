@@ -12,7 +12,7 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 @Component
 @Mapper(unmappedTargetPolicy = ReportingPolicy.WARN, componentModel = SPRING, uses = UserMapper.class)
 public interface GroupMapper {
-
+    @Mapping(target = "users.token", ignore = true)
     GroupDto toDto(Group group);
 
     @Mapping(target = "expenses", ignore = true)

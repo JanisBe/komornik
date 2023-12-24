@@ -15,9 +15,8 @@
 
   <button [matMenuTriggerFor]="expenseMenu" mat-button>Expense</button>
   <mat-menu #expenseMenu="matMenu">
-    <button mat-menu-item routerLink="expense/add">Add</button>
-    <button mat-menu-item routerLink="expense/add/1">Add</button>
-    <button mat-menu-item routerLink="expense/add/2">Add</button>
+
+    <button (click)="addExpense()" mat-menu-item>Add to 3</button>
     <button mat-menu-item routerLink="expense/list">List</button>
   </mat-menu>
 

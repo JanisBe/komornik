@@ -1,7 +1,6 @@
-<h1 mat-dialog-title>Dodawanie wydatku dla {{ currentGroupName$ | async }}</h1>
-<div class="container-fluid" mat-dialog-content>
+<div class="container-fluid">
   <div *ngIf="isUserInGroup && !noResults; else notInGroup" class="row">
-    <div class="mt-2">
+    <div class="col-xs-12 col-sm-10 col-md-8 mt-2">
       <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
         <h3 *ngIf="!!currentGroup"> Dodaj wydatek dla grupy <b>{{ currentGroup.groupName }}</b></h3>
@@ -44,32 +43,27 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <div class="form-group">
-              Do podziału pomiędzy
-              <mat-chip (click)="openPayerDialog(currentUser, this.users)">{{ payer.name }}</mat-chip>
-              a
-              <mat-chip (click)="openSplitDialog(this.users)">{{ betweenWho }} {{ splitHow }}</mat-chip>
-            </div>
-            <!--            <mat-form-field appearance="outline">-->
-            <!--              <mat-label>Do podziału pomiędzy <b>{{currentUser.name}}</b> oraz</mat-label>-->
-            <!--              <mat-chip-grid #chipGrid>-->
-            <!--                <mat-chip-row (removed)="remove(user)" *ngFor="let user of users">-->
-            <!--                  {{user.name}}-->
-            <!--                  <button [attr.aria-label]="'remove ' + user" matChipRemove>-->
-            <!--                    <mat-icon>cancel</mat-icon>-->
-            <!--                  </button>-->
-            <!--                </mat-chip-row>-->
-            <!--              </mat-chip-grid>-->
-            <!--              <input #userNameInput (matChipInputTokenEnd)="add($event)" [matAutocomplete]="auto"-->
-            <!--                     [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"-->
-            <!--                     formControlName="name"-->
-            <!--                     placeholder="Użytkownik"/>-->
-            <!--              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">-->
-            <!--                <mat-option *ngFor="let user of usersOriginalList" [value]="user">-->
-            <!--                  {{user.name}}-->
-            <!--                </mat-option>-->
-            <!--              </mat-autocomplete>-->
-            <!--            </mat-form-field>-->
+
+            <mat-form-field appearance="outline">
+              <mat-label>Do podziału pomiędzy <b>{{ currentUser.name }}</b> oraz</mat-label>
+              <mat-chip-grid #chipGrid>
+                <mat-chip-row (removed)="remove(user)" *ngFor="let user of users">
+                  {{ user.name }}
+                  <button [attr.aria-label]="'remove ' + user" matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              </mat-chip-grid>
+              <input #userNameInput (matChipInputTokenEnd)="add($event)" [matAutocomplete]="auto"
+                     [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     formControlName="name"
+                     placeholder="Użytkownik"/>
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let user of usersOriginalList" [value]="user">
+                  {{ user.name }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           </div>
 
           <div class="form-group">
@@ -105,6 +99,10 @@
               <mat-icon matSuffix>percent</mat-icon>
             </mat-form-field>
           </div>
+          <div class="button-container">
+            <button [disabled]="this.form.invalid" mat-raised-button type="submit">Submit</button>
+            <button (click)="onCancel()" mat-raised-button type="button">Cancel</button>
+          </div>
         </div>
       </form>
     </div>
@@ -129,10 +127,4 @@
       </div>
     </div>
   </ng-container>
-</div>
-<div mat-dialog-actions>
-  <div>
-    <button [disabled]="this.form.invalid" mat-raised-button type="submit">Submit</button>
-    <button (click)="onCancel()" mat-raised-button type="button">Cancel</button>
-  </div>
 </div>
