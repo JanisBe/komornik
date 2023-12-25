@@ -21,7 +21,7 @@ import {Observable, of} from "rxjs";
 import {PayerDialogComponent} from "../dialogs/payer-dialog/payer-dialog.component";
 import {SplitDialogComponent} from "../dialogs/split-dialog/split-dialog.component";
 import {CurrencyDialogComponent} from "../dialogs/currency-dialog/currency-dialog.component";
-import {IconPickerComponent} from "../../common/icon-picker/icon-picker.component";
+import {CategoryDialogComponent} from "../dialogs/category-dialog/category-dialog.component";
 
 
 @Component({
@@ -53,11 +53,11 @@ export class AddExpenseComponent implements OnInit {
   private splitDialogRef: MatDialogRef<SplitDialogComponent>;
   private payerDialogRef: MatDialogRef<PayerDialogComponent>;
   private currencyDialogRef: MatDialogRef<CurrencyDialogComponent>;
+  private expenseIconDialogRef: MatDialogRef<CategoryDialogComponent>;
   @ViewChild("slider") slider: ElementRef;
   @ViewChild("sliderInput") sliderInput: ElementRef;
   @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
   private editMode: boolean;
-  private expenseIconDialogRef: MatDialogRef<IconPickerComponent>;
 
   constructor(private expenseService: ExpenseService,
               private router: Router,
@@ -299,16 +299,16 @@ export class AddExpenseComponent implements OnInit {
   }
 
   openExpenseIconDialog() {
-
-    if (this.expenseIconDialogRef && (this.expenseIconDialogRef as MatDialogRef<IconPickerComponent>)?.getState() === 0) {
+    if (this.expenseIconDialogRef && (this.expenseIconDialogRef as MatDialogRef<CategoryDialogComponent>)?.getState() === 0) {
       return;
     }
     const iconList = this.categories.map(c => c.categoryIconName);
-    this.expenseIconDialogRef = this.dialog.open(IconPickerComponent, {
+    this.expenseIconDialogRef = this.dialog.open(CategoryDialogComponent, {
       data: {iconList: iconList},
       hasBackdrop: false,
       width: '300px',
-      position: {left: '68%'}
+      position: {left: '68%'},
+      panelClass: 'slide-in-from-right'
     });
     this.expenseIconDialogRef.afterClosed().subscribe(icon => {
       if (icon === undefined) {

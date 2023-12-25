@@ -28,6 +28,7 @@ import {PayerDialogComponent} from './dialogs/payer-dialog/payer-dialog.componen
 import {SplitDialogComponent} from './dialogs/split-dialog/split-dialog.component';
 import {MatListModule} from "@angular/material/list";
 import {CurrencyDialogComponent} from './dialogs/currency-dialog/currency-dialog.component';
+import {CategoryDialogComponent} from './dialogs/category-dialog/category-dialog.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import {CurrencyDialogComponent} from './dialogs/currency-dialog/currency-dialog
     PayerDialogComponent,
     SplitDialogComponent,
     CurrencyDialogComponent,
+    CategoryDialogComponent,
   ],
   imports: [
     CommonModule,

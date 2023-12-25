@@ -7,7 +7,7 @@
       </div>
 
       <div class="expense-description">
-        <mat-form-field appearance="outline" class="my-mat-form-field-density-8">
+        <mat-form-field appearance="outline" class="col-12">
           <mat-label>Opis wydatku</mat-label>
           <input
             class="form-control"
@@ -18,7 +18,7 @@
         </mat-form-field>
       </div>
       <div class="expense-amount">
-        <mat-form-field appearance="outline" class="my-mat-form-field-density-8">
+        <mat-form-field appearance="outline" class="col-12">
           <mat-label>Ile</mat-label>
           <input
             class="form-control"
@@ -26,7 +26,11 @@
             id="amount"
             matInput
             type="text">
+          <mat-chip (click)="openCurrencyDialog(currencies, defaultCurrency)" matSuffix
+                    style="margin-right:10px">{{ defaultCurrency }}
+          </mat-chip>
         </mat-form-field>
+
       </div>
       <!--        <div class="expense-grupa">-->
       <!--          <mat-form-field *ngIf="!currentGroup" appearance="outline">-->
@@ -38,18 +42,7 @@
       <!--            </mat-select>-->
       <!--          </mat-form-field>-->
       <!--        </div>-->
-      <div class="expense-currency">
-        <mat-chip (click)="openCurrencyDialog(currencies, defaultCurrency)">{{ defaultCurrency }}</mat-chip>
-        <!--        <mat-form-field appearance="outline">-->
-        <!--          <mat-label>Domyślna waluta</mat-label>-->
-        <!--          <mat-select formControlName="currency">-->
-        <!--            <mat-option *ngFor="let currentCurrency of currencies" [value]="currentCurrency">-->
-        <!--              {{ currentCurrency }}-->
-        <!--            </mat-option>-->
-        <!--          </mat-select>-->
-        <!--        </mat-form-field>-->
-      </div>
-      <div class="expense-between-who">
+      <div class="expense-who">
         Do podziału pomiędzy
         <mat-chip (click)="openPayerDialog(currentUser, this.users)">{{ payer.name }}</mat-chip>
         a

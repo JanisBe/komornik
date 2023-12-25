@@ -27,7 +27,7 @@
 
 .expense-form {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 50px 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
   grid-gap: 10px;
   grid-template-areas:
@@ -39,10 +39,6 @@
 
 .expense-category {
   grid-area: category;
-}
-
-.expense-amount {
-  grid-area: amount;
 }
 
 .expense-who {
@@ -60,4 +56,17 @@
 .expense-icon {
   transform: scale(2);
   margin-top: 30px;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.slide-in-from-right {
+  animation: slideInFromRight 0.5s ease-out;
 }

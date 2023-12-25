@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {google_icons} from './data';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
@@ -7,19 +7,13 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
   templateUrl: './icon-picker.component.html',
   styleUrl: './icon-picker.component.scss'
 })
-export class IconPickerComponent implements OnInit {
+export class IconPickerComponent {
   icons = google_icons
 
   constructor(
     public dialogRef: MatDialogRef<IconPickerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
-  }
-
-  ngOnInit(): void {
-    if (this.data.iconList) {
-      this.icons = this.data.iconList;
-    }
   }
 
   selectIcon(iconName: string) {
@@ -42,7 +36,6 @@ export class IconPickerComponent implements OnInit {
       return;
     })
   }
-
 }
 
 interface DialogData {
