@@ -9,11 +9,16 @@ import {User} from "../../../../model/user";
 })
 export class SplitDialogComponent {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: User[],
+    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User },
     public dialogRef: MatDialogRef<SplitDialogComponent>,) {
+
   }
 
   close() {
+    this.dialogRef.close();
+  }
+
+  ok() {
     this.dialogRef.close();
   }
 }

@@ -270,12 +270,18 @@ export class AddExpenseComponent implements OnInit {
     }
 
     this.splitDialogRef = this.dialog.open(SplitDialogComponent, {
-      data: {users: usersOriginalList},
+      data: {users: usersOriginalList, currentUser: this.payer},
       hasBackdrop: false,
       width: '300px',
       position: {left: '68%'},
       panelClass: 'slide-in-from-right'
     });
+    this.splitDialogRef.afterClosed().subscribe(split => {
+      if (split === undefined) {
+        return;
+      }
+      console.log(split);
+    })
   }
 
   openCurrencyDialog(currencies: string[], defaultCurrency: string) {

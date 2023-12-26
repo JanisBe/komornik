@@ -3,6 +3,7 @@ import {AuthService} from "../../../auth/auth.service";
 import {Subscription} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {AddExpenseComponent} from "../../expense/add-expense/add-expense.component";
+import {SplitDialogComponent} from "../../expense/dialogs/split-dialog/split-dialog.component";
 
 @Component({
   selector: 'header-menu',
@@ -31,5 +32,9 @@ export class HeaderMenuComponent {
 
   addExpense() {
     this.dialog.open(AddExpenseComponent, {data: {groupId: 3}, width: '600px'});
+  }
+
+  open() {
+    this.dialog.open(SplitDialogComponent, {data: {groupId: 3}, width: '600px'});
   }
 }

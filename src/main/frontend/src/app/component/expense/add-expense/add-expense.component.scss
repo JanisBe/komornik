@@ -29,7 +29,6 @@
   display: grid;
   grid-template-columns: 50px 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
-  grid-gap: 10px;
   grid-template-areas:
     "category description"
     "category amount"
@@ -51,6 +50,7 @@
 
 .expense-description {
   grid-area: description;
+  margin-top: 10px;
 }
 
 .expense-icon {

@@ -1,5 +1,24 @@
-<div mat-dialog-title>Dzielenie wydatku</div>
-<div mat-dialog-content></div>
+<div mat-dialog-title>Dzielenie wydatku
+  <mat-icon (click)="close()" class="float-end mt-4">close</mat-icon>
+</div>
+<div mat-dialog-content>
+  <div *ngIf="data.users.length == 2">
+    <mat-selection-list #user [multiple]="false">
+      <mat-list-option>
+        Po równo
+      </mat-list-option>
+      @for (user of data.users;track user) {
+        <mat-list-option
+          [value]="user"
+          [selected]="user.id===data.currentUser.id">
+          {{ user.name }} płaci za wszystko
+        </mat-list-option>
+      }
+    </mat-selection-list>
+  </div>
+
+</div>
 <div mat-dialog-actions>
-  <button (click)="close()" mat-button>OK</button>
+  <button (click)="ok()" mat-button>OK</button>
+  <button (click)="close()" cdkFocusInitial mat-button>Cancel</button>
 </div>
