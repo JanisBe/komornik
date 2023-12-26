@@ -3,7 +3,7 @@
   <div *ngIf="isUserInGroup && !noResults; else notInGroup">
     <form (ngSubmit)="onSubmit()" [formGroup]="form" class="expense-form">
       <div class="expense-category">
-        <mat-icon (click)="openExpenseIconDialog()" class="expense-icon pointer">{{ categoryIcon }}</mat-icon>
+        <mat-icon (click)="openCategoryDialog()" class="expense-icon pointer">{{ categoryIcon }}</mat-icon>
       </div>
 
       <div class="expense-description">

@@ -53,7 +53,7 @@ export class AddExpenseComponent implements OnInit {
   private splitDialogRef: MatDialogRef<SplitDialogComponent>;
   private payerDialogRef: MatDialogRef<PayerDialogComponent>;
   private currencyDialogRef: MatDialogRef<CurrencyDialogComponent>;
-  private expenseIconDialogRef: MatDialogRef<CategoryDialogComponent>;
+  private categoryDialogRef: MatDialogRef<CategoryDialogComponent>;
   @ViewChild("slider") slider: ElementRef;
   @ViewChild("sliderInput") sliderInput: ElementRef;
   @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
@@ -250,7 +250,8 @@ export class AddExpenseComponent implements OnInit {
       data: {payerName: payer, usersOriginalList: usersOriginalList},
       hasBackdrop: false,
       width: '300px',
-      position: {left: '68%'}
+      position: {left: '68%'},
+      panelClass: 'slide-in-from-right'
     });
 
     this.payerDialogRef.afterClosed().subscribe(payerId => {
@@ -272,7 +273,8 @@ export class AddExpenseComponent implements OnInit {
       data: {users: usersOriginalList},
       hasBackdrop: false,
       width: '300px',
-      position: {left: '68%'}
+      position: {left: '68%'},
+      panelClass: 'slide-in-from-right'
     });
   }
 
@@ -286,7 +288,8 @@ export class AddExpenseComponent implements OnInit {
       data: {currencies: currencies, defaultCurrency: defaultCurrency},
       hasBackdrop: false,
       width: '300px',
-      position: {left: '68%'}
+      position: {left: '68%'},
+      panelClass: 'slide-in-from-right'
     });
 
     this.currencyDialogRef.afterClosed().subscribe(currency => {
@@ -298,19 +301,19 @@ export class AddExpenseComponent implements OnInit {
     })
   }
 
-  openExpenseIconDialog() {
-    if (this.expenseIconDialogRef && (this.expenseIconDialogRef as MatDialogRef<CategoryDialogComponent>)?.getState() === 0) {
+  openCategoryDialog() {
+    if (this.categoryDialogRef && (this.categoryDialogRef as MatDialogRef<CategoryDialogComponent>)?.getState() === 0) {
       return;
     }
     const iconList = this.categories.map(c => c.categoryIconName);
-    this.expenseIconDialogRef = this.dialog.open(CategoryDialogComponent, {
+    this.categoryDialogRef = this.dialog.open(CategoryDialogComponent, {
       data: {iconList: iconList},
       hasBackdrop: false,
       width: '300px',
       position: {left: '68%'},
       panelClass: 'slide-in-from-right'
     });
-    this.expenseIconDialogRef.afterClosed().subscribe(icon => {
+    this.categoryDialogRef.afterClosed().subscribe(icon => {
       if (icon === undefined) {
         return;
       }

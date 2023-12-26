@@ -2,3 +2,18 @@
 @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.slide-in-from-right {
+  animation: slide-from-left 1s ease;
+  z-index: 10;
+}
+
+@keyframes slide-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: none;
+  }
+}
