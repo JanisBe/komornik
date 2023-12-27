@@ -1,11 +1,10 @@
 import {Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ExpenseService} from "../../../service/expense.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Expense} from "../../../model/expense";
 import {User} from "../../../model/user";
-import {UserService} from "../../../service/user.service";
 import {CurrencyService} from "../../../service/currency.service";
 import {Category} from "../../../model/category";
 import {CategoryService} from "../../../service/category.service";
@@ -13,9 +12,7 @@ import {GroupService} from "../../../service/group.service";
 import {Group} from 'src/app/model/group';
 import {AuthService} from "../../../auth/auth.service";
 import {Debt} from "../../../model/debt";
-import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Observable, of} from "rxjs";
 import {PayerDialogComponent} from "../dialogs/payer-dialog/payer-dialog.component";
@@ -58,11 +55,10 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   @ViewChild("sliderInput") sliderInput: ElementRef;
   @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
   private editMode: boolean;
+  private debts: Debt[] = [];
 
   constructor(private expenseService: ExpenseService,
-              private router: Router,
               private snackbarService: SnackbarService,
-              private userService: UserService,
               private currencyService: CurrencyService,
               private categoryService: CategoryService,
               private route: ActivatedRoute,
@@ -121,28 +117,33 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    console.log("here")
     let debts: Debt[] = [];
-    const amount = this.form.value.amount;
-    const sanitizedAmount = amount.replace(/,/g, '.');
+    const sanitizedAmount = parseInt(this.sanitizeAmount(this.form.value.amount));
     const currentUsers: User[] = [this.currentUser, ...this.users];
-    currentUsers.forEach((user) => {
-      if (user.id !== this.currentUser.id) {
-        let debt: Debt = {
-          from: this.currentUser,
-          to: user,
-          amount: +(sanitizedAmount / (currentUsers.length)).toFixed(2)
+    if (debts.length == 0) {
+      currentUsers.forEach((user) => {
+          if (user.id !== this.currentUser.id) {
+            let debt: Debt = {
+              from: this.currentUser,
+              to: user,
+              amount: +(sanitizedAmount / (currentUsers.length)).toFixed(2)
+            }
+            debts.push(debt);
+          } else {
+            const myDue = (sanitizedAmount / (currentUsers.length)) * (currentUsers.length - 1);
+            let debt: Debt = {
+              from: this.currentUser,
+              to: user,
+              amount: -myDue.toFixed(2)
+            }
+            debts.push(debt);
+          }
         }
-        debts.push(debt);
-      } else {
-        const myDue = (sanitizedAmount / (currentUsers.length)) * (currentUsers.length - 1);
-        let debt: Debt = {
-          from: this.currentUser,
-          to: user,
-          amount: -myDue.toFixed(2)
-        }
-        debts.push(debt);
-      }
-    });
+      );
+    } else {
+      debts = this.debts;
+    }
     const newExpense: Expense = {
       description: this.form.value.description,
       currency: this.form.value.currency,
@@ -151,17 +152,19 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       categoryId: +this.form.value.category,
       groupId: this.currentGroupId
     }
-    this.expenseService.saveExpense(newExpense).subscribe({
-      next: (result) => {
-        this.editMode ?
-          this.snackbarService.displayMessage(`Zapisano wydatek ${result.description}!`) :
-          this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`);
-        this.onCancel();
-      },
-      error: () => {
-        this.snackbarService.displayMessage(`Nie udało się założyć wydatku ${newExpense.description}`);
-      }
-    });
+    console.log(newExpense);
+    // this.expenseService.saveExpense(newExpense).subscribe({
+    //   next: (result) => {
+    //     this.editMode ?
+    //       this.snackbarService.displayMessage(`Zapisano wydatek ${result.description}!`) :
+    //       this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`);
+    //     this.onCancel();
+    //   },
+    //   error: () => {
+    //     this.snackbarService.displayMessage(`Nie udało się założyć wydatku ${newExpense.description}`);
+    //   }
+    // });
+    this.onCancel();
   }
 
   updateSlider() {
@@ -186,34 +189,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     this.form.get('currency')?.patchValue(group.defaultCurrency);
     this.users = group.users;
     this.currentGroupId = group.id!;
-  }
-
-  add(event: MatChipInputEvent): void {
-    const value = event.value;
-    // Add our fruit
-    if (value) {
-      // this.users.push(value);
-    }
-
-    // Clear the input value
-    event.chipInput!.clear();
-
-  }
-
-  remove(user: User): void {
-    const index = this.users.indexOf(user);
-
-    if (index >= 0) {
-      this.users.splice(index, 1);
-    }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    if (this.users.indexOf(event.option.value) < 0) {
-      this.users.push(event.option.value);
-    }
-    this.userNameInput.nativeElement.value = '';
-    this.userName.setValue(null);
   }
 
   private initForm() {
@@ -267,7 +242,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   }
 
   openSplitDialog(usersOriginalList: User[]) {
-
     if (this.splitDialogRef && (this.splitDialogRef as MatDialogRef<SplitDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
       return;
     }
@@ -284,16 +258,16 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       }
       this.splitHow = split.text;
       this.betweenWho = "";
+      this.debts = split.debts;
       console.log(split);
     })
   }
 
-  sanitize(amount: string) {
+  sanitizeInput(amount: string) {
     this.form.get('amount')?.patchValue(this.sanitizeAmount(amount));
   }
 
   openCurrencyDialog(currencies: string[], defaultCurrency: string) {
-
     if (this.currencyDialogRef && (this.currencyDialogRef as MatDialogRef<CurrencyDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
       return;
     }

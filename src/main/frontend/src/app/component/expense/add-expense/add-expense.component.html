@@ -25,7 +25,7 @@
             formControlName="amount"
             id="amount"
             matInput
-                 (blur)="sanitize(amountField.value)"
+                 (blur)="sanitizeInput(amountField.value)"
                  type="text">
           <mat-chip (click)="openCurrencyDialog(currencies, defaultCurrency)" matSuffix
                     style="margin-right:10px">{{ defaultCurrency }}
@@ -98,6 +98,6 @@
 <div mat-dialog-actions>
   <div>
     <button [disabled]="this.form.invalid" mat-raised-button type="submit">Submit</button>
-    <button (click)="onCancel()" mat-raised-button type="button">Cancel</button>
+    <button (click)="onSubmit()" mat-raised-button type="button">Cancel</button>
   </div>
 </div>
