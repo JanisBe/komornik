@@ -13,6 +13,6 @@
   </mat-selection-list>
 </div>
 <div mat-dialog-actions>
-  <button (click)="ok(payer._value)" mat-button>OK</button>
+  <button (click)="ok(payer.selectedOptions.selected[0].value)" mat-button>OK</button>
   <button (click)="close()" cdkFocusInitial mat-button>Cancel</button>
 </div>

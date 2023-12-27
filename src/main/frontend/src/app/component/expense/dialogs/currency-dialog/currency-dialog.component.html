@@ -2,7 +2,7 @@
   <mat-icon (click)="close()" class="float-end mt-4">close</mat-icon>
 </div>
 <div mat-dialog-content>
-  <mat-selection-list #payer [multiple]="false">
+  <mat-selection-list #currency [multiple]="false">
     @for (currency of data.currencies;track currency) {
       <mat-list-option
         [value]="currency"
@@ -13,6 +13,6 @@
   </mat-selection-list>
 </div>
 <div mat-dialog-actions>
-  <button (click)="ok(payer._value)" mat-button>OK</button>
+  <button (click)="ok(currency.selectedOptions.selected[0].value)" mat-button>OK</button>
   <button (click)="close()" cdkFocusInitial mat-button>Cancel</button>
 </div>

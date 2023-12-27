@@ -43,9 +43,9 @@
       <!--          </mat-form-field>-->
       <!--        </div>-->
       <div class="expense-who">
-        Do podziału pomiędzy
-        <mat-chip (click)="openPayerDialog(currentUser, this.users)">{{ payer.name }}</mat-chip>
-        a
+        Płaci
+        <mat-chip (click)="openPayerDialog(this.payer, this.users)">{{ payer.name }}</mat-chip>
+        , podział
         <mat-chip (click)="openSplitDialog(this.users)">{{ betweenWho }} {{ splitHow }}</mat-chip>
       </div>
       <div class="expense-date">

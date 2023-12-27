@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ExpenseService} from "../../../service/expense.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -29,7 +29,7 @@ import {CategoryDialogComponent} from "../dialogs/category-dialog/category-dialo
   templateUrl: './add-expense.component.html',
   styleUrls: ['./add-expense.component.scss']
 })
-export class AddExpenseComponent implements OnInit {
+export class AddExpenseComponent implements OnInit, OnDestroy {
   form: FormGroup;
   users: User[];
   categories: Category[];
@@ -43,7 +43,7 @@ export class AddExpenseComponent implements OnInit {
   currencies: string[] = [];
   defaultCurrency: string;
   payer: User;
-  betweenWho = "wszystkimi";
+  betweenWho = "wszyscy";
   splitHow = "po równo";
   separatorKeysCodes: number[] = [ENTER, COMMA];
   userName = new FormControl('');
@@ -70,6 +70,10 @@ export class AddExpenseComponent implements OnInit {
               private authService: AuthService,
               private dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: { groupId: number }) {
+  }
+
+  ngOnDestroy(): void {
+    this.onCancel();
   }
 
 
@@ -114,7 +118,6 @@ export class AddExpenseComponent implements OnInit {
 
   onCancel() {
     this.dialog.closeAll()
-    this.router.navigate(['group/list']);
   }
 
   onSubmit() {
@@ -243,7 +246,7 @@ export class AddExpenseComponent implements OnInit {
   }
 
   openPayerDialog(payer: User, usersOriginalList: User[]) {
-    if (this.payerDialogRef && (this.payerDialogRef as MatDialogRef<PayerDialogComponent>)?.getState() === 0) {
+    if (this.payerDialogRef && (this.payerDialogRef as MatDialogRef<PayerDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
       return;
     }
     this.payerDialogRef = this.dialog.open(PayerDialogComponent, {
@@ -258,21 +261,21 @@ export class AddExpenseComponent implements OnInit {
       if (payerId === undefined) {
         return;
       }
-      this.form.get('name')?.patchValue(payerId[0]);
-      this.payer = payerId[0];
+      this.form.get('name')?.patchValue(payerId);
+      this.payer = payerId;
     });
   }
 
   openSplitDialog(usersOriginalList: User[]) {
 
-    if (this.splitDialogRef && (this.splitDialogRef as MatDialogRef<SplitDialogComponent>)?.getState() === 0) {
+    if (this.splitDialogRef && (this.splitDialogRef as MatDialogRef<SplitDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
       return;
     }
 
     this.splitDialogRef = this.dialog.open(SplitDialogComponent, {
-      data: {users: usersOriginalList, currentUser: this.payer},
+      data: {users: usersOriginalList, currentUser: this.payer, amount: this.form.get('amount')?.value},
       hasBackdrop: false,
-      width: '300px',
+      width: '400px',
       position: {left: '68%'},
       panelClass: 'slide-in-from-right'
     });
@@ -280,13 +283,15 @@ export class AddExpenseComponent implements OnInit {
       if (split === undefined) {
         return;
       }
+      this.splitHow = split.text;
+      this.betweenWho = "";
       console.log(split);
     })
   }
 
   openCurrencyDialog(currencies: string[], defaultCurrency: string) {
 
-    if (this.currencyDialogRef && (this.currencyDialogRef as MatDialogRef<CurrencyDialogComponent>)?.getState() === 0) {
+    if (this.currencyDialogRef && (this.currencyDialogRef as MatDialogRef<CurrencyDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
       return;
     }
 
@@ -308,7 +313,7 @@ export class AddExpenseComponent implements OnInit {
   }
 
   openCategoryDialog() {
-    if (this.categoryDialogRef && (this.categoryDialogRef as MatDialogRef<CategoryDialogComponent>)?.getState() === 0) {
+    if (this.categoryDialogRef && (this.categoryDialogRef as MatDialogRef<CategoryDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
       return;
     }
     const iconList = this.categories.map(c => c.categoryIconName);
