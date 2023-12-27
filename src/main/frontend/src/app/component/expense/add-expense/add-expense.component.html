@@ -20,12 +20,13 @@
       <div class="expense-amount">
         <mat-form-field appearance="outline" class="col-12">
           <mat-label>Ile {{ defaultCurrency }}</mat-label>
-          <input
+          <input #amountField
             class="form-control"
             formControlName="amount"
             id="amount"
             matInput
-            type="text">
+                 (blur)="sanitize(amountField.value)"
+                 type="text">
           <mat-chip (click)="openCurrencyDialog(currencies, defaultCurrency)" matSuffix
                     style="margin-right:10px">{{ defaultCurrency }}
           </mat-chip>

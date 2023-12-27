@@ -52,7 +52,7 @@ export class SplitDialogComponent implements OnInit, AfterViewInit {
   }
 
   ok(selectedElement: any) {
-
+    console.log(selectedElement)
     if (this.data.users.length > 2 && this.getSum() != this.data.amount) {
       this.snackbarService.displayError("Suma musi być równa: " + this.data.amount + " aktualnie: " + this.getSum());
       return;
@@ -61,8 +61,8 @@ export class SplitDialogComponent implements OnInit, AfterViewInit {
       if (selectedElement.selectedOptions.selected[0].value == "equal") {
         this.debts.push({
           from: this.data.users[0],
-          to: this.data.users[1],
-          amount: this.data.amount / 2
+          to: this.data.users[0],
+          amount: -this.data.amount / 2
         });
         this.debts.push({
           from: this.data.users[0],
@@ -71,11 +71,23 @@ export class SplitDialogComponent implements OnInit, AfterViewInit {
         });
         this.dialogRef.close({debts: this.debts, text: "wszyscy po równo"});
       } else {
+        this.debts.push({
+          from: selectedElement.selectedOptions.selected[0].value,
+          to: selectedElement.selectedOptions.selected[0].value,
+          amount: -this.data.amount
+        });
+        this.debts.push({
+          from: selectedElement.selectedOptions.selected[0].value,
+          to: selectedElement.selectedOptions.selected[0].value,
+          amount: this.data.amount
+        });
         this.dialogRef.close({
           debts: this.debts,
           text: selectedElement.selectedOptions.selected[0].value.name + " płaci za wszystko"
         });
       }
+    } else {
+
     }
   }
 

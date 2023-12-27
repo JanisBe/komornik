@@ -271,9 +271,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     if (this.splitDialogRef && (this.splitDialogRef as MatDialogRef<SplitDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
       return;
     }
-
     this.splitDialogRef = this.dialog.open(SplitDialogComponent, {
-      data: {users: usersOriginalList, currentUser: this.payer, amount: this.form.get('amount')?.value},
+      data: {users: usersOriginalList, currentUser: this.payer, amount: this.sanitizeAmount(this.form.value.amount)},
       hasBackdrop: false,
       width: '400px',
       position: {left: '68%'},
@@ -287,6 +286,10 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       this.betweenWho = "";
       console.log(split);
     })
+  }
+
+  sanitize(amount: string) {
+    this.form.get('amount')?.patchValue(this.sanitizeAmount(amount));
   }
 
   openCurrencyDialog(currencies: string[], defaultCurrency: string) {
@@ -332,5 +335,9 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       this.form.get('category')?.patchValue(category.id);
       this.categoryIcon = category.categoryIconName!;
     })
+  }
+
+  private sanitizeAmount(amount: string) {
+    return amount?.replace(/,/g, '.');
   }
 }
