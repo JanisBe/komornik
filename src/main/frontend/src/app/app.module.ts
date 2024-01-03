@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {isDevMode, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -34,6 +34,7 @@ import {UserModule} from "./component/user/user.module";
 import {ForgotPasswordComponent} from './component/common/forgot-password/forgot-password.component';
 import {DashboardComponent} from './component/dashboard/dashboard/dashboard.component';
 import {IconPickerComponent} from './component/common/icon-picker/icon-picker.component';
+import {ServiceWorkerModule} from '@angular/service-worker';
 
 registerLocaleData(myLocalePl);
 
@@ -74,6 +75,12 @@ registerLocaleData(myLocalePl);
     MatSliderModule,
     MatChipsModule,
     NgOptimizedImage,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
