@@ -37,6 +37,12 @@ public class User implements UserDetails {
 	@Column(name = "avatar")
 	private String avatar;
 
+	@Column(name = "verificationToken")
+	private String verificationToken;
+
+	@Column(name = "isVerified")
+	private boolean isVerified;
+
 	@ManyToMany(mappedBy = "users")
 	@JsonIgnore
 	@ToString.Exclude

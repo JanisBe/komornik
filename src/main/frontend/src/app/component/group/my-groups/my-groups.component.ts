@@ -25,6 +25,6 @@ export class MyGroupsComponent {
   }
 
   navigate(groupId: number) {
-    this.router.navigate(['/group/summary', groupId]);
+    this.router.navigate(['/group/details', groupId]);
   }
 }

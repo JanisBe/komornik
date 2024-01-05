@@ -56,4 +56,9 @@ public class UserRestController {
         Integer newPass = userService.forgotPassword(user);
         return "Nowe hasło ustawione na " + newPass + ", zmień je!";
     }
+
+    @GetMapping("/verify/{userId}/{token}")
+    public String verify(@PathVariable int userId, @PathVariable String token) {
+        return userService.verify(userId, token);
+    }
 }

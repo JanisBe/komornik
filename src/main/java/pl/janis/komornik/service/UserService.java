@@ -98,4 +98,14 @@ public class UserService implements UserDetailsService {
         }
         throw new UsernameNotFoundException("Nie znaleziono użytkownika o mailu " + currentUser.getMail());
     }
+
+    public String verify(int userId, String token) {
+        User newUser = userRepository.findById(userId).orElseThrow(() -> new ElementDoesNotExistException("Nie ma takiego użytkownika"));
+        if (newUser.getVerificationToken().equals(token)) {
+            newUser.setVerified(true);
+            userRepository.save(newUser);
+            return "Użytkownik został zatwierdzony";
+        }
+        return "Nieprawidłowy token";
+    }
 }

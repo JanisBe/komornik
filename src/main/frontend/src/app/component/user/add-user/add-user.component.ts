@@ -25,6 +25,7 @@ export class AddUserComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.user.value;
     this.initForm();
+    console.log(this.currentUser)
   }
 
   onSubmit() {
