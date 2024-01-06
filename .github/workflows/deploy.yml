@@ -3,7 +3,7 @@ name: Build and Deploy Java Project
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build_and_deploy:
@@ -13,19 +13,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'  # Replace with your desired Java version
-
-      - name: Build JAR package
-        run: mvn clean package
-
-      - name: Copy JAR to server via SSH
+      - name: Copy docker-compose.yaml to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}  # Set the SSH server's hostname as a secret in the GitHub repository settings
           username: ${{ secrets.SERVER_USERNAME }}  # Set the SSH username as a secret in the GitHub repository settings
           key: ${{ secrets.SERVER_SSH_KEY }}  # Set the private SSH key as a secret in the GitHub repository settings
-          source: "target/your-java-project.jar"  # Replace with the actual JAR file path
-          target: "/path/to/destination/on/server/your-java-project.jar"  # Replace with the destination path on the server
+          source: "docker-compose.yaml"  # Replace with the actual JAR file path
+          target: "/home/ubuntu/Documents/docker-compose.yaml"  # Replace with the destination path on the server
