@@ -33,11 +33,11 @@ export class AddUserComponent implements OnInit {
     this.userService.addUser(user).subscribe({
       next: (response) => {
         const newUser = response.body!;
-        this.snackbarService.displayMessage(`Sukces, użytkownik ${newUser.name} zapisany`);
+        this.snackbarService.displayMessage(`Sukces, użytkownik ${newUser.name} zapisany, sprawdz email, aby aktywowć konto.`, 5000);
         if (!!this.currentUser) {
           this.authService.login(newUser.mail, newUser.password!);
         }
-        this.onCancel();
+        this.router.navigate(['/login']);
       },
       error: (err) => {
         console.log(err.error);

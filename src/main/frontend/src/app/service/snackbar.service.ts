@@ -9,14 +9,20 @@ export class SnackbarService {
   constructor(private _snackBar: MatSnackBar) {
   }
 
-  displayMessage(text: string) {
+  displayMessage(text: string, duration?: number) {
+    if (duration === undefined) {
+      duration = 3000;
+    }
     this._snackBar.open(text, "Zamknij",
-      {horizontalPosition: "center", verticalPosition: "top", duration: 3000});
+      {horizontalPosition: "center", verticalPosition: "top", duration: duration});
   }
 
 
-  displayError(text: string) {
+  displayError(text: string, duration?: number) {
+    if (duration === undefined) {
+      duration = 3000;
+    }
     this._snackBar.open(text, "Zamknij",
-      {horizontalPosition: "center", verticalPosition: "top", duration: 3000});
+      {horizontalPosition: "center", verticalPosition: "top", duration: duration});
   }
 }

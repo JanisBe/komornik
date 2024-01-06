@@ -31,7 +31,7 @@ public class AuthenticationRestController {
                 new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
         final UserDetails user = userDetailsService.loadUserByUsername(request.username());
-        if (user != null) {
+        if (user != null && user.isEnabled()) {
             UserDto userDto = userMapper.toDto((User) user);
             return new ResponseEntity<>(userDto.withToken(jwtUtil.generateToken(user)), HttpStatus.OK);
         }

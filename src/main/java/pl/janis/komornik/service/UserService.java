@@ -17,6 +17,7 @@ import pl.janis.komornik.repository.UserRepository;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,10 @@ public class UserService implements UserDetailsService {
     public UserDto addUser(User user) throws UserAlreadyExistsException {
         if (userRepository.findByMail(user.getMail()) == null) {
             user.setPassword(encoder.encode(user.getPassword()));
-            return userMapper.toDto(userRepository.save(user));
+            user.setVerificationToken(UUID.randomUUID().toString());
+            User saved = userRepository.save(user);
+            emailService.sendVerificationEmail(saved);
+            return userMapper.toDto(saved);
         } else {
             throw new UserAlreadyExistsException("Użytkownik z tym mailem już istnieje");
         }
@@ -52,9 +56,7 @@ public class UserService implements UserDetailsService {
             throw new UserNotAllowedToEditException("Nie możesz edytować tego użytkownika");
         }
         User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new ElementDoesNotExistException("No results"));
-        existingUser.setMail(user.getMail());
-        existingUser.setName(user.getName());
-        existingUser.setAvatar(user.getAvatar());
+        user = userMapper.clone(existingUser);
         return userMapper.toDto(userRepository.save(user));
     }
 
@@ -99,13 +101,13 @@ public class UserService implements UserDetailsService {
         throw new UsernameNotFoundException("Nie znaleziono użytkownika o mailu " + currentUser.getMail());
     }
 
-    public String verify(int userId, String token) {
+    public boolean verify(int userId, String token) {
         User newUser = userRepository.findById(userId).orElseThrow(() -> new ElementDoesNotExistException("Nie ma takiego użytkownika"));
         if (newUser.getVerificationToken().equals(token)) {
             newUser.setVerified(true);
             userRepository.save(newUser);
-            return "Użytkownik został zatwierdzony";
+            return true;
         }
-        return "Nieprawidłowy token";
+        return false;
     }
 }

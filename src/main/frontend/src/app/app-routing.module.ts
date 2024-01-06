@@ -25,7 +25,7 @@ const routes: Routes = [
   {path: 'category/list', component: AllCategoriesComponent, canActivate: [authGuard]},
   {path: 'user/details/:userId', component: UserDetailsComponent, canActivate: [authGuard]},
   {path: 'user/list', component: AllUsersComponent, canActivate: [authGuard]},
-  {path: 'user/add', component: AddUserComponent, canActivate: [authGuard]},
+  {path: 'user/add', component: AddUserComponent},
   {path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [authGuard]},
   {path: 'group/details/:groupId', component: AddGroupComponent, canActivate: [authGuard]},
   {path: 'group/summary/:groupId', component: GroupSummaryComponent, canActivate: [authGuard]},
