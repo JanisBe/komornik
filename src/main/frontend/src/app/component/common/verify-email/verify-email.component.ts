@@ -22,8 +22,10 @@ export class VerifyEmailComponent {
   ngOnInit(): void {
     const token = this.route.snapshot.queryParams['token'];
     const userId = this.route.snapshot.queryParams['userId'];
+    console.log("here1")
     if (!token || !userId) {
       this.snackbarService.displayError('Niepoprawny link aktywacji');
+      console.log("here2")
       this.router.navigate(['/login']);
     }
     this.userService.verifyUser(token, userId).subscribe({
@@ -34,8 +36,8 @@ export class VerifyEmailComponent {
         this.router.navigate(['/']);
       },
       error: (err) => {
-        console.log(err.error);
-        this.snackbarService.displayError(err.error);
+        console.log(err);
+        this.snackbarService.displayError("Wystąpił błąd");
       }
     });
   }

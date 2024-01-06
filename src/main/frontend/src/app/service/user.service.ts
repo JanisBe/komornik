@@ -41,12 +41,18 @@ export class UserService {
   }
 
   verifyUser(token: string, userId: string) {
-    return this.http.post<User>("http://localhost:8080/user/verifyUser/", {
+    const verifyUser: VerifyUser = {
       token: token,
-      userId: userId
-    }, {
+      userId: parseInt(userId)
+    }
+    return this.http.post<User>("http://localhost:8080/user/verifyUser/", {verifyUser}, {
       observe: "response",
       responseType: "text" as "json"
     });
   }
+}
+
+type VerifyUser = {
+  token: string,
+  userId: number
 }
