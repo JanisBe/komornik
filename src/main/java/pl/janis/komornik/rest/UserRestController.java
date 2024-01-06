@@ -57,9 +57,8 @@ public class UserRestController {
         return "Nowe hasło ustawione na " + newPass + ", zmień je!";
     }
 
-    @GetMapping("/verify/")
-    public String verify(@RequestParam int userId, @RequestParam String token) {
-        userService.verify(userId, token);
-        return "forward:/index.html";
+    @PostMapping("/verifyUser/")
+    public UserDto verify(@RequestParam int userId, @RequestParam String token) {
+        return userService.verify(userId, token);
     }
 }

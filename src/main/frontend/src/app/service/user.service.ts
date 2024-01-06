@@ -39,4 +39,14 @@ export class UserService {
       responseType: "text" as "json"
     });
   }
+
+  verifyUser(token: string, userId: string) {
+    return this.http.post<User>("http://localhost:8080/user/verifyUser/", {
+      token: token,
+      userId: userId
+    }, {
+      observe: "response",
+      responseType: "text" as "json"
+    });
+  }
 }

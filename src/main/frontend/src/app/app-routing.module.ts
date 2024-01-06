@@ -15,6 +15,7 @@ import {DashboardComponent} from "./component/dashboard/dashboard/dashboard.comp
 import {authGuard} from "./auth/auth.guard";
 import {IconPickerComponent} from "./component/common/icon-picker/icon-picker.component";
 import {GroupSummaryComponent} from "./component/group/group-summary/group-summary.component";
+import {VerifyEmailComponent} from "./component/common/verify-email/verify-email.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path: 'user/details/:userId', component: UserDetailsComponent, canActivate: [authGuard]},
   {path: 'user/list', component: AllUsersComponent, canActivate: [authGuard]},
   {path: 'user/add', component: AddUserComponent},
+  {path: 'verifyEmail', component: VerifyEmailComponent},
   {path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [authGuard]},
   {path: 'group/details/:groupId', component: AddGroupComponent, canActivate: [authGuard]},
   {path: 'group/summary/:groupId', component: GroupSummaryComponent, canActivate: [authGuard]},

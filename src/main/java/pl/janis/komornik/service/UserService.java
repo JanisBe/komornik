@@ -101,13 +101,12 @@ public class UserService implements UserDetailsService {
         throw new UsernameNotFoundException("Nie znaleziono użytkownika o mailu " + currentUser.getMail());
     }
 
-    public boolean verify(int userId, String token) {
+    public UserDto verify(int userId, String token) {
         User newUser = userRepository.findById(userId).orElseThrow(() -> new ElementDoesNotExistException("Nie ma takiego użytkownika"));
         if (newUser.getVerificationToken().equals(token)) {
             newUser.setVerified(true);
-            userRepository.save(newUser);
-            return true;
+            return userMapper.toDto(userRepository.save(newUser));
         }
-        return false;
+        throw new ElementDoesNotExistException("Nie ma takiego tokenu");
     }
 }

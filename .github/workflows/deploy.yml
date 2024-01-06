@@ -1,9 +1,9 @@
-name: Build and Deploy Java Project
+name: Copy docker-compose.yaml to server
 
 on:
   push:
     branches:
-      - master
+      - masterrr
 
 jobs:
   build_and_deploy:
