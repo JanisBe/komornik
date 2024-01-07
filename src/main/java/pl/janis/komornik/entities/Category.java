@@ -24,7 +24,7 @@ public class Category {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "category_name", nullable = false)
     private String categoryName;
 
     @Column(name = "category_icon_name")

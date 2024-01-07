@@ -98,6 +98,6 @@
 <div mat-dialog-actions>
   <div>
     <button (click)="onSubmit()" [disabled]="this.form.invalid" mat-raised-button type="button">Zapisz</button>
-    <button mat-raised-button type="reset">Anuluj</button>
+    <button (click)="onCancel()" mat-raised-button type="reset">Anuluj</button>
   </div>
 </div>

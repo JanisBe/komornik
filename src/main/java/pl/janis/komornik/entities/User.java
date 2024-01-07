@@ -25,7 +25,7 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "username", nullable = false)
     private String name;
 
     @Column(name = "mail", nullable = false)
@@ -37,10 +37,10 @@ public class User implements UserDetails {
     @Column(name = "avatar")
     private String avatar;
 
-    @Column(name = "verificationToken")
+    @Column(name = "verification_token")
     private String verificationToken;
 
-    @Column(name = "isVerified")
+    @Column(name = "is_verified")
     private Boolean isVerified;
 
     @ManyToMany(mappedBy = "users")

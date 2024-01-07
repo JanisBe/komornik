@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ExpenseService} from "../../../service/expense.service";
 import {ActivatedRoute} from "@angular/router";
@@ -35,7 +35,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   currentGroup: Group;
   currentGroupName$: Observable<string>;
   currentExpense: Expense;
-  userGroups: Group[];
   defaultSplit: number = 50;
   currencies: string[] = [];
   defaultCurrency: string;
@@ -51,9 +50,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   private payerDialogRef: MatDialogRef<PayerDialogComponent>;
   private currencyDialogRef: MatDialogRef<CurrencyDialogComponent>;
   private categoryDialogRef: MatDialogRef<CategoryDialogComponent>;
-  @ViewChild("slider") slider: ElementRef;
-  @ViewChild("sliderInput") sliderInput: ElementRef;
-  @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>;
   private editMode: boolean;
   private debts: Debt[] = [];
 

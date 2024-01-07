@@ -1,12 +1,12 @@
-INSERT INTO komornik.users (id, avatar, mail, name, password, is_verified)
+INSERT INTO komornik.users (id, avatar, mail, username, password, is_verified)
 VALUES (1, null, 'a@a.pl', 'a', '$2a$10$rgTJrdROc5a0MJiTmSU8qewdi6Ro2elGZf6Rmuc5/rl6nam3P3z.S', true),
        (2, null, 'aa@aa.pl', 'aa', '$2a$10$rgTJrdROc5a0MJiTmSU8qewdi6Ro2elGZf6Rmuc5/rl6nam3P3z.S', true),
        (3, null, 'aaa@a.pl', 'aaa', '$2a$10$rgTJrdROc5a0MJiTmSU8qewdi6Ro2elGZf6Rmuc5/rl6nam3P3z.S', true),
        (4, null, 'aaaa@a.pl', 'aaaa', '$2a$10$rgTJrdROc5a0MJiTmSU8qewdi6Ro2elGZf6Rmuc5/rl6nam3P3z.S', true);
-INSERT INTO komornik.categories (id, name)
+INSERT INTO komornik.categories (id, category_name)
 VALUES (1, 'kategoria'),
        (2, 'drugaKategoriaaa');
-INSERT INTO komornik.groups (id, default_currency, description, name)
+INSERT INTO komornik.groups (id, default_currency, description, group_name)
 VALUES (1, 'PLN', 'komornik grupa', 'grupa'),
        (2, 'PLN', null, 'drugaKategoriaaa');
 INSERT INTO komornik.user_x_group (group_id, user_id)

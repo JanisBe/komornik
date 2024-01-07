@@ -64,7 +64,6 @@ export class AddGroupComponent implements OnInit {
 
   onSubmit() {
     const data = this.groupForm.value;
-    console.log(data)
     let newGroup: Group = {
       description: data.description,
       users: data.users,
