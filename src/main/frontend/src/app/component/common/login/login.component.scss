@@ -1,6 +1,16 @@
 .button-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
   justify-content: space-around;
   width: 100%;
   height: 75px;
+}
+
+.submit-button {
+  width: 32px
+}
+
+.wider-button {
+  width: 115px
 }

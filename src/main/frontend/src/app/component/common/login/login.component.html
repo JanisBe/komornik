@@ -5,7 +5,7 @@
         <div class="row">
           <div class="form-group">
             <mat-form-field appearance="outline" style="width:30vw">
-              <mat-label>Username</mat-label>
+              <mat-label>Nazwa użytkownika</mat-label>
               <input class="form-control"
                      formControlName="login"
                      id="login"
@@ -15,7 +15,7 @@
           </div>
           <div class="form-group">
             <mat-form-field appearance="outline" style="width:30vw">
-              <mat-label>Password</mat-label>
+              <mat-label>Hasło</mat-label>
               <input
                 class="form-control"
                 formControlName="password"
@@ -24,10 +24,11 @@
                 type="password">
             </mat-form-field>
           </div>
-          <div class="button-container" style="width:40vw">
-            <button color="primary" mat-raised-button type="submit">Login</button>
-            <button color="primary" mat-raised-button routerLink="/user/add">Register</button>
-            <button (click)="forgotPass()" color="primary" mat-raised-button>Forgot Password</button>
+          <div class="button-container">
+            <button class="submit-button" color="primary" mat-raised-button type="submit">Login</button>
+            <button class="wider-button" color="primary" mat-raised-button routerLink="/user/add">Zarejestruj</button>
+            <button (click)="forgotPass()" class="wider-button" color="primary" mat-raised-button>Zapomniałem hasła
+            </button>
           </div>
         </div>
       </form>
