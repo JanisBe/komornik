@@ -119,20 +119,19 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   onSubmit() {
     let debts: Debt[] = [];
     const sanitizedAmount = parseInt(this.sanitizeAmount(this.form.value.amount));
-    const currentUsers: User[] = [this.currentUser, ...this.users];
     if (debts.length == 0) {
-      currentUsers.forEach((user) => {
-          if (user.id !== this.currentUser.id) {
+      this.users.forEach((user) => {
+        if (user.id !== this.payer.id) {
             let debt: Debt = {
-              from: this.currentUser,
+              from: this.payer,
               to: user,
-              amount: +(sanitizedAmount / (currentUsers.length)).toFixed(2)
+              amount: +(sanitizedAmount / (this.users.length)).toFixed(2)
             }
             debts.push(debt);
           } else {
-            const myDue = (sanitizedAmount / (currentUsers.length)) * (currentUsers.length - 1);
+          const myDue = (sanitizedAmount / (this.users.length)) * (this.users.length - 1);
             let debt: Debt = {
-              from: this.currentUser,
+              from: this.payer,
               to: user,
               amount: -myDue.toFixed(2)
             }
@@ -167,30 +166,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     });
     this.onCancel();
   }
-
-  // updateSlider() {
-  //   if (this.sliderInput.nativeElement.value > 101) {
-  //     this.sliderInput.nativeElement.value = 100;
-  //   }
-  //   if (this.sliderInput.nativeElement.value < 0) {
-  //     this.sliderInput.nativeElement.value = 0;
-  //   }
-  //   this.defaultSplit = this.sliderInput.nativeElement.value;
-  // }
-  //
-  // updateSliderInput() {
-  //   this.defaultSplit = this.slider.nativeElement.value;
-  // }
-  //
-  // displayFn(user: User): string {
-  //   return user?.name;
-  // }
-  //
-  // onGroupChange(group: Group) {
-  //   this.form.get('currency')?.patchValue(group.defaultCurrency);
-  //   this.users = group.users;
-  //   this.currentGroupId = group.id!;
-  // }
 
   private initForm() {
     this.form = new FormGroup({
