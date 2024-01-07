@@ -117,7 +117,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log("here")
     let debts: Debt[] = [];
     const sanitizedAmount = parseInt(this.sanitizeAmount(this.form.value.amount));
     const currentUsers: User[] = [this.currentUser, ...this.users];
@@ -144,52 +143,54 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     } else {
       debts = this.debts;
     }
+    const dateTime = new Date(this.form.value.date);
+    dateTime.setHours(new Date().getHours(), new Date().getMinutes(), new Date().getSeconds());
     const newExpense: Expense = {
       description: this.form.value.description,
       currency: this.form.value.currency,
-      date: new Date(),
+      date: dateTime,
       debt: debts,
       categoryId: +this.form.value.category,
       groupId: this.currentGroupId
     }
     console.log(newExpense);
-    // this.expenseService.saveExpense(newExpense).subscribe({
-    //   next: (result) => {
-    //     this.editMode ?
-    //       this.snackbarService.displayMessage(`Zapisano wydatek ${result.description}!`) :
-    //       this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`);
-    //     this.onCancel();
-    //   },
-    //   error: () => {
-    //     this.snackbarService.displayMessage(`Nie udało się założyć wydatku ${newExpense.description}`);
-    //   }
-    // });
+    this.expenseService.saveExpense(newExpense).subscribe({
+      next: (result) => {
+        this.editMode ?
+          this.snackbarService.displayMessage(`Zapisano wydatek ${result.description}!`) :
+          this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`);
+        this.onCancel();
+      },
+      error: () => {
+        this.snackbarService.displayMessage(`Nie udało się założyć wydatku ${newExpense.description}`);
+      }
+    });
     this.onCancel();
   }
 
-  updateSlider() {
-    if (this.sliderInput.nativeElement.value > 101) {
-      this.sliderInput.nativeElement.value = 100;
-    }
-    if (this.sliderInput.nativeElement.value < 0) {
-      this.sliderInput.nativeElement.value = 0;
-    }
-    this.defaultSplit = this.sliderInput.nativeElement.value;
-  }
-
-  updateSliderInput() {
-    this.defaultSplit = this.slider.nativeElement.value;
-  }
-
-  displayFn(user: User): string {
-    return user?.name;
-  }
-
-  onGroupChange(group: Group) {
-    this.form.get('currency')?.patchValue(group.defaultCurrency);
-    this.users = group.users;
-    this.currentGroupId = group.id!;
-  }
+  // updateSlider() {
+  //   if (this.sliderInput.nativeElement.value > 101) {
+  //     this.sliderInput.nativeElement.value = 100;
+  //   }
+  //   if (this.sliderInput.nativeElement.value < 0) {
+  //     this.sliderInput.nativeElement.value = 0;
+  //   }
+  //   this.defaultSplit = this.sliderInput.nativeElement.value;
+  // }
+  //
+  // updateSliderInput() {
+  //   this.defaultSplit = this.slider.nativeElement.value;
+  // }
+  //
+  // displayFn(user: User): string {
+  //   return user?.name;
+  // }
+  //
+  // onGroupChange(group: Group) {
+  //   this.form.get('currency')?.patchValue(group.defaultCurrency);
+  //   this.users = group.users;
+  //   this.currentGroupId = group.id!;
+  // }
 
   private initForm() {
     this.form = new FormGroup({
