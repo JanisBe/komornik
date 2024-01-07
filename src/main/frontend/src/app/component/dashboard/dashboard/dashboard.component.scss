@@ -3,13 +3,13 @@
 .grid-container {
   height: 100vh;
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-areas: "header header" "sidebar content" "footer footer";
+  grid-template-columns: 150px 1fr;
   grid-template-rows: 60px 1fr;
 }
 
 .content {
-  grid-column: 2/3;
-  grid-row: 2/3;
+  grid-area: content;
   padding: 20px;
 }
 
@@ -20,8 +20,7 @@
 }
 
 header {
-  grid-column: 2/3;
-  grid-row: 1/2;
+  grid-area: header;
 }
 
 footer {
@@ -29,13 +28,12 @@ footer {
 
 .sidebar {
   background: #263238;
-  grid-row: 2/3;
-  grid-column: 1/2;
+  grid-area: sidebar;
   box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
 }
 
 .logo-font {
-  font-family: "Arial Black", cursive;
+  font-family: "Arial Black";
   font-size: 26px;
   padding-right: 10px;
   vertical-align: middle;
