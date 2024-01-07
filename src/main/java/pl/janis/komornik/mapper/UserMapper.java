@@ -9,7 +9,7 @@ import pl.janis.komornik.entities.User;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.WARN, componentModel = MappingConstants.ComponentModel.SPRING)
 public abstract class UserMapper {
-    @Mapping(target = "verified", ignore = true)
+    @Mapping(target = "isVerified", ignore = true)
     @Mapping(target = "verificationToken", ignore = true)
     @Mapping(target = "debtTo", ignore = true)
     @Mapping(target = "debtFrom", ignore = true)
