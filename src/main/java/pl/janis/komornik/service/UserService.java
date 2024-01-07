@@ -105,11 +105,11 @@ public class UserService implements UserDetailsService {
 
     public UserDto verify(int userId, String token) {
         User newUser = userRepository.findById(userId).orElseThrow(() -> new ElementDoesNotExistException("Nie ma takiego użytkownika"));
-        if (newUser.isVerified()) {
+        if (newUser.getIsVerified()) {
             throw new ElementDoesNotExistException("Konto zostało już aktywowane");
         }
         if (newUser.getVerificationToken().equals(token)) {
-            newUser.setVerified(true);
+            newUser.setIsVerified(true);
             UserDto newUserDto = userMapper.toDto(userRepository.save(newUser));
             return newUserDto.withToken(jwtUtil.generateToken(newUser));
         }

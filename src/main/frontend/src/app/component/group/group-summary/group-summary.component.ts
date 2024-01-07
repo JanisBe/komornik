@@ -19,12 +19,13 @@ export class GroupSummaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.groupId = this.route.snapshot.params['groupId'];
-    this.expenseService.findAllByGroupId(this.groupId).subscribe(expenses => {
-      this.expenses = this.groupByDate(expenses);
-      console.log(this.expenses);
+    this.route.params.subscribe(params => {
+      this.groupId = params['groupId'];
+      this.expenseService.findAllByGroupId(this.groupId).subscribe(expenses => {
+        this.expenses = this.groupByDate(expenses);
+        console.log(this.expenses);
+      });
     });
-
   }
 
   groupByDate(objects: Expense[]): Map<string, Expense[]> {

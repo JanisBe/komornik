@@ -41,7 +41,7 @@ public class User implements UserDetails {
     private String verificationToken;
 
     @Column(name = "isVerified")
-    private boolean isVerified;
+    private Boolean isVerified;
 
     @ManyToMany(mappedBy = "users")
     @JsonIgnore
@@ -85,7 +85,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isVerified();
+        return this.isVerified;
     }
 
 

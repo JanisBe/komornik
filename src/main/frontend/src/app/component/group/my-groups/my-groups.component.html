@@ -1,5 +1,5 @@
 <div class="flex">
-  <div class="your-groups">Twoje grupy to:</div>
+  <div class="your-groups">Twoje grupy:</div>
   <div class="add-group" routerLink="/group/add">Nowa
     <mat-icon class="add-group-icon">group_add</mat-icon>
   </div>
@@ -7,7 +7,7 @@
 <div class="sidenav">
   <ul class="sidenav-nav">
     <li *ngFor="let group of allGroups" class="sidenav-nav-item">
-      <a (click)="navigate(group.id!)" class="sidenav-nav-link">
+      <a [routerLink]="['/group/summary/', group.id]" class="sidenav-nav-link">
         <mat-icon class="icon">{{group.groupIconName ? group.groupIconName : "groups"}}</mat-icon>
         <span class="sidenav-link-text pointer">{{group.groupName}}</span>
       </a>

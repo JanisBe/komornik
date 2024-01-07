@@ -1,11 +1,18 @@
 <div *ngFor="let expense of expenses | keyvalue: reverseKeyOrder">
   <div>
-    <p>date: {{ expense.key | date:'shortDate':'':'pl' }}</p>
-    <div *ngFor="let ex of expense.value">
-      <p>dokładnie to: {{ ex.date | date:'shortDate':'':'pl' }} i {{ ex.description }}</p>
-      <div *ngFor="let debt of ex.debt">
-        <p>{{ debt.from.name }} -> {{ debt.to.name }} = {{ debt.amount }}</p>
-      </div>
-    </div>
+    <table>
+      <thead>
+      <tr class="grey">
+        <th>Data: {{ expense.key | date:'shortDate':'':'pl' }}
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let ex of expense.value">
+        <td *ngFor="let debt of ex.debt">
+          {{ debt.from.name }} -> {{ debt.to.name }} = {{ debt.amount }}
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>
