@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {User} from "../model/user";
 
 @Injectable({
@@ -41,18 +41,11 @@ export class UserService {
   }
 
   verifyUser(token: string, userId: string) {
-    const verifyUser: VerifyUser = {
-      token: token,
-      userId: parseInt(userId)
-    }
-    return this.http.post<User>("http://localhost:8080/user/verifyUser/", {verifyUser}, {
+    const params: HttpParams = new HttpParams({fromString: "token=" + token + "&userId=" + userId});
+    return this.http.post<User>("http://localhost:8080/user/verifyUser/", null, {
       observe: "response",
-      responseType: "text" as "json"
+      params: params
     });
   }
 }
 
-type VerifyUser = {
-  token: string,
-  userId: number
-}

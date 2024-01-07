@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.janis.komornik.exception.ElementDoesNotExistException;
 import pl.janis.komornik.exception.UserAlreadyExistsException;
 import pl.janis.komornik.exception.UserNotAllowedToEditException;
 import pl.janis.komornik.exception.UserNotInGroupException;
@@ -23,6 +24,12 @@ public class CustomControllerAdvice {
     @ExceptionHandler(UserAlreadyExistsException.class)
     @ResponseStatus(BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(Exception e) {
+        return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, e.getMessage()), FORBIDDEN);
+    }
+
+    @ExceptionHandler(ElementDoesNotExistException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleElementDoesNotExistException(Exception e) {
         return new ResponseEntity<>(new ErrorResponse(FORBIDDEN, e.getMessage()), FORBIDDEN);
     }
 

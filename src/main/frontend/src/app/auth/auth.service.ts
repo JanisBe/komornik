@@ -121,4 +121,8 @@ export class AuthService {
     return throwError(() => errorMessage);
   }
 
+  storeUser(user: User) {
+    localStorage.setItem('userData', JSON.stringify(user));
+    this.user.next(user);
+  }
 }

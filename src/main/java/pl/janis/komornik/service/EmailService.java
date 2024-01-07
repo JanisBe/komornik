@@ -31,7 +31,7 @@ public class EmailService {
         try {
 
             MimeMessage message = mailSender.createMimeMessage();
-            String msg = "Kliknij link, aby aktywować konto: http://" + appAddress.getAddress() + "/verify?token=" + user.getVerificationToken() + "&userId=" + user.getId();
+            String msg = "Kliknij link, aby aktywować konto: http://" + appAddress.getAddress() + "/verifyEmail?token=" + user.getVerificationToken() + "&userId=" + user.getId();
             message.setSubject("Witaj w Komorniku!");
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(user.getMail());

@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.janis.komornik.config.JwtUtil;
 import pl.janis.komornik.dto.UserDto;
 import pl.janis.komornik.entities.User;
 import pl.janis.komornik.exception.ElementDoesNotExistException;
@@ -27,6 +28,7 @@ public class UserService implements UserDetailsService {
     private final UserMapper userMapper;
     private final PasswordEncoder encoder;
     private final EmailService emailService;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public UserDto addUser(User user) throws UserAlreadyExistsException {
@@ -103,9 +105,13 @@ public class UserService implements UserDetailsService {
 
     public UserDto verify(int userId, String token) {
         User newUser = userRepository.findById(userId).orElseThrow(() -> new ElementDoesNotExistException("Nie ma takiego użytkownika"));
+        if (newUser.isVerified()) {
+            throw new ElementDoesNotExistException("Konto zostało już aktywowane");
+        }
         if (newUser.getVerificationToken().equals(token)) {
             newUser.setVerified(true);
-            return userMapper.toDto(userRepository.save(newUser));
+            UserDto newUserDto = userMapper.toDto(userRepository.save(newUser));
+            return newUserDto.withToken(jwtUtil.generateToken(newUser));
         }
         throw new ElementDoesNotExistException("Nie ma takiego tokenu");
     }
