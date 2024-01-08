@@ -127,8 +127,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
           } else {
           const myDue = (sanitizedAmount / (this.users.length)) * (this.users.length - 1);
             let debt: Debt = {
-              from: this.payer,
-              to: user,
+              from: user,
+              to: this.payer,
               amount: -myDue.toFixed(2)
             }
             debts.push(debt);

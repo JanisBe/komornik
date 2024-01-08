@@ -124,7 +124,6 @@ export class AddGroupComponent implements OnInit {
       mail: selectedUser.option.value.mail,
       id: selectedUser.option.value.id
     });
-    console.log(control);
   }
 
   pickIcon() {

@@ -1,23 +1,26 @@
-#name: Copy docker-compose.yaml to server
-#
-#on:
-#  push:
-#    branches:
-#      - masterrr
-#
-#jobs:
-#  build_and_deploy:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v2
-#
-#      - name: Copy docker-compose.yaml to server
-#        uses: appleboy/scp-action@master
-#        with:
-#          host: ${{ secrets.SERVER_HOST }}  # Set the SSH server's hostname as a secret in the GitHub repository settings
-#          username: ${{ secrets.SERVER_USERNAME }}  # Set the SSH username as a secret in the GitHub repository settings
-#          key: ${{ secrets.SERVER_SSH_KEY }}  # Set the private SSH key as a secret in the GitHub repository settings
-#          source: "docker-compose.yaml"  # Replace with the actual JAR file path
-#          target: "/home/ubuntu/Documents/docker-compose.yaml"  # Replace with the destination path on the server
+name: Build Docker Image and Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ../Dockerfile
+          push: true
+          tags: janisbe/komornik-app:v1
