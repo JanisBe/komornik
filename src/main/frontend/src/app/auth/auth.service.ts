@@ -4,6 +4,7 @@ import {Injectable} from "@angular/core";
 import {BehaviorSubject, catchError, tap, throwError} from "rxjs";
 import {User} from "../model/user";
 import {SnackbarService} from "../service/snackbar.service";
+import {environment} from "../../environments/environment";
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -18,7 +19,7 @@ export class AuthService {
   signup(email: string, password: string) {
     return this.http
       .post<User>(
-        'http://localhost:8080/auth/authenticate',
+        `http://${environment.API_URL}/auth/authenticate`,
         {
           email: email,
           password: password,
@@ -34,7 +35,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.http.post<User>(
-      'http://localhost:8080/auth/authenticate',
+      `http://${environment.API_URL}/auth/authenticate`,
       {
         username: email,
         password: password,

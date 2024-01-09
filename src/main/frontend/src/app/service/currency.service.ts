@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,6 @@ export class CurrencyService {
   }
 
   getDefaultCurrencyForGroup(groupId: number) {
-    return this.http.get("http://localhost:8080/group/getDefaultCurrencyForGroup/" + groupId, {responseType: "text"});
+    return this.http.get(`http://${environment.API_URL}/group/getDefaultCurrencyForGroup/${groupId}`, {responseType: "text"});
   }
 }

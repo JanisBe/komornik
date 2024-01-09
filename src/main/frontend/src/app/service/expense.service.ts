@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Expense} from "../model/expense";
 import {Debt} from "../model/debt";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,34 +13,34 @@ export class ExpenseService {
   }
 
   saveExpense(expense: Expense) {
-    return this.httpClient.post<Expense>("http://localhost:8080/expense/save", expense);
+    return this.httpClient.post<Expense>(`http://${environment.API_URL}/expense/save`, expense);
   }
 
   deleteExpense(expenseId: number) {
-    return this.httpClient.delete(`http://localhost:8080/expense/delete/${expenseId}`);
+    return this.httpClient.delete(`http://${environment.API_URL}/expense/delete/${expenseId}`);
   }
 
   editExpense(expense: Expense) {
-    return this.httpClient.patch<Expense>("http://localhost:8080/expense/edit", expense);
+    return this.httpClient.patch<Expense>(`http://${environment.API_URL}/expense/edit`, expense);
   }
 
   findAllByGroupId(groupId: number) {
-    return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAllByGroup/${groupId}`);
+    return this.httpClient.get<Expense[]>(`http://${environment.API_URL}/expense/findAllByGroup/${groupId}`);
   }
 
   calculateExpenses(groupId: number) {
-    return this.httpClient.get<Debt[]>(`http://localhost:8080/expense/calculateSettlements/${groupId}`);
+    return this.httpClient.get<Debt[]>(`http://${environment.API_URL}/expense/calculateSettlements/${groupId}`);
   }
 
   findAllByUser() {
-    return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAllByUser/`);
+    return this.httpClient.get<Expense[]>(`http://${environment.API_URL}/expense/findAllByUser/`);
   }
 
   findAll() {
-    return this.httpClient.get<Expense[]>(`http://localhost:8080/expense/findAll`);
+    return this.httpClient.get<Expense[]>(`http://${environment.API_URL}/expense/findAll`);
   }
 
   findById(expenseId: number) {
-    return this.httpClient.get<Expense>(`http://localhost:8080/expense/findById/${expenseId}`);
+    return this.httpClient.get<Expense>(`http://${environment.API_URL}/expense/findById/${expenseId}`);
   }
 }

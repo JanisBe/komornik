@@ -8,22 +8,22 @@
   height: 75px;
 }
 
-@mixin my-form-field-density($density) {
-  $field-typography: mat.define-typography-config(
-    $body-1: mat.define-typography-level(12px, 24px, 400),
-  );
-  @include mat.typography-level($field-typography, 'body-1');
-  @include mat.private-form-field-density($density);
-  margin-bottom: -15px; //  leaving a bottom margin 8px
-}
-
-.my-mat-form-field-density-5 {
-  @include my-form-field-density(-5);
-}
-
-.my-mat-form-field-density-8 {
-  @include my-form-field-density(-8);
-}
+//@mixin my-form-field-density($density) {
+//  $field-typography: mat.define-typography-config(
+//    $body-1: mat.define-typography-level(12px, 24px, 400),
+//  );
+//  @include mat.typography-level($field-typography, 'body-1');
+//  @include mat.private-form-field-density($density);
+//  margin-bottom: -15px; //  leaving a bottom margin 8px
+//}
+//
+//.my-mat-form-field-density-5 {
+//  @include my-form-field-density(-5);
+//}
+//
+//.my-mat-form-field-density-8 {
+//  @include my-form-field-density(-8);
+//}
 
 .expense-form {
   display: grid;

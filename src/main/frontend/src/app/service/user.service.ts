@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {User} from "../model/user";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -10,31 +11,31 @@ export class UserService {
   }
 
   getAllUsers() {
-    return this.http.get<[User]>("http://localhost:8080/user/findAll")
+    return this.http.get<[User]>(`http://${environment.API_URL}/user/findAll`)
   }
 
   addUser(user: User) {
-    return this.http.post<User>("http://localhost:8080/user/save", user, {observe: "response"});
+    return this.http.post<User>(`http://${environment.API_URL}/user/save`, user, {observe: "response"});
   }
 
-  deleteUser(userId: number | undefined) {
-    return this.http.delete<User>("http://localhost:8080/user/delete/" + userId);
+  deleteUser(userId: number) {
+    return this.http.delete<User>(`http://${environment.API_URL}/user/delete/${userId}`);
   }
 
   editUser(user: User) {
-    return this.http.patch<User>("http://localhost:8080/user/edit", user,)
+    return this.http.patch<User>(`http://${environment.API_URL}/user/edit`, user,)
   }
 
   findCommonFriends(userId: number) {
-    return this.http.get<User[]>("http://localhost:8080/user/findCommonUsers/" + userId);
+    return this.http.get<User[]>(`http://${environment.API_URL}/user/findCommonUsers/${userId}`);
   }
 
   findUsersInGroup(groupId: number) {
-    return this.http.get<User[]>("http://localhost:8080/user/findUsersInGroup/" + groupId)
+    return this.http.get<User[]>(`http://${environment.API_URL}/user/findUsersInGroup/${groupId}`)
   }
 
   forgotPassword(user: User) {
-    return this.http.post<string>("http://localhost:8080/user/forgotPassword/", user, {
+    return this.http.post<string>(`http://${environment.API_URL}/user/forgotPassword/`, user, {
       observe: "response",
       responseType: "text" as "json"
     });
@@ -42,7 +43,7 @@ export class UserService {
 
   verifyUser(token: string, userId: string) {
     const params: HttpParams = new HttpParams({fromString: "token=" + token + "&userId=" + userId});
-    return this.http.post<User>("http://localhost:8080/user/verifyUser/", null, {
+    return this.http.post<User>(`http://${environment.API_URL}/user/verifyUser/`, null, {
       observe: "response",
       params: params
     });
