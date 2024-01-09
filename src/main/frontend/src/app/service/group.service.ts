@@ -12,22 +12,22 @@ export class GroupService {
   }
 
   createGroup(group: Group) {
-    return this.httpClient.post<Group>(`http://${environment.API_URL}/group/save`, group, {observe: "response"});
+    return this.httpClient.post<Group>(`${environment.API_URL}/group/save`, group, {observe: "response"});
   }
 
   editGroup(group: Group) {
-    return this.httpClient.patch<Group>(`http://${environment.API_URL}/group/edit`, group);
+    return this.httpClient.patch<Group>(`${environment.API_URL}/group/edit`, group);
   }
 
   deleteGroup(groupId: number) {
-    return this.httpClient.delete<Group>(`http://${environment.API_URL}/group/delete/` + groupId);
+    return this.httpClient.delete<Group>(`${environment.API_URL}/group/delete/` + groupId);
   }
 
   findAllGroupsForUser() {
-    return this.httpClient.get<Group[]>(`http://${environment.API_URL}/group/findAllGroupsForCurrentUser/`, {observe: "response"});
+    return this.httpClient.get<Group[]>(`${environment.API_URL}/group/findAllGroupsForCurrentUser/`, {observe: "response"});
   }
 
   findById(id: number) {
-    return this.httpClient.get<Group>(`http://${environment.API_URL}/group/findById/${id}`);
+    return this.httpClient.get<Group>(`${environment.API_URL}/group/findById/${id}`);
   }
 }

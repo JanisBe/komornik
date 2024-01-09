@@ -13,34 +13,34 @@ export class ExpenseService {
   }
 
   saveExpense(expense: Expense) {
-    return this.httpClient.post<Expense>(`http://${environment.API_URL}/expense/save`, expense);
+    return this.httpClient.post<Expense>(`${environment.API_URL}/expense/save`, expense);
   }
 
   deleteExpense(expenseId: number) {
-    return this.httpClient.delete(`http://${environment.API_URL}/expense/delete/${expenseId}`);
+    return this.httpClient.delete(`${environment.API_URL}/expense/delete/${expenseId}`);
   }
 
   editExpense(expense: Expense) {
-    return this.httpClient.patch<Expense>(`http://${environment.API_URL}/expense/edit`, expense);
+    return this.httpClient.patch<Expense>(`${environment.API_URL}/expense/edit`, expense);
   }
 
   findAllByGroupId(groupId: number) {
-    return this.httpClient.get<Expense[]>(`http://${environment.API_URL}/expense/findAllByGroup/${groupId}`);
+    return this.httpClient.get<Expense[]>(`${environment.API_URL}/expense/findAllByGroup/${groupId}`);
   }
 
   calculateExpenses(groupId: number) {
-    return this.httpClient.get<Debt[]>(`http://${environment.API_URL}/expense/calculateSettlements/${groupId}`);
+    return this.httpClient.get<Debt[]>(`${environment.API_URL}/expense/calculateSettlements/${groupId}`);
   }
 
   findAllByUser() {
-    return this.httpClient.get<Expense[]>(`http://${environment.API_URL}/expense/findAllByUser/`);
+    return this.httpClient.get<Expense[]>(`${environment.API_URL}/expense/findAllByUser/`);
   }
 
   findAll() {
-    return this.httpClient.get<Expense[]>(`http://${environment.API_URL}/expense/findAll`);
+    return this.httpClient.get<Expense[]>(`${environment.API_URL}/expense/findAll`);
   }
 
   findById(expenseId: number) {
-    return this.httpClient.get<Expense>(`http://${environment.API_URL}/expense/findById/${expenseId}`);
+    return this.httpClient.get<Expense>(`${environment.API_URL}/expense/findById/${expenseId}`);
   }
 }

@@ -11,31 +11,31 @@ export class UserService {
   }
 
   getAllUsers() {
-    return this.http.get<[User]>(`http://${environment.API_URL}/user/findAll`)
+    return this.http.get<[User]>(`${environment.API_URL}/user/findAll`)
   }
 
   addUser(user: User) {
-    return this.http.post<User>(`http://${environment.API_URL}/user/save`, user, {observe: "response"});
+    return this.http.post<User>(`${environment.API_URL}/user/save`, user, {observe: "response"});
   }
 
   deleteUser(userId: number) {
-    return this.http.delete<User>(`http://${environment.API_URL}/user/delete/${userId}`);
+    return this.http.delete<User>(`${environment.API_URL}/user/delete/${userId}`);
   }
 
   editUser(user: User) {
-    return this.http.patch<User>(`http://${environment.API_URL}/user/edit`, user,)
+    return this.http.patch<User>(`${environment.API_URL}/user/edit`, user,)
   }
 
   findCommonFriends(userId: number) {
-    return this.http.get<User[]>(`http://${environment.API_URL}/user/findCommonUsers/${userId}`);
+    return this.http.get<User[]>(`${environment.API_URL}/user/findCommonUsers/${userId}`);
   }
 
   findUsersInGroup(groupId: number) {
-    return this.http.get<User[]>(`http://${environment.API_URL}/user/findUsersInGroup/${groupId}`)
+    return this.http.get<User[]>(`${environment.API_URL}/user/findUsersInGroup/${groupId}`)
   }
 
   forgotPassword(user: User) {
-    return this.http.post<string>(`http://${environment.API_URL}/user/forgotPassword/`, user, {
+    return this.http.post<string>(`${environment.API_URL}/user/forgotPassword/`, user, {
       observe: "response",
       responseType: "text" as "json"
     });
@@ -43,7 +43,7 @@ export class UserService {
 
   verifyUser(token: string, userId: string) {
     const params: HttpParams = new HttpParams({fromString: "token=" + token + "&userId=" + userId});
-    return this.http.post<User>(`http://${environment.API_URL}/user/verifyUser/`, null, {
+    return this.http.post<User>(`${environment.API_URL}/user/verifyUser/`, null, {
       observe: "response",
       params: params
     });

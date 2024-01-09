@@ -15,6 +15,6 @@ export class CurrencyService {
   }
 
   getDefaultCurrencyForGroup(groupId: number) {
-    return this.http.get(`http://${environment.API_URL}/group/getDefaultCurrencyForGroup/${groupId}`, {responseType: "text"});
+    return this.http.get(`${environment.API_URL}/group/getDefaultCurrencyForGroup/${groupId}`, {responseType: "text"});
   }
 }

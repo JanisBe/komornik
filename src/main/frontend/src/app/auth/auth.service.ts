@@ -19,7 +19,7 @@ export class AuthService {
   signup(email: string, password: string) {
     return this.http
       .post<User>(
-        `http://${environment.API_URL}/auth/authenticate`,
+        `${environment.API_URL}/auth/authenticate`,
         {
           email: email,
           password: password,
@@ -34,8 +34,9 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
+    console.log(environment.API_URL)
     return this.http.post<User>(
-      `http://${environment.API_URL}/auth/authenticate`,
+      `${environment.API_URL}/auth/authenticate`,
       {
         username: email,
         password: password,
