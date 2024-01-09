@@ -1,0 +1,49 @@
+{
+  "mainCategories": [
+    {
+      "name": "Dom",
+      "icon": "home",
+      "subCategories": [
+        {
+          "name": "Jedzenie",
+          "icon": "food_bank"
+        },
+        {
+          "name": "Alkohol",
+          "icon": "liquor"
+        },
+        {
+          "name": "Inne"
+        }
+      ]
+    },
+    {
+      "name": "Życie",
+      "subCategories": [
+        {
+          "name": "Ubrania"
+        },
+        {
+          "name": "Zabawki"
+        },
+        {
+          "name": "Środki czystości"
+        },
+        {
+          "name": "Inne"
+        }
+      ]
+    },
+    {
+      "name": "Rozrywka"
+    },
+    {
+      "name": "Inne",
+      "subCategories": [
+        {
+          "name": "Inne"
+        }
+      ]
+    }
+  ]
+}
