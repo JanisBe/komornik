@@ -104,7 +104,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
           this.users = allUsers.filter(user => user.id !== this.currentUser.id);
         }, error: (err: HttpErrorResponse) => {
           console.log(err)
-          this.snackbarService.displayMessage("nie ma wyników");
+          this.snackbarService.displayError("nie ma wyników");
           this.noResults = true;
         }
       });
@@ -156,12 +156,12 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     this.expenseService.saveExpense(newExpense).subscribe({
       next: (result) => {
         this.editMode ?
-          this.snackbarService.displayMessage(`Zapisano wydatek ${result.description}!`) :
-          this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`);
+          this.snackbarService.displayMessage(`Zapisano wydatek ${result.description}!`, 3000) :
+          this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`, 3000);
         this.onCancel();
       },
       error: () => {
-        this.snackbarService.displayMessage(`Nie udało się założyć wydatku ${newExpense.description}`);
+        this.snackbarService.displayError(`Nie udało się założyć wydatku ${newExpense.description}`);
       }
     });
     this.onCancel();

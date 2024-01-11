@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root'
@@ -10,19 +10,19 @@ export class SnackbarService {
   }
 
   displayMessage(text: string, duration?: number) {
-    if (duration === undefined) {
-      duration = 3000;
+    let config: MatSnackBarConfig = {horizontalPosition: "center", verticalPosition: "top"};
+    if (!!duration) {
+      config = {...config, duration: duration};
     }
-    this._snackBar.open(text, "Zamknij",
-      {horizontalPosition: "center", verticalPosition: "top", duration: duration});
+    this._snackBar.open(text, "Zamknij", config);
   }
 
 
   displayError(text: string, duration?: number) {
-    if (duration === undefined) {
-      duration = 3000;
+    let config: MatSnackBarConfig = {horizontalPosition: "center", verticalPosition: "top"};
+    if (!!duration) {
+      config = {...config, duration: duration};
     }
-    this._snackBar.open(text, "Zamknij",
-      {horizontalPosition: "center", verticalPosition: "top", duration: duration});
+    this._snackBar.open(text, "Zamknij", config);
   }
 }

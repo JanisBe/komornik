@@ -30,12 +30,12 @@ export class AddCategoryComponent implements OnInit {
   resolve: Observer<Category> = {
     next: (result) => {
       this.editMode ?
-          this.snackbarService.displayMessage(`Kategoria ${result.categoryName} zaktualizowana!`) :
-          this.snackbarService.displayMessage(`Nowa kategoria ${result.categoryName} założona!`);
+        this.snackbarService.displayMessage(`Kategoria ${result.categoryName} zaktualizowana!`, 3000) :
+        this.snackbarService.displayMessage(`Nowa kategoria ${result.categoryName} założona!`, 300);
       this.onCancel();
     },
     error: () => {
-      this.snackbarService.displayMessage(`Nie udało się założyć kategorii`);
+      this.snackbarService.displayError(`Nie udało się założyć kategorii`);
     },
     complete: () => {
     }

@@ -40,8 +40,7 @@ export class AddUserComponent implements OnInit {
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        console.log(err.error);
-        this.snackbarService.displayMessage(`Nie udało się założyć użytkownika ${user.name}
+        this.snackbarService.displayError(`Nie udało się założyć użytkownika ${user.name}
         ${err.error.message}`);
       }
     });

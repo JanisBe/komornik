@@ -31,7 +31,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.userService.forgotPassword(user).subscribe({
       next: (response) => {
         console.log(response);
-        this.snackbarService.displayMessage(response.body!);
+        this.snackbarService.displayMessage(response.body!, 3000);
         this.router.navigate(['/login'], {queryParams: {email: this.userForm.value.email}});
       },
       error: (err) => {

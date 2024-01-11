@@ -49,7 +49,7 @@ export class AuthService {
         error: error => {
           this.handleError(error);
           console.log(error);
-          this.snackbarService.displayMessage(error.error.message);
+          this.snackbarService.displayError(error.error.message);
         }
       });
   }

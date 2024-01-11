@@ -37,7 +37,7 @@ export class AllCategoriesComponent implements OnInit {
       if (result) {
         this.categoryService.deleteCategory(category.id!).subscribe(
           () => {
-            this.snackbarService.displayMessage(`Kategoria ${category.categoryName} została skasowana`);
+            this.snackbarService.displayMessage(`Kategoria ${category.categoryName} została skasowana`, 3000);
             this.refreshData();
           }
         );

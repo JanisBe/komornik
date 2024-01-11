@@ -13,7 +13,6 @@ import {CurrencyService} from "../../../service/currency.service";
 import {CategoryService} from "../../../service/category.service";
 import {GroupService} from "../../../service/group.service";
 import {AuthService} from "../../../auth/auth.service";
-import {MatDialog} from "@angular/material/dialog";
 import {Debt} from "../../../model/debt";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
@@ -53,8 +52,7 @@ export class EditExpenseComponent implements OnInit {
               private categoryService: CategoryService,
               private route: ActivatedRoute,
               private groupService: GroupService,
-              private authService: AuthService,
-              private dialog: MatDialog) {
+              private authService: AuthService) {
   }
 
 
@@ -92,7 +90,7 @@ export class EditExpenseComponent implements OnInit {
           this.users = allUsers.filter(user => user.id !== this.currentUser.id);
           this.usersOriginalList = [...this.users];
         }, error: () => {
-          this.snackbarService.displayMessage("nie ma wyników");
+          this.snackbarService.displayError("nie ma wyników");
           this.noResults = true;
         }
       });
@@ -137,12 +135,12 @@ export class EditExpenseComponent implements OnInit {
     this.expenseService.saveExpense(newExpense).subscribe({
       next: (result) => {
         this.editMode ?
-          this.snackbarService.displayMessage(`Zapisano wydatek ${result.description}!`) :
-          this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`);
+          this.snackbarService.displayMessage(`Zapisano wydatek ${result.description}!`, 3000) :
+          this.snackbarService.displayMessage(`Nowy wydatek ${result.description} założony!`, 3000);
         this.onCancel();
       },
       error: () => {
-        this.snackbarService.displayMessage(`Nie udało się założyć wydatku ${newExpense.description}`);
+        this.snackbarService.displayError(`Nie udało się założyć wydatku ${newExpense.description}`);
       }
     });
   }

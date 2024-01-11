@@ -41,7 +41,7 @@ export class AllUsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.userService.deleteUser(user.id).subscribe(() => {
-          this.snackBarService.displayMessage(`Użytkownik ${user.name} skasowany`);
+          this.snackBarService.displayMessage(`Użytkownik ${user.name} skasowany`, 3000);
           this.findAll();
         });
       }

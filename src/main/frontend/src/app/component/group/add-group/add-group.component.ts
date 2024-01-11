@@ -77,12 +77,12 @@ export class AddGroupComponent implements OnInit {
     this.groupService.createGroup(newGroup).subscribe({
       next: (group) => {
         this.editMode ?
-            this.snackbarService.displayMessage(`Grupa ${group.body!.groupName} zaktualizowana!`) :
-            this.snackbarService.displayMessage(`Nowa grupa ${group.body!.groupName} założona!`);
+          this.snackbarService.displayMessage(`Grupa ${group.body!.groupName} zaktualizowana!`, 3000) :
+          this.snackbarService.displayMessage(`Nowa grupa ${group.body!.groupName} założona!`, 3000);
         this.onCancel();
       },
       error: (error: HttpErrorResponse) => {
-        this.snackbarService.displayMessage(`Nie udało się założyć grupy ${newGroup.groupName}, bład ${error.message}`);
+        this.snackbarService.displayError(`Nie udało się założyć grupy ${newGroup.groupName}, bład ${error.message}`);
       }
     });
 

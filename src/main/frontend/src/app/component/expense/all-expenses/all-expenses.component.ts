@@ -53,7 +53,7 @@ export class AllExpensesComponent implements OnInit {
             if (result) {
                 this.expenseService.deleteExpense(expense.id!).subscribe(
                   () => {
-                    this.snackbarService.displayMessage(`Wydatek ${expense.description} został skasowany`);
+                    this.snackbarService.displayMessage(`Wydatek ${expense.description} został skasowany`, 3000);
                     this.fetchExpensesForGroup(expense.groupId);
                   }
                 );
