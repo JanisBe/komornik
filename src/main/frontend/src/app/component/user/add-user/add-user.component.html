@@ -38,7 +38,7 @@
           </div>
           <div class="button-container">
             <button
-              [disabled]="this.userForm.invalid"
+              [disabled]="this.userForm.invalid || inputActive"
               color="primary" mat-raised-button type="submit">Wyślij
             </button>
             <button

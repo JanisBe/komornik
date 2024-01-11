@@ -15,7 +15,7 @@ export class AddUserComponent implements OnInit {
 
   userForm: FormGroup;
   private currentUser: User | null;
-
+  inputActive = true;
   constructor(private userService: UserService,
               private snackbarService: SnackbarService,
               private router: Router,
@@ -25,10 +25,10 @@ export class AddUserComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.user.value;
     this.initForm();
-    console.log(this.currentUser)
   }
 
   onSubmit() {
+    this.inputActive = false;
     const user: User = this.userForm.value;
     this.userService.addUser(user).subscribe({
       next: (response) => {

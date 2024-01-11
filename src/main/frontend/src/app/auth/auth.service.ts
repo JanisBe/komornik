@@ -1,7 +1,7 @@
 import {Router} from "@angular/router";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {BehaviorSubject, catchError, tap, throwError} from "rxjs";
+import {BehaviorSubject, tap, throwError} from "rxjs";
 import {User} from "../model/user";
 import {SnackbarService} from "../service/snackbar.service";
 import {environment} from "../../environments/environment";
@@ -26,7 +26,6 @@ export class AuthService {
         }
       )
       .pipe(
-        catchError(this.handleError),
         tap(resData => {
           return this.handleAuth(resData.mail, resData.name, resData.id, resData.token!);
         })
@@ -49,7 +48,6 @@ export class AuthService {
         error: error => {
           this.handleError(error);
           console.log(error);
-          this.snackbarService.displayError(error.error.message);
         }
       });
   }
@@ -110,6 +108,7 @@ export class AuthService {
     }
     switch (errorRes.error.code) {
       case 500:
+      case 403:
         errorMessage = 'Zły login / hasło';
         break;
       case 'EMAIL_NOT_FOUND':
@@ -119,6 +118,7 @@ export class AuthService {
         errorMessage = 'This password is not correct.';
         break;
     }
+    this.snackbarService.displayError(errorMessage);
     return throwError(() => errorMessage);
   }
 

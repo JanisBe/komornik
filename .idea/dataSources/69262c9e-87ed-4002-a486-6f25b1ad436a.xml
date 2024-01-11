@@ -1160,7 +1160,7 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
     </schema>
     <schema id="330" parent="1" name="komornik">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2023-12-14.23:05:57</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-01-11.20:09:49</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_general_ci</CollationName>
     </schema>
     <user id="331" parent="1" name="pma">
@@ -1200,18 +1200,18 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <CollationName>utf8mb4_general_ci</CollationName>
     </table>
     <column id="341" parent="335" name="id">
-      <AutoIncrement>3</AutoIncrement>
+      <AutoIncrement>1</AutoIncrement>
       <DasType>int(11)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="342" parent="335" name="name">
+    <column id="342" parent="335" name="category_icon_name">
       <DasType>varchar(255)|0s</DasType>
-      <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="343" parent="335" name="category_icon_name">
+    <column id="343" parent="335" name="category_name">
       <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
     <index id="344" parent="335" name="PRIMARY">
@@ -1350,7 +1350,7 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="372" parent="338" name="id">
-      <AutoIncrement>3</AutoIncrement>
+      <AutoIncrement>1</AutoIncrement>
       <DasType>int(11)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1363,13 +1363,13 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <DasType>varchar(255)|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="375" parent="338" name="name">
+    <column id="375" parent="338" name="group_icon_name">
       <DasType>varchar(255)|0s</DasType>
-      <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="376" parent="338" name="group_icon_name">
+    <column id="376" parent="338" name="group_name">
       <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
     <index id="377" parent="338" name="PRIMARY">
@@ -1411,7 +1411,7 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <Type>btree</Type>
     </index>
     <column id="385" parent="340" name="id">
-      <AutoIncrement>5</AutoIncrement>
+      <AutoIncrement>1</AutoIncrement>
       <DasType>int(11)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1420,24 +1420,34 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <DasType>varchar(255)|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="387" parent="340" name="mail">
-      <DasType>varchar(255)|0s</DasType>
+    <column id="387" parent="340" name="is_verified">
+      <DasType>bit(1)|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="388" parent="340" name="name">
+    <column id="388" parent="340" name="mail">
       <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="389" parent="340" name="password">
+    <column id="389" parent="340" name="username">
       <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <index id="390" parent="340" name="PRIMARY">
+    <column id="390" parent="340" name="password">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="391" parent="340" name="verification_token">
+      <DasType>varchar(255)|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <index id="392" parent="340" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="391" parent="340" name="PRIMARY">
+    <key id="393" parent="340" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
