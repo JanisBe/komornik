@@ -84,7 +84,6 @@ export class AuthService {
   }
 
   addUser(user: User) {
-    console.log(user);
     this.handleAuth(user.mail, user.name, user.id, user.token!);
   }
 

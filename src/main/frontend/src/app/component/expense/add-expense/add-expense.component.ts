@@ -19,6 +19,7 @@ import {PayerDialogComponent} from "../dialogs/payer-dialog/payer-dialog.compone
 import {SplitDialogComponent} from "../dialogs/split-dialog/split-dialog.component";
 import {CurrencyDialogComponent} from "../dialogs/currency-dialog/currency-dialog.component";
 import {CategoryDialogComponent} from "../dialogs/category-dialog/category-dialog.component";
+import {HttpErrorResponse} from "@angular/common/http";
 
 
 @Component({
@@ -70,7 +71,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.currentUser = this.authService.user.value!;
+    this.currentUser = Object.assign({}, this.authService.user.value!);
+    this.currentUser.token = undefined;
     this.payer = this.currentUser;
     this.currentGroupId = this.route.snapshot.params['groupId'] ? this.route.snapshot.params['groupId'] : this.data.groupId;
     this.initForm();
@@ -100,7 +102,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
           this.isUserInGroup = allUsers.map(user => user.id).includes(this.currentUser.id);
           this.patchForm(expense);
           this.users = allUsers.filter(user => user.id !== this.currentUser.id);
-        }, error: () => {
+        }, error: (err: HttpErrorResponse) => {
+          console.log(err)
           this.snackbarService.displayMessage("nie ma wyników");
           this.noResults = true;
         }
@@ -115,6 +118,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   onSubmit() {
     let debts: Debt[] = [];
     const sanitizedAmount = parseInt(this.sanitizeAmount(this.form.value.amount));
+    console.log(this.users.length);
     if (debts.length == 0) {
       this.users.forEach((user) => {
         if (user.id !== this.payer.id) {

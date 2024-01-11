@@ -78,8 +78,8 @@
     <div *ngIf="!noResults && !isUserInGroup" class="container-fluid">
       <div class="row">
         <div class="col h3 d-flex align-items-center justify-content-center">
-          <p>Wygląda na to że nie użytkownik {{ currentUser.name }} nie należy do tej grupy. </p>
-          <p><u routerLink="/group/list">Wybierz inną grupę</u></p>
+          <p>Wygląda na to że użytkownik {{ currentUser.name }} nie należy do tej grupy. </p>
+          <p><u (click)="onCancel()" routerLink="/group/list">Wybierz inną grupę</u></p>
         </div>
       </div>
     </div>
