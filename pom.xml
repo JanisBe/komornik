@@ -191,7 +191,9 @@
                             <executable>npm</executable>
                             <workingDirectory>${basedir}/src/main/frontend/</workingDirectory>
                             <arguments>
-                                <commandlineArgs>run build</commandlineArgs>
+                                <argument>run</argument>
+                                <argument>ng</argument>
+                                <argument>build</argument>
                             </arguments>
                         </configuration>
                     </execution>

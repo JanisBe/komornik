@@ -34,7 +34,15 @@ services:
     platform: linux/arm64v8
     networks:
       - backend-network
-
+  frontend:
+    image: janisbe/frontend:v1
+    container_name: frontend
+    build:
+      context: ./NginxDockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - app
 volumes:
   db:
 networks:
