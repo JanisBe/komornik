@@ -29,6 +29,7 @@ import {SplitDialogComponent} from './dialogs/split-dialog/split-dialog.componen
 import {MatListModule} from "@angular/material/list";
 import {CurrencyDialogComponent} from './dialogs/currency-dialog/currency-dialog.component';
 import {CategoryDialogComponent} from './dialogs/category-dialog/category-dialog.component';
+import {MultiUserSplitComponent} from './dialogs/multi-user-split/multi-user-split.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import {CategoryDialogComponent} from './dialogs/category-dialog/category-dialog
     SplitDialogComponent,
     CurrencyDialogComponent,
     CategoryDialogComponent,
+    MultiUserSplitComponent,
   ],
   imports: [
     CommonModule,

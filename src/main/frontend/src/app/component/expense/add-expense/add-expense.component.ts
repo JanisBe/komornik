@@ -20,6 +20,7 @@ import {SplitDialogComponent} from "../dialogs/split-dialog/split-dialog.compone
 import {CurrencyDialogComponent} from "../dialogs/currency-dialog/currency-dialog.component";
 import {CategoryDialogComponent} from "../dialogs/category-dialog/category-dialog.component";
 import {HttpErrorResponse} from "@angular/common/http";
+import {MultiUserSplitComponent} from "../dialogs/multi-user-split/multi-user-split.component";
 
 
 @Component({
@@ -47,12 +48,12 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   isUserInGroup = false;
   noResults = false;
   categoryIcon = "description";
-  private splitDialogRef: MatDialogRef<SplitDialogComponent>;
   private payerDialogRef: MatDialogRef<PayerDialogComponent>;
   private currencyDialogRef: MatDialogRef<CurrencyDialogComponent>;
   private categoryDialogRef: MatDialogRef<CategoryDialogComponent>;
   private editMode: boolean;
   private debts: Debt[] = [];
+  private splitDialogRef: MatDialogRef<SplitDialogComponent | MultiUserSplitComponent>;
 
   constructor(private expenseService: ExpenseService,
               private snackbarService: SnackbarService,
@@ -218,16 +219,22 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   }
 
   openSplitDialog(usersOriginalList: User[]) {
-    if (this.splitDialogRef && (this.splitDialogRef as MatDialogRef<SplitDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
+    if (this.splitDialogRef &&
+      (this.splitDialogRef as MatDialogRef<SplitDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
       return;
     }
-    this.splitDialogRef = this.dialog.open(SplitDialogComponent, {
+    const config = {
       data: {users: usersOriginalList, currentUser: this.payer, amount: this.sanitizeAmount(this.form.value.amount)},
       hasBackdrop: false,
       width: '400px',
       position: {left: '68%'},
       panelClass: 'slide-in-from-right'
-    });
+    };
+    if (this.users.length > 2) {
+      this.splitDialogRef = this.dialog.open(MultiUserSplitComponent, config);
+    } else {
+      this.splitDialogRef = this.dialog.open(SplitDialogComponent, config);
+    }
     this.splitDialogRef.afterClosed().subscribe(split => {
       if (split === undefined) {
         return;
@@ -236,7 +243,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       this.betweenWho = "";
       this.debts = split.debts;
       console.log(split);
-    })
+    });
   }
 
   sanitizeInput(amount: string) {
@@ -244,7 +251,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   }
 
   openCurrencyDialog(currencies: string[], defaultCurrency: string) {
-    if (this.currencyDialogRef && (this.currencyDialogRef as MatDialogRef<CurrencyDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
+    if (this.currencyDialogRef &&
+      (this.currencyDialogRef as MatDialogRef<CurrencyDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
       return;
     }
 
@@ -262,11 +270,12 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       }
       this.defaultCurrency = currency;
       this.form.get('currency')?.patchValue(currency);
-    })
+    });
   }
 
   openCategoryDialog() {
-    if (this.categoryDialogRef && (this.categoryDialogRef as MatDialogRef<CategoryDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
+    if (this.categoryDialogRef &&
+      (this.categoryDialogRef as MatDialogRef<CategoryDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
       return;
     }
     const iconList = this.categories.map(c => c.categoryIconName);
@@ -284,7 +293,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       const category = this.categories.filter(c => c.categoryIconName === icon)[0];
       this.form.get('category')?.patchValue(category.id);
       this.categoryIcon = category.categoryIconName!;
-    })
+    });
   }
 
   private sanitizeAmount(amount: string) {

@@ -2,7 +2,7 @@
   <mat-icon (click)="close()" class="float-end mt-4">close</mat-icon>
 </div>
 <div mat-dialog-content>
-  <div *ngIf="data.users.length == 2; else moreUsers">
+  <div>
     <form [formGroup]="numberForm">
       <mat-selection-list #splitForm [multiple]="false" formControlName="splitForTwo">
         <mat-list-option selected value="equal">
@@ -17,20 +17,6 @@
       </mat-selection-list>
     </form>
   </div>
-  <ng-template #moreUsers>
-    <form [formGroup]="numberForm">
-      <mat-selection-list (selectionChange)="onChangeParticipant($event)" role="list">
-        @for (user of data.users;track user) {
-          <mat-list-option togglePosition="before" [selected]="true" role="listitem" [value]="user">
-            {{ user.name }} płaci
-            <input formControlName="{{getUserNameForm(user.id)}}" placeholder="Ile %" type="number" min="0" max="100"
-                   value="">
-          </mat-list-option>
-        }
-      </mat-selection-list>
-    </form>
-    <p>Sum: {{ getSum() }}</p>
-  </ng-template>
 </div>
 <div mat-dialog-actions>
   <button (click)="ok(splitForm)" mat-button>OK</button>
