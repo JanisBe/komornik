@@ -9,12 +9,12 @@
           <mat-list-option togglePosition="before" [selected]="true" role="listitem" [value]="user">
             {{ user.name }} płaci
             <input formControlName="{{getUserNameForm(user.id)}}" placeholder="Ile %" type="number" min="0" max="100"
-                   value="">
+                   value="" (click)="doNothing($event)">
           </mat-list-option>
         }
       </mat-selection-list>
     </form>
-    <p>Sum: {{ getSum() }}</p>
+    <p [class]="amountValid ? 'text-ok' : 'text-nok'">Sum: {{ getSum() }}</p>
     <div mat-dialog-actions>
       <button (click)="ok()" mat-button>OK</button>
       <button (click)="close()" cdkFocusInitial mat-button>Cancel</button>

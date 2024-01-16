@@ -1,9 +1,10 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, effect, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {User} from "../../../../model/user";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {SnackbarService} from "../../../../service/snackbar.service";
 import {Debt} from "../../../../model/debt";
+import {DatasharingService} from "../../../../service/datasharing.service";
+import {SnackbarService} from "../../../../service/snackbar.service";
 
 @Component({
   selector: 'split-dialog',
@@ -13,13 +14,18 @@ import {Debt} from "../../../../model/debt";
 export class SplitDialogComponent implements OnInit, AfterViewInit {
   numberForm: FormGroup;
   private debts: Debt[] = [];
+  amount = 0;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User, amount: number },
+    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User },
     public dialogRef: MatDialogRef<SplitDialogComponent>,
     private fb: FormBuilder,
+    private dataSharingService: DatasharingService,
     private snackbarService: SnackbarService,
     private cd: ChangeDetectorRef) {
+    effect(() => {
+      this.amount = this.dataSharingService.amount();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -41,24 +47,24 @@ export class SplitDialogComponent implements OnInit, AfterViewInit {
       this.debts.push({
         from: this.data.users[0],
         to: this.data.users[0],
-        amount: -this.data.amount / 2
+        amount: -this.amount / 2
       });
       this.debts.push({
         from: this.data.users[0],
         to: this.data.users[1],
-        amount: this.data.amount / 2
+        amount: this.amount / 2
       });
       this.dialogRef.close({debts: this.debts, text: "wszyscy po równo"});
     } else {
       this.debts.push({
         from: selectedElement.selectedOptions.selected[0].value,
         to: selectedElement.selectedOptions.selected[0].value,
-        amount: -this.data.amount
+        amount: -this.amount
       });
       this.debts.push({
         from: selectedElement.selectedOptions.selected[0].value,
         to: selectedElement.selectedOptions.selected[0].value,
-        amount: this.data.amount
+        amount: this.amount
       });
       this.dialogRef.close({
         debts: this.debts,

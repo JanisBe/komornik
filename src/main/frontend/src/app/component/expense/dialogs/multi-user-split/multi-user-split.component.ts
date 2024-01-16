@@ -1,9 +1,10 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, effect, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {User} from "../../../../model/user";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {SnackbarService} from "../../../../service/snackbar.service";
 import {MatSelectionListChange} from "@angular/material/list";
+import {DatasharingService} from "../../../../service/datasharing.service";
 
 @Component({
   selector: 'multi-user-split',
@@ -13,16 +14,22 @@ import {MatSelectionListChange} from "@angular/material/list";
 export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   numberForm: FormGroup;
   sum = 0;
-  amount = 0
+  amount: number = 0;
   private debts: Map<User, number>;
   private participants = '';
+  amountValid = false;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User, amount: number },
+    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User },
     public dialogRef: MatDialogRef<MultiUserSplitComponent>,
     private fb: FormBuilder,
     private snackbarService: SnackbarService,
+    private dataSharingService: DatasharingService,
     private cd: ChangeDetectorRef) {
+    effect(() => {
+      this.amount = this.dataSharingService.amount();
+      this.recalculate();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -30,9 +37,6 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    if (!!this.data.amount) {
-      this.amount = this.data.amount
-    }
     this.numberForm = this.fb.group({});
     this.data.users.forEach((user) => {
       this.numberForm.addControl('user' + user.id, this.fb.control(this.amount / this.data.users.length));
@@ -57,14 +61,19 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
       this.dialogRef.close();
       return;
     }
-    if (this.getSum() != this.data.amount) {
-      this.snackbarService.displayError("Suma musi być równa: " + this.data.amount + " aktualnie: " + this.getSum());
+    if (this.checkIfSumIsOK()) {
+      this.snackbarService.displayError("Suma musi być równa: " + this.amount + " aktualnie: " + this.getSum());
       return;
     }
     this.dialogRef.close({
       debts: this.recalculate(),
       text: this.participants
     });
+  }
+
+  doNothing($event: MouseEvent) {
+    $event.stopPropagation();
+    $event.preventDefault();
   }
 
   onChangeParticipant(event: MatSelectionListChange) {
@@ -86,7 +95,22 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
     return "user" + id;
   }
 
+  private checkIfSumIsOK() {
+    if (this.getSum() != 0 &&
+      this.getSum() / this.amount < 1 &&
+      this.getSum() / this.amount > 1.01) {
+      this.amountValid = true;
+      console.log("true")
+      return true;
+    }
+    this.amountValid = false;
+    console.log("false");
+
+    return false;
+  }
+
   private recalculate() {
+    this.checkIfSumIsOK()
     const numberOfForms = Object.keys(this.numberForm.controls).length;
     this.debts = new Map<User, number>();
     Object.keys(this.numberForm.controls).forEach(key => {

@@ -20,11 +20,11 @@
       <div class="expense-amount">
         <mat-form-field appearance="outline" class="col-12">
           <mat-label>Ile {{ defaultCurrency }}</mat-label>
-          <input #amountField
-            class="form-control"
-            formControlName="amount"
-            id="amount"
-            matInput
+          <input #amountField (keyup)="updateValue(amountField.value)"
+                 class="form-control"
+                 formControlName="amount"
+                 id="amount"
+                 matInput
                  (blur)="sanitizeInput(amountField.value)"
                  type="text">
           <mat-chip (click)="openCurrencyDialog(currencies, defaultCurrency)" matSuffix
@@ -33,16 +33,6 @@
         </mat-form-field>
 
       </div>
-      <!--        <div class="expense-grupa">-->
-      <!--          <mat-form-field *ngIf="!currentGroup" appearance="outline">-->
-      <!--            <mat-label>Grupa</mat-label>-->
-      <!--            <mat-select (selectionChange)="onGroupChange($event.value)" formControlName="group">-->
-      <!--              <mat-option *ngFor="let group of userGroups" [value]="group.id">-->
-      <!--                {{ group.groupName }}-->
-      <!--              </mat-option>-->
-      <!--            </mat-select>-->
-      <!--          </mat-form-field>-->
-      <!--        </div>-->
       <div class="expense-who">
         Płaci
         <mat-chip (click)="openPayerDialog(this.payer, this.users)">{{ payer.name }}</mat-chip>
@@ -58,20 +48,6 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
-      <!--          <div class="form-group">-->
-      <!--            <mat-slider discrete showTickMarks>-->
-      <!--              <input #slider (change)="updateSliderInput()" [value]="defaultSplit" matSliderThumb-->
-      <!--                     max="100" min="0"-->
-      <!--                     step="1">-->
-      <!--            </mat-slider>-->
-      <!--            <mat-form-field appearance="outline">-->
-      <!--              <input #sliderInput (change)="updateSlider()" [value]="defaultSplit" formControlName="split"-->
-      <!--                     matInput-->
-      <!--                     max="100" min="0"-->
-      <!--                     placeholder="Podział" type="number">-->
-      <!--              <mat-icon matSuffix>percent</mat-icon>-->
-      <!--            </mat-form-field>-->
-      <!--          </div>-->
     </form>
   </div>
   <ng-template #notInGroup>

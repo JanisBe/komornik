@@ -12,7 +12,6 @@ import {GroupService} from "../../../service/group.service";
 import {Group} from 'src/app/model/group';
 import {AuthService} from "../../../auth/auth.service";
 import {Debt} from "../../../model/debt";
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Observable, of} from "rxjs";
 import {PayerDialogComponent} from "../dialogs/payer-dialog/payer-dialog.component";
@@ -21,6 +20,7 @@ import {CurrencyDialogComponent} from "../dialogs/currency-dialog/currency-dialo
 import {CategoryDialogComponent} from "../dialogs/category-dialog/category-dialog.component";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MultiUserSplitComponent} from "../dialogs/multi-user-split/multi-user-split.component";
+import {DatasharingService} from "../../../service/datasharing.service";
 
 
 @Component({
@@ -37,13 +37,11 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   currentGroup: Group;
   currentGroupName$: Observable<string>;
   currentExpense: Expense;
-  defaultSplit: number = 50;
   currencies: string[] = [];
   defaultCurrency: string;
   payer: User;
   betweenWho = "wszyscy";
   splitHow = "po równo";
-  separatorKeysCodes: number[] = [ENTER, COMMA];
   userName = new FormControl('');
   isUserInGroup = false;
   noResults = false;
@@ -62,6 +60,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private groupService: GroupService,
               private authService: AuthService,
+              private dataSharingService: DatasharingService,
               private dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: { groupId: number }) {
   }
@@ -224,7 +223,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       return;
     }
     const config = {
-      data: {users: usersOriginalList, currentUser: this.payer, amount: this.sanitizeAmount(this.form.value.amount)},
+      data: {users: usersOriginalList, currentUser: this.payer},
       hasBackdrop: false,
       width: '400px',
       position: {left: '68%'},
@@ -298,5 +297,15 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
 
   private sanitizeAmount(amount: string) {
     return amount?.replace(/,/g, '.');
+  }
+
+  updateValue(value: string) {
+    const amount = this.sanitizeAmount(value);
+    let parseInt = Number.parseInt(amount);
+    if (isNaN(parseInt)) {
+      parseInt = 0;
+    }
+    this.dataSharingService.amount.set(parseInt);
+    console.log(this.dataSharingService.amount());
   }
 }
