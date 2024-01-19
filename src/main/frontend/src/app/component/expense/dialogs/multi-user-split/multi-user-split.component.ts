@@ -38,8 +38,10 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.numberForm = this.fb.group({});
-    this.data.users.forEach((user) => {
-      this.numberForm.addControl('user' + user.id, this.fb.control(this.amount / this.data.users.length));
+    const divideMap = this.divideCurrencyEvenly(this.amount, this.data.users.length);
+    this.data.users.forEach((user, index) => {
+      const debtPerUser = divideMap.at(index);
+      this.numberForm.addControl('user' + user.id, this.fb.control(debtPerUser));
     });
   }
 
@@ -109,12 +111,24 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
     return false;
   }
 
+  divideCurrencyEvenly(numerator: number, divisor: number) {
+    const results = [];
+    const dividend = +(Math.floor(numerator / divisor * 100) / 100).toFixed(2); // dividend with 2 decimal places
+    for (let i = 0; i < divisor - 1; i++) {
+      results.push(dividend); // Put n-1 copies of dividend in results
+    }
+    results.push(numerator - (divisor - 1) * dividend); // Add remainder to results
+    return results;
+  }
+
   private recalculate() {
-    this.checkIfSumIsOK()
-    const numberOfForms = Object.keys(this.numberForm.controls).length;
+    this.checkIfSumIsOK();
+    const allFormControls = Object.keys(this.numberForm.controls);
+    const numberOfForms = allFormControls.length;
+    const divideMap = this.divideCurrencyEvenly(this.amount, numberOfForms);
     this.debts = new Map<User, number>();
-    Object.keys(this.numberForm.controls).forEach(key => {
-      this.numberForm.controls[key].patchValue((this.amount / numberOfForms).toFixed(2));
+    allFormControls.forEach((key, index) => {
+      this.numberForm.controls[key].patchValue(divideMap.at(index));
       const uId = Number.parseInt(key.slice(4));
       const user = this.data.users.find(u => u.id === uId)!;
       this.debts.set(user, this.numberForm.controls[key].value);

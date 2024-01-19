@@ -306,6 +306,5 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       parseInt = 0;
     }
     this.dataSharingService.amount.set(parseInt);
-    console.log(this.dataSharingService.amount());
   }
 }
