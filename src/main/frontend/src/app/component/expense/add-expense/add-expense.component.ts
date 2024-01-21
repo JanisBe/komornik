@@ -235,13 +235,13 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       this.splitDialogRef = this.dialog.open(SplitDialogComponent, config);
     }
     this.splitDialogRef.afterClosed().subscribe(split => {
+      console.log(split);
       if (split === undefined) {
         return;
       }
       this.splitHow = split.text;
       this.betweenWho = "";
       this.debts = split.debts;
-      console.log(split);
     });
   }
 

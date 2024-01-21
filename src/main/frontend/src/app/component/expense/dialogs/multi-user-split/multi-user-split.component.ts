@@ -18,6 +18,7 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   private debts: Map<User, number>;
   private participants = '';
   amountValid = false;
+  private wasChanged = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User },
@@ -59,7 +60,7 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   }
 
   ok() {
-    if (this.numberForm.pristine) {
+    if (this.numberForm.pristine && !this.wasChanged) {
       this.dialogRef.close();
       return;
     }
@@ -80,6 +81,7 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   }
 
   onChangeParticipant(event: MatSelectionListChange) {
+    this.wasChanged = true;
     const currentOption = event.options[0];
     const idx = currentOption.value.id;
     if (currentOption.selected) {
@@ -109,11 +111,11 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
 
   divideCurrencyEvenly(numerator: number, divisor: number) {
     const results = [];
-    const dividend = +(Math.floor(numerator / divisor * 100) / 100).toFixed(2); // dividend with 2 decimal places
+    const dividend = +(Math.floor(numerator / divisor * 100) / 100).toFixed(2);
     for (let i = 0; i < divisor - 1; i++) {
-      results.push(dividend); // Put n-1 copies of dividend in results
+      results.push(dividend);
     }
-    results.push(numerator - (divisor - 1) * dividend); // Add remainder to results
+    results.push(numerator - (divisor - 1) * dividend);
     return results;
   }
 
