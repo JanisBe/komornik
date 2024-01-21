@@ -63,7 +63,7 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
       this.dialogRef.close();
       return;
     }
-    if (this.checkIfSumIsOK()) {
+    if (!this.checkIfSumIsOK()) {
       this.snackbarService.displayError("Suma musi być równa: " + this.amount + " aktualnie: " + this.getSum());
       return;
     }
@@ -74,6 +74,7 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   }
 
   doNothing($event: MouseEvent) {
+    this.checkIfSumIsOK()
     $event.stopPropagation();
     $event.preventDefault();
   }
@@ -98,16 +99,11 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   }
 
   private checkIfSumIsOK() {
-    if (this.getSum() != 0 &&
-      this.getSum() / this.amount < 1 &&
-      this.getSum() / this.amount > 1.01) {
+    if (this.getSum() === this.amount) {
       this.amountValid = true;
-      console.log("true")
       return true;
     }
     this.amountValid = false;
-    console.log("false");
-
     return false;
   }
 
@@ -123,18 +119,19 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
 
   private recalculate() {
     this.checkIfSumIsOK();
+    let participants = '';
     const allFormControls = Object.keys(this.numberForm.controls);
     const numberOfForms = allFormControls.length;
     const divideMap = this.divideCurrencyEvenly(this.amount, numberOfForms);
     this.debts = new Map<User, number>();
     allFormControls.forEach((key, index) => {
       this.numberForm.controls[key].patchValue(divideMap.at(index));
-      const uId = Number.parseInt(key.slice(4));
+      const uId = +key.slice(4);
       const user = this.data.users.find(u => u.id === uId)!;
       this.debts.set(user, this.numberForm.controls[key].value);
-      this.participants += `${user.name} ,`
+      participants += `${user.name} ,`
     });
-    this.participants.slice(0, -1);
+    this.participants = participants.slice(0, -2);
     return this.debts;
   }
 }

@@ -301,7 +301,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
 
   updateValue(value: string) {
     const amount = this.sanitizeAmount(value);
-    let parseInt = Number.parseInt(amount);
+    let parseInt = +amount;
     if (isNaN(parseInt)) {
       parseInt = 0;
     }

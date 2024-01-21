@@ -27,5 +27,4 @@
   </mat-menu>
 </ng-container>
 <button *ngIf="!isAuthenticated" mat-button routerLink="login">Login</button>
-<button *ngIf="!isAuthenticated" mat-button routerLink="verifyEmail">VerifyEmail</button>
 <button (click)="logout()" *ngIf="isAuthenticated" mat-button>Logout</button>
