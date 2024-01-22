@@ -31,6 +31,9 @@ import {AllUsersComponent} from "./all-users/all-users.component";
     AddUserComponent,
     AllUsersComponent
   ],
+  exports: [
+    UserDetailsComponent
+  ],
   imports: [
     CommonModule,
     BrowserAnimationsModule,

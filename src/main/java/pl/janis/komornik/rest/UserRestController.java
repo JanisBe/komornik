@@ -25,6 +25,11 @@ public class UserRestController {
         return userService.findAllUsers();
     }
 
+    @GetMapping("/get/{id}")
+    public UserDto get(@PathVariable int id) {
+        return userService.getUserDtoByUserId(id);
+    }
+
     @PostMapping("/save")
     public UserDto save(@RequestBody User user) throws UserAlreadyExistsException {
         return userService.addUser(user);

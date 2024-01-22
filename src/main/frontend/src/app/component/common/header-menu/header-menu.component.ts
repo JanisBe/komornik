@@ -1,9 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {AuthService} from "../../../auth/auth.service";
-import {Subscription} from "rxjs";
-import {MatDialog} from "@angular/material/dialog";
-import {AddExpenseComponent} from "../../expense/add-expense/add-expense.component";
-import {SplitDialogComponent} from "../../expense/dialogs/split-dialog/split-dialog.component";
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'header-menu',
@@ -11,30 +6,30 @@ import {SplitDialogComponent} from "../../expense/dialogs/split-dialog/split-dia
   styleUrls: ['./header-menu.component.scss']
 })
 export class HeaderMenuComponent {
-  @Output() loggedOut: EventEmitter<void> = new EventEmitter<void>();
-  isAuthenticated = false;
-  private userSub: Subscription;
-
-  constructor(private authService: AuthService,
-              private dialog: MatDialog) {
-  }
-
-  ngOnInit() {
-    this.userSub = this.authService.user.subscribe(user => {
-      this.isAuthenticated = !!user;
-    });
-  }
-
-  logout() {
-    this.loggedOut.emit();
-    this.authService.logout();
-  }
-
-  addExpense() {
-    this.dialog.open(AddExpenseComponent, {data: {groupId: 3}, width: '600px'});
-  }
-
-  open() {
-    this.dialog.open(SplitDialogComponent, {data: {groupId: 3}, width: '600px'});
-  }
+  // @Output() loggedOut: EventEmitter<void> = new EventEmitter<void>();
+  // isAuthenticated = false;
+  // private userSub: Subscription;
+  //
+  // constructor(private authService: AuthService,
+  //             private dialog: MatDialog) {
+  // }
+  //
+  // ngOnInit() {
+  //   this.userSub = this.authService.user.subscribe(user => {
+  //     this.isAuthenticated = !!user;
+  //   });
+  // }
+  //
+  // logout() {
+  //   this.loggedOut.emit();
+  //   this.authService.logout();
+  // }
+  //
+  // addExpense() {
+  //   this.dialog.open(AddExpenseComponent, {data: {groupId: 3}, width: '600px'});
+  // }
+  //
+  // open() {
+  //   this.dialog.open(SplitDialogComponent, {data: {groupId: 3}, width: '600px'});
+  // }
 }

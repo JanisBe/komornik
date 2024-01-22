@@ -120,7 +120,7 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   }
 
   private recalculate() {
-    this.checkIfSumIsOK();
+    this.participants = "";
     let participants = '';
     const allFormControls = Object.keys(this.numberForm.controls);
     const numberOfForms = allFormControls.length;
@@ -134,6 +134,7 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
       participants += `${user.name} ,`
     });
     this.participants = participants.slice(0, -2);
+    this.checkIfSumIsOK();
     return this.debts;
   }
 }

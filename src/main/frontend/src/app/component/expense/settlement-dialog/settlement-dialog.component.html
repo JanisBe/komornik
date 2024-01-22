@@ -3,8 +3,9 @@
     <div *ngIf="!data.debts || calculateDebts(data.debts); else noData">
         <div *ngFor="let debt of data.debts">
             <div><b matTooltip="{{debt.from.mail}}">{{debt.from.name}}</b>
-                <mat-icon class="smaller">arrow_right_alt</mat-icon>
-                <b matTooltip="{{debt.to.mail}}">{{debt.to.name}}</b> przekazuje {{debt.amount}}</div>
+              dostaje od {{ debt.amount }}
+              <mat-icon class="smaller">arrow_left</mat-icon>
+              <b matTooltip="{{debt.to.mail}}">{{ debt.to.name }}</b></div>
         </div>
     </div>
     <ng-template #noData>

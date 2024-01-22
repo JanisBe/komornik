@@ -36,6 +36,7 @@ import {DashboardComponent} from './component/dashboard/dashboard/dashboard.comp
 import {IconPickerComponent} from './component/common/icon-picker/icon-picker.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {VerifyEmailComponent} from './component/common/verify-email/verify-email.component';
+import {UserMenuComponent} from './component/common/user-menu/user-menu.component';
 
 registerLocaleData(myLocalePl);
 
@@ -48,7 +49,8 @@ registerLocaleData(myLocalePl);
     ForgotPasswordComponent,
     DashboardComponent,
     IconPickerComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    UserMenuComponent
   ],
   imports: [
     CategoryModule,
