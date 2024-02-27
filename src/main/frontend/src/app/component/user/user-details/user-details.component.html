@@ -1,7 +1,15 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-4">.col-md-4</div>
-    <div class="col-md-4">.col-md-4</div>
-    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-4">
+
+      <div>Imię: {{ (user$ | async)?.name }}</div>
+      <div>E-mail: {{ (user$ | async)?.mail }}</div>
+      @if ((user$ | async)?.avatar != null) {
+        <div><img src="{{ (user$ | async)?.avatar }}" alt="avatar"></div>
+      } @else {
+        <div><img ngxGravatar [email]="(user$ | async)?.mail!" alt="avatar"></div>
+      }
+    </div>
+
   </div>
 </div>

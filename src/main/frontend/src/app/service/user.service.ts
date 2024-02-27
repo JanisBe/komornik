@@ -26,6 +26,10 @@ export class UserService {
     return this.http.get<User>(`${environment.API_URL}/user/get/${user.id}`)
   }
 
+  getUserById(userId: string) {
+    return this.http.get<User>(`${environment.API_URL}/user/get/${userId}`)
+  }
+
   editUser(user: User) {
     return this.http.patch<User>(`${environment.API_URL}/user/edit`, user,)
   }

@@ -23,7 +23,7 @@ export class AuthService {
         {
           email: email,
           password: password,
-        }
+        }, {withCredentials: true}
       )
       .pipe(
         tap(resData => {
@@ -39,7 +39,7 @@ export class AuthService {
       {
         username: email,
         password: password,
-      }
+      }, {withCredentials: true}
     )
       .subscribe({
         next: (resData) => {
@@ -53,7 +53,8 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('userData');
+    // localStorage.removeItem('userData');
+    window.sessionStorage.clear();
     this.user.next(null);
     this.router.navigate(['/login']);
   }
@@ -64,8 +65,9 @@ export class AuthService {
       id: number;
       token: string;
       name: string
-    } = JSON.parse(localStorage.getItem('userData') || '{}');
-
+    } = JSON.parse(window.sessionStorage.getItem('userData') || '{}');
+    const cookie = this.getCookie("accessToken");
+    console.log(cookie);
     if (!userData) {
       return;
     }
@@ -89,16 +91,9 @@ export class AuthService {
     return this.user.value != null;
   }
 
-  private handleAuth(
-    email: string,
-    name: string,
-    userId: number,
-    token: string
-  ) {
-    const user: User = {name: name, id: userId, token: token, mail: email}
+  storeUser(user: User) {
+    window.sessionStorage.setItem('userData', JSON.stringify(user));
     this.user.next(user);
-    localStorage.setItem('userData', JSON.stringify(user));
-    this.router.navigate(['/group/list']);
   }
 
   private handleError(errorRes: HttpErrorResponse) {
@@ -122,8 +117,34 @@ export class AuthService {
     return throwError(() => errorMessage);
   }
 
-  storeUser(user: User) {
-    localStorage.setItem('userData', JSON.stringify(user));
+  private handleAuth(
+    email: string,
+    name: string,
+    userId: number,
+    token: string
+  ) {
+    const user: User = {name: name, id: userId, token: token, mail: email}
     this.user.next(user);
+    const xsrf = this.getCookie("XSRF-TOKEN");
+    window.sessionStorage.setItem('XSRF-TOKEN', xsrf);
+    window.sessionStorage.setItem('userData', JSON.stringify(user));
+    // cookie.setItem('userData', JSON.stringify(user));
+    // localStorage.setItem('userData', JSON.stringify(user));
+    this.router.navigate(['/group/list']);
+  }
+
+  private getCookie(name: string) {
+    let ca: Array<string> = document.cookie.split(';');
+    let caLen: number = ca.length;
+    let cookieName = `${name}=`;
+    let c: string;
+
+    for (let i: number = 0; i < caLen; i += 1) {
+      c = ca[i].replace(/^\s+/g, '');
+      if (c.indexOf(cookieName) == 0) {
+        return c.substring(cookieName.length, c.length);
+      }
+    }
+    return '';
   }
 }

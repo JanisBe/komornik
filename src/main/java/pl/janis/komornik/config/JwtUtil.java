@@ -64,10 +64,6 @@ public class JwtUtil {
                 .signWith(getSigningKey(), Jwts.SIG.HS512).compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
 
     public boolean isTokenValid(String jwtToken, UserDetails userDetails) {
         final String userName = extractUsername(jwtToken);

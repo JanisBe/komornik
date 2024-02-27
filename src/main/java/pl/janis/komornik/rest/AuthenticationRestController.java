@@ -1,7 +1,10 @@
 package pl.janis.komornik.rest;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +16,8 @@ import pl.janis.komornik.dto.AuthenticationRequestDto;
 import pl.janis.komornik.dto.UserDto;
 import pl.janis.komornik.entities.User;
 import pl.janis.komornik.mapper.UserMapper;
+
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,14 +31,23 @@ public class AuthenticationRestController {
     private final UserMapper userMapper;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<UserDto> authenticate(@RequestBody AuthenticationRequestDto request) {
+    public ResponseEntity<UserDto> authenticate(@RequestBody AuthenticationRequestDto request
+            , HttpServletResponse response) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
         final UserDetails user = userDetailsService.loadUserByUsername(request.username());
         if (user != null && user.isEnabled()) {
-            UserDto userDto = userMapper.toDto((User) user);
-            return new ResponseEntity<>(userDto.withToken(jwtUtil.generateToken(user)), HttpStatus.OK);
+            String token = jwtUtil.generateToken(user);
+            UserDto userDto = userMapper.toDto((User) user).withToken(token);
+            ResponseCookie cookie = ResponseCookie.from("accessToken", token)
+                    .httpOnly(true)
+                    .secure(false)
+                    .path("/")
+                    .maxAge(TimeUnit.DAYS.toMillis(365))
+                    .build();
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+            return new ResponseEntity<>(userDto, HttpStatus.OK);
         }
 
         return null;

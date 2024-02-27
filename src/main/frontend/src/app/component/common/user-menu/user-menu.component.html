@@ -1,0 +1,13 @@
+@if (!!currentUser) {
+  <button mat-raised-button [matMenuTriggerFor]="menu">
+
+    <img ngxGravatar [size]="20" [fallback]="'identicon'" [email]="currentUser.mail" alt="avatar" class="avatar">
+    {{ currentUser.name }}
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/user/details/{{currentUser.id}}">User profile</button>
+    <button mat-menu-item (click)="logout()">Logout</button>
+  </mat-menu>
+} @else {
+  <button mat-raised-button routerLink="/login">Login</button>
+}

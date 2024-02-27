@@ -24,7 +24,10 @@ export class GroupService {
   }
 
   findAllGroupsForUser() {
-    return this.httpClient.get<Group[]>(`${environment.API_URL}/group/findAllGroupsForCurrentUser/`, {observe: "response"});
+    return this.httpClient.get<Group[]>(`${environment.API_URL}/group/findAllGroupsForCurrentUser/`, {
+      observe: "response",
+      withCredentials: true
+    });
   }
 
   findById(id: number) {

@@ -23,6 +23,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {UserDetailsComponent} from "./user-details/user-details.component";
 import {AddUserComponent} from "./add-user/add-user.component";
 import {AllUsersComponent} from "./all-users/all-users.component";
+import {GravatarModule} from "ngx-gravatar";
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import {AllUsersComponent} from "./all-users/all-users.component";
     MatDatepickerModule,
     MatNativeDateModule,
     MatSliderModule,
-    MatChipsModule
+    MatChipsModule,
+    GravatarModule
   ]
 })
 export class UserModule {
