@@ -15,6 +15,7 @@ public abstract class UserMapper {
     @Mapping(target = "debtFrom", ignore = true)
     @Mapping(target = "groups", ignore = true)
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "authorities", ignore = true)
     public abstract User toEntity(UserDto userDto);
 
     @Mapping(target = "token", ignore = true)

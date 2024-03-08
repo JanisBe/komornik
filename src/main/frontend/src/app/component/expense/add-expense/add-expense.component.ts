@@ -18,7 +18,6 @@ import {PayerDialogComponent} from "../dialogs/payer-dialog/payer-dialog.compone
 import {SplitDialogComponent} from "../dialogs/split-dialog/split-dialog.component";
 import {CurrencyDialogComponent} from "../dialogs/currency-dialog/currency-dialog.component";
 import {CategoryDialogComponent} from "../dialogs/category-dialog/category-dialog.component";
-import {HttpErrorResponse} from "@angular/common/http";
 import {MultiUserSplitComponent} from "../dialogs/multi-user-split/multi-user-split.component";
 import {DatasharingService} from "../../../service/datasharing.service";
 
@@ -91,24 +90,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     this.categoryService.findAllCategories().subscribe(category => this.categories = category);
     this.currencies = this.currencyService.getAllCurrencies();
 
-    if (!!this.route.snapshot.params['expenseId']) {
-      this.editMode = true;
-      this.expenseService.findById(this.route.snapshot.params['expenseId']).subscribe({
-        next: (expense) => {
-          this.currentExpense = expense;
-          let debtors = expense.debt.flatMap(d => d.from);
-          let creditors = expense.debt.flatMap(d => d.to);
-          let allUsers = creditors.concat(debtors.filter((item) => debtors.indexOf(item) < 0));
-          this.isUserInGroup = allUsers.map(user => user.id).includes(this.currentUser.id);
-          this.patchForm(expense);
-          this.users = allUsers.filter(user => user.id !== this.currentUser.id);
-        }, error: (err: HttpErrorResponse) => {
-          console.log(err)
-          this.snackbarService.displayError("nie ma wyników");
-          this.noResults = true;
-        }
-      });
-    }
   }
 
   onCancel() {
@@ -180,21 +161,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     })
   }
 
-  private patchForm(expense: Expense) {
-    const debt = expense.debt.reduce((sum, {amount}) => ({
-      amount: sum.amount + Math.abs(amount),
-      from: sum.from,
-      to: sum.to
-    }));
-    this.form.get('amount')?.patchValue(debt.amount);
-    this.form.get('description')?.patchValue(expense.description);
-    this.form.get('currency')?.patchValue(expense.currency);
-
-    const currentCategory = this.categories.filter(c => c.id === expense.categoryId)[0];
-    this.form.get('category')?.patchValue(currentCategory.id);
-    this.form.get('date')?.patchValue(expense.date);
-    this.form.get('group')?.patchValue(expense.groupId);
-  }
 
   openPayerDialog(payer: User, usersOriginalList: User[]) {
     if (this.payerDialogRef && (this.payerDialogRef as MatDialogRef<PayerDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
@@ -281,17 +247,18 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     this.categoryDialogRef = this.dialog.open(CategoryDialogComponent, {
       data: {iconList: iconList},
       hasBackdrop: false,
-      width: '300px',
-      position: {left: '68%'},
+      width: '500px',
+      height: '600px',
+      position: {left: '38%'},
       panelClass: 'slide-in-from-right'
     });
-    this.categoryDialogRef.afterClosed().subscribe(icon => {
-      if (icon === undefined) {
+    this.categoryDialogRef.afterClosed().subscribe(category => {
+      console.log(category);
+      if (category === undefined) {
         return;
       }
-      const category = this.categories.filter(c => c.categoryIconName === icon)[0];
       this.form.get('category')?.patchValue(category.id);
-      this.categoryIcon = category.categoryIconName!;
+      this.categoryIcon = category.icon!;
     });
   }
 

@@ -1,5 +1,23 @@
 <div mat-dialog-title>Kategorie:</div>
-<div mat-dialog-content></div>
+<div mat-dialog-content>
+  <div class="categories" style="display: flex;flex-direction: column">
+    <div *ngFor="let category of categories" class="category">
+
+      <div class="category-name" matTooltip="{{ category.name }}">
+        <span>{{ category.name }}</span>
+        <mat-icon class="category-icon">{{ category.icon }}</mat-icon>
+      </div>
+      <div class="subcategories">
+        <div *ngFor="let subCategory of category.subCategories" class="subcategory">
+
+          <div (click)="submit(subCategory)" class="subcategory-name" matTooltip="{{ subCategory.name }}">
+            <mat-icon class="subcategory-icon">{{ subCategory.icon }}</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div mat-dialog-actions>
   <button (click)="close()" mat-button>OK</button>
 </div>

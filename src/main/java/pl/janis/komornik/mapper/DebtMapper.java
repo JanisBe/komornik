@@ -19,5 +19,9 @@ public abstract class DebtMapper {
 
     @Mapping(target = "to", source = "userTo")
     @Mapping(target = "from", source = "userFrom")
+    @Mapping(target = "to.withToken", ignore = true)
+    @Mapping(target = "to.token", ignore = true)
+    @Mapping(target = "from.withToken", ignore = true)
+    @Mapping(target = "from.token", ignore = true)
     abstract DebtDto toDto(Debt debt);
 }
