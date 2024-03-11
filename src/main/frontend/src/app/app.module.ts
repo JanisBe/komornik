@@ -37,6 +37,7 @@ import {IconPickerComponent} from './component/common/icon-picker/icon-picker.co
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {VerifyEmailComponent} from './component/common/verify-email/verify-email.component';
 import {UserMenuComponent} from './component/common/user-menu/user-menu.component';
+import {GravatarModule} from "ngx-gravatar";
 
 registerLocaleData(myLocalePl);
 
@@ -79,6 +80,7 @@ registerLocaleData(myLocalePl);
     MatSliderModule,
     MatChipsModule,
     NgOptimizedImage,
+    GravatarModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

@@ -1,47 +1,68 @@
 {
   "mainCategories": [
     {
+      "id": 1,
       "name": "Dom",
       "icon": "home",
       "subCategories": [
         {
+          "id": 5,
           "name": "Jedzenie",
           "icon": "food_bank"
         },
         {
+          "id": 6,
           "name": "Alkohol",
           "icon": "liquor"
         },
         {
-          "name": "Inne"
+          "id": 7,
+          "name": "Inne",
+          "icon": "request_quote"
         }
       ]
     },
     {
+      "id": 2,
       "name": "Życie",
+      "icon": "",
       "subCategories": [
         {
-          "name": "Ubrania"
+          "id": 8,
+          "name": "Ubrania",
+          "icon": "apparel"
         },
         {
-          "name": "Zabawki"
+          "id": 9,
+          "name": "Zabawki",
+          "icon": "toys"
         },
         {
-          "name": "Środki czystości"
+          "id": 10,
+          "name": "Środki czystości",
+          "icon": "sanitizer"
         },
         {
-          "name": "Inne"
+          "id": 11,
+          "name": "Inne",
+          "icon": "request_quote"
         }
       ]
     },
     {
-      "name": "Rozrywka"
+      "id": 3,
+      "name": "Rozrywka",
+      "icon": "person_celebrate"
     },
     {
+      "id": 4,
       "name": "Inne",
+      "icon": "request_quote",
       "subCategories": [
         {
-          "name": "Inne"
+          "id": 12,
+          "name": "Inne",
+          "icon": "request_quote"
         }
       ]
     }
