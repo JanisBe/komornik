@@ -3,6 +3,8 @@ import {ActivatedRoute} from "@angular/router";
 import {ExpenseService} from "../../../service/expense.service";
 import {Expense} from "../../../model/expense";
 import {KeyValue} from "@angular/common";
+import {MatDialog} from "@angular/material/dialog";
+import {AddExpenseComponent} from "../../expense/add-expense/add-expense.component";
 
 @Component({
   selector: 'group-summary',
@@ -14,7 +16,8 @@ export class GroupSummaryComponent implements OnInit {
   expenses: Map<string, Expense[]> = new Map<string, Expense[]>();
 
   constructor(private expenseService: ExpenseService,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private dialog: MatDialog
   ) {
   }
 
@@ -47,5 +50,9 @@ export class GroupSummaryComponent implements OnInit {
 
   reverseKeyOrder = (a: KeyValue<string, Expense[]>, b: KeyValue<string, Expense[]>): number => {
     return a.key > b.key ? -1 : (b.key > a.key ? 1 : 0);
+  }
+
+  addExpense() {
+    this.dialog.open(AddExpenseComponent, {data: {groupId: this.groupId}, width: '600px'});
   }
 }
