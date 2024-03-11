@@ -6,8 +6,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @CrossOrigin(origins = "http://localhost:4401")
 public class AuthenticationRestController {
 
-    private final AuthenticationManager authenticationManager;
+
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
     private final UserMapper userMapper;
@@ -33,13 +31,11 @@ public class AuthenticationRestController {
     @PostMapping("/authenticate")
     public ResponseEntity<UserDto> authenticate(@RequestBody AuthenticationRequestDto request
             , HttpServletResponse response) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
         final UserDetails user = userDetailsService.loadUserByUsername(request.username());
         if (user != null && user.isEnabled()) {
             String token = jwtUtil.generateToken(user);
-            UserDto userDto = userMapper.toDto((User) user).withToken(token);
+            UserDto userDto = userMapper.toDto((User) user);
             ResponseCookie cookie = ResponseCookie.from("accessToken", token)
                     .httpOnly(true)
                     .secure(false)

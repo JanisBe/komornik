@@ -32,7 +32,8 @@ export class JwtInterceptor implements HttpInterceptor {
     }
 
     request = request.clone({
-      headers: httpHeaders
+      headers: httpHeaders,
+      withCredentials: true
     });
 
     return next.handle(request).pipe(tap({

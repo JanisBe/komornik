@@ -78,8 +78,8 @@ export class AuthService {
       token: userData.token,
       name: userData.name
     };
+    this.user.next(loadedUser);
     if (loadedUser.token) {
-      this.user.next(loadedUser);
     }
   }
 
