@@ -64,7 +64,7 @@ public class JwtUtil {
                 .claims(claims)
                 .subject(subject)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + DURATION))
+                .expiration(new Date(System.currentTimeMillis() + DURATION * 30 * 24 * 60 * 60 * 1000L))
                 .signWith(getSigningKey(), Jwts.SIG.HS512).compact();
     }
 
