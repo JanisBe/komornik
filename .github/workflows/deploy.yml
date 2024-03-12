@@ -49,3 +49,4 @@ jobs:
           overwrite: true
           source: "./target/komornik-0.0.1-SNAPSHOT.jar"
           target: "/home/ubuntu/Documents/"
+          strip_components: 1
