@@ -47,5 +47,5 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.PORT }}
           overwrite: true
-          source: "."
+          source: "./target/komornik-0.0.1-SNAPSHOT.jar"
           target: "/home/ubuntu/Documents/"
