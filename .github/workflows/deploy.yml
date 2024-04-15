@@ -31,14 +31,6 @@ jobs:
           context: .
           push: true
           tags: janisbe/komornik-app:v1
-      - name: bump app version
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.PORT }}
-          script: whoami
       - name: Copy JAR to Oracle Server
         uses: appleboy/scp-action@master
         with:
@@ -50,3 +42,11 @@ jobs:
           source: "./target/komornik-0.0.1-SNAPSHOT.jar"
           target: "/home/ubuntu/Documents/"
           strip_components: 1
+      - name: bump app version
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: whoami
