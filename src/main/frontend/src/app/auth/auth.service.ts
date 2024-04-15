@@ -117,12 +117,7 @@ export class AuthService {
     return throwError(() => errorMessage);
   }
 
-  private handleAuth(
-    email: string,
-    name: string,
-    userId: number,
-    token: string
-  ) {
+  private handleAuth(email: string, name: string, userId: number, token: string) {
     const user: User = {name: name, id: userId, token: token, mail: email}
     this.user.next(user);
     const xsrf = this.getCookie("XSRF-TOKEN");

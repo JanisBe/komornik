@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.janis</groupId>
@@ -16,13 +16,14 @@
     <properties>
         <java.version>21</java.version>
         <org.mapstruct.version>1.6.0.Beta1</org.mapstruct.version>
-        <sprinv-version>3.2.3</sprinv-version>
+        <sprinv-boot-version>3.2.4</sprinv-boot-version>
         <mariadb-java-client.version>3.3.3</mariadb-java-client.version>
         <jjwt.version>0.12.5</jjwt.version>
         <mysql-connector.version>8.3.0</mysql-connector.version>
-        <lombok.version>1.18.30</lombok.version>
+        <lombok.version>1.18.32</lombok.version>
         <jasypt.version>3.0.5</jasypt.version>
         <apache-commons.version>3.14.0</apache-commons.version>
+        <spring-version>6.2.3</spring-version>
     </properties>
     <dependencies>
         <dependency>
@@ -34,7 +35,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-            <version>${sprinv-version}</version>
+            <version>${sprinv-boot-version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.yaml</groupId>
@@ -50,12 +51,22 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>${sprinv-version}</version>
+            <version>${sprinv-boot-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+            <version>${sprinv-boot-version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${sprinv-version}</version>
+            <version>${sprinv-boot-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-client</artifactId>
+            <version>${spring-version}</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -72,7 +83,7 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-            <version>${sprinv-version}</version>
+            <version>${sprinv-boot-version}</version>
         </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
@@ -94,7 +105,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <version>${sprinv-version}</version>
+            <version>${sprinv-boot-version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.jayway.jsonpath</groupId>
@@ -115,12 +126,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>${sprinv-version}</version>
+            <version>${sprinv-boot-version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
-            <version>${sprinv-version}</version>
+            <version>${sprinv-boot-version}</version>
         </dependency>
     </dependencies>
 
@@ -134,7 +145,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${sprinv-version}</version>
+                <version>${sprinv-boot-version}</version>
                 <configuration>
                     <profiles>
                         <profile>

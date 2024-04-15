@@ -17,12 +17,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
-import pl.janis.komornik.filter.CsrfCookieFilter;
+import pl.janis.komornik.filter.MyCsrfTokenRequestHandler;
 import pl.janis.komornik.service.UserService;
 
 import java.util.Collections;
@@ -31,6 +30,7 @@ import java.util.List;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+    public static final String[] ALLOWED_URLS = {"/auth/authenticate", "/user/save", "/user/verifyUser/", "/user/forgotPassword/"};
     private final Filter jwtAuthFilter;
     private final UserService userService;
 
@@ -41,32 +41,26 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
-        requestHandler.setCsrfRequestAttributeName("_csrf");
 
+        CsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
         http.securityContext(context -> context.requireExplicitSave(false))
-                .csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler)
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/auth/authenticate", "/user/save", "/user/verifyUser/", "/user/forgotPassword/"))
-                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-//                .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(cookieCsrfTokenRepository)
+                        .csrfTokenRequestHandler(new MyCsrfTokenRequestHandler())
+                        .sessionAuthenticationStrategy(new MyAuthenticationStrategy(cookieCsrfTokenRepository)))
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration corsConfiguration = new CorsConfiguration();
                     corsConfiguration.setAllowCredentials(true);
-                    corsConfiguration.setAllowedOrigins(Collections.singletonList("http://localhost:4401"));
+                    corsConfiguration.setAllowedOrigins(List.of("http://localhost:4401", "https://localhost:8080"));
                     corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
                     corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
-                    corsConfiguration.setExposedHeaders(List.of("Authorization"));
+                    corsConfiguration.setExposedHeaders(List.of("Authorization", "X-XSRF-TOKEN"));
                     return corsConfiguration;
                 }))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/auth/authenticate").permitAll();
-                    auth.requestMatchers("/user/save").permitAll();
-                    auth.requestMatchers("/user/verifyUser/").permitAll();
-                    auth.requestMatchers("/user/forgotPassword/").permitAll();
-                    auth.requestMatchers("/actuator/**").permitAll();
-                    auth.requestMatchers("/error").permitAll();
-                    auth.requestMatchers("/").permitAll();
+                    auth.requestMatchers("/", "/actuator/**", "/error").permitAll();
+                    auth.requestMatchers(ALLOWED_URLS).permitAll();
+                    auth.requestMatchers("/csrf").permitAll();
                     auth.requestMatchers(
                                     HttpMethod.GET,
                                     "/index*", "/static/**", "/*.js", "/*.css", "/*.json", "/*.ico")
@@ -84,6 +78,7 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .headers((headers) -> headers.frameOptions(FrameOptionsConfig::disable));
+//                .oauth2ResourceServer((oauth2) -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
 
         return http.build();
     }

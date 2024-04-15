@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.WebUtils;
 import pl.janis.komornik.config.JwtUtil;
 
 import java.io.IOException;
@@ -38,13 +39,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         final String userEmail;
         String jwtToken = null;
-
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals("accessToken")) {
-                    jwtToken = cookie.getValue();
-                }
-            }
+        Cookie accessToken = WebUtils.getCookie(request, "accessToken");
+        if (accessToken != null) {
+            jwtToken = accessToken.getValue();
         }
 
         if (jwtToken == null) {

@@ -1,9 +1,9 @@
-import {isDevMode, NgModule} from '@angular/core';
+import {APP_INITIALIZER, isDevMode, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './component/app.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {LoginComponent} from './component/common/login/login.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
@@ -38,9 +38,15 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {VerifyEmailComponent} from './component/common/verify-email/verify-email.component';
 import {UserMenuComponent} from './component/common/user-menu/user-menu.component';
 import {GravatarModule} from "ngx-gravatar";
+import {catchError, of} from "rxjs";
 
 registerLocaleData(myLocalePl);
 
+function requestCsrfToken(httpClient: HttpClient) {
+  return () => httpClient.get('http://localhost:8080/csrf').pipe(
+    catchError(() => of(null))
+  );
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,11 +96,8 @@ registerLocaleData(myLocalePl);
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true
-    }
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: APP_INITIALIZER, useFactory: requestCsrfToken, multi: true, deps: [HttpClient]}
   ],
   bootstrap: [AppComponent]
 })
