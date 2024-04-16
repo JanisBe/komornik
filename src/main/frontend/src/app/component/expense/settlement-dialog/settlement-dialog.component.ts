@@ -1,12 +1,24 @@
 import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
 import {Debt} from "../../../model/debt";
 import {Group} from "../../../model/group";
+import {MatButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {MatTooltip} from '@angular/material/tooltip';
+import {NgFor, NgIf} from '@angular/common';
 
 @Component({
   selector: 'settlement-dialog',
   templateUrl: './settlement-dialog.component.html',
-  styleUrls: ['./settlement-dialog.component.scss']
+  styleUrls: ['./settlement-dialog.component.scss'],
+  standalone: true,
+  imports: [MatDialogTitle, MatDialogContent, NgIf, NgFor, MatTooltip, MatIcon, MatDialogActions, MatButton]
 })
 export class SettlementDialogComponent {
   constructor(

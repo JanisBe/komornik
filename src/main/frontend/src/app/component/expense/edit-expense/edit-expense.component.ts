@@ -1,12 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {User} from "../../../model/user";
 import {Category} from "../../../model/category";
 import {Group} from "../../../model/group";
 import {Expense} from "../../../model/expense";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {ExpenseService} from "../../../service/expense.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {UserService} from "../../../service/user.service";
 import {CurrencyService} from "../../../service/currency.service";
@@ -14,13 +14,24 @@ import {CategoryService} from "../../../service/category.service";
 import {GroupService} from "../../../service/group.service";
 import {AuthService} from "../../../auth/auth.service";
 import {Debt} from "../../../model/debt";
-import {MatChipInputEvent} from "@angular/material/chips";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatChipGrid, MatChipInput, MatChipInputEvent, MatChipRemove, MatChipRow} from "@angular/material/chips";
+import {MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material/autocomplete";
+import {MatButton} from '@angular/material/button';
+import {MatSlider, MatSliderThumb} from '@angular/material/slider';
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
+import {MatIcon} from '@angular/material/icon';
+import {MatOption} from '@angular/material/core';
+import {MatSelect} from '@angular/material/select';
+import {MatInput} from '@angular/material/input';
+import {MatFormField, MatHint, MatLabel, MatSuffix} from '@angular/material/form-field';
+import {NgFor, NgIf} from '@angular/common';
 
 @Component({
   selector: 'edit-expense',
   templateUrl: './edit-expense.component.html',
-  styleUrl: './edit-expense.component.scss'
+  styleUrl: './edit-expense.component.scss',
+  standalone: true,
+  imports: [NgIf, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatSelect, NgFor, MatOption, MatChipGrid, MatChipRow, MatChipRemove, MatIcon, MatAutocompleteTrigger, MatChipInput, MatAutocomplete, MatDatepickerInput, MatHint, MatDatepickerToggle, MatSuffix, MatDatepicker, MatSlider, MatSliderThumb, MatButton, RouterLink]
 })
 export class EditExpenseComponent implements OnInit {
   form: FormGroup;

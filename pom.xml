@@ -227,6 +227,7 @@
                                 <argument>run</argument>
                                 <argument>ng</argument>
                                 <argument>build</argument>
+                                <argument>--prod</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -247,7 +248,7 @@
                             <outputDirectory>${basedir}/target/classes/static/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/src/main/resources/frontend/</directory>
+                                    <directory>${basedir}/src/main/resources/static/</directory>
                                 </resource>
                             </resources>
                         </configuration>

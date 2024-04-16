@@ -5,11 +5,15 @@ import {AuthService} from "../../../auth/auth.service";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {UserService} from "../../../service/user.service";
 import {Observable} from "rxjs";
+import {AsyncPipe} from '@angular/common';
+import {GravatarModule} from 'ngx-gravatar';
 
 @Component({
   selector: 'user-details',
   templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.scss']
+  styleUrls: ['./user-details.component.scss'],
+  standalone: true,
+  imports: [GravatarModule, AsyncPipe]
 })
 export class UserDetailsComponent implements OnInit {
   public user: User;

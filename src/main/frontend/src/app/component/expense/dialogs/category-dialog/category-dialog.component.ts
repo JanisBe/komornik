@@ -1,11 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {default as categoryJson} from "./categories.json"
+import {MatButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {MatTooltip} from '@angular/material/tooltip';
+import {NgFor} from '@angular/common';
 
 @Component({
   selector: 'category-dialog',
   templateUrl: './category-dialog.component.html',
-  styleUrl: './category-dialog.component.scss'
+  styleUrl: './category-dialog.component.scss',
+  standalone: true,
+  imports: [MatDialogTitle, MatDialogContent, NgFor, MatTooltip, MatIcon, MatDialogActions, MatButton]
 })
 export class CategoryDialogComponent implements OnInit {
   categories: CategoryJson[] = [];

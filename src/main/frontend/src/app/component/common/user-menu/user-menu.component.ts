@@ -1,12 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../auth/auth.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {User} from "../../../model/user";
+import {GravatarModule} from 'ngx-gravatar';
+import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'user-menu',
   templateUrl: './user-menu.component.html',
-  styleUrl: './user-menu.component.scss'
+  styleUrl: './user-menu.component.scss',
+  standalone: true,
+  imports: [MatButton, MatMenuTrigger, GravatarModule, MatMenu, MatMenuItem, RouterLink]
 })
 export class UserMenuComponent implements OnInit {
 

@@ -5,11 +5,26 @@ import {SnackbarService} from "../../../service/snackbar.service";
 import {Router} from "@angular/router";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
 import {MatDialog} from "@angular/material/dialog";
+import {MatIcon} from '@angular/material/icon';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from '@angular/material/table';
 
 @Component({
   selector: 'all-users',
   templateUrl: './all-users.component.html',
-  styleUrls: ['./all-users.component.scss']
+  styleUrls: ['./all-users.component.scss'],
+  standalone: true,
+  imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatIcon, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow]
 })
 export class AllUsersComponent implements OnInit {
   allUsers: User[];

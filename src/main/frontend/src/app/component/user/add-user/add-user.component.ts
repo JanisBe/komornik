@@ -1,15 +1,20 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UserService} from "../../../service/user.service";
 import {User} from "../../../model/user";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../auth/auth.service";
+import {MatButton} from '@angular/material/button';
+import {MatInput} from '@angular/material/input';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
 
 @Component({
   selector: 'add-user',
   templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.scss']
+  styleUrls: ['./add-user.component.scss'],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton]
 })
 export class AddUserComponent implements OnInit {
 

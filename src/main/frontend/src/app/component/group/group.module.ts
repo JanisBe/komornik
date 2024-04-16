@@ -28,12 +28,6 @@ import {MyGroupsComponent} from "./my-groups/my-groups.component";
 
 
 @NgModule({
-  declarations: [
-    AllGroupsComponent,
-    AddGroupComponent,
-    GroupSummaryComponent,
-    MyGroupsComponent
-  ],
   exports: [
     AllGroupsComponent,
     MyGroupsComponent
@@ -61,7 +55,11 @@ import {MyGroupsComponent} from "./my-groups/my-groups.component";
     MatNativeDateModule,
     MatSliderModule,
     MatChipsModule,
-    MatCardModule
+    MatCardModule,
+    AllGroupsComponent,
+    AddGroupComponent,
+    GroupSummaryComponent,
+    MyGroupsComponent
   ]
 })
 export class GroupModule {

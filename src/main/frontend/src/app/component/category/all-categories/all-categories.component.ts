@@ -5,11 +5,27 @@ import {Router} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
+import {MatIcon} from '@angular/material/icon';
+import {NgIf} from '@angular/common';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from '@angular/material/table';
 
 @Component({
   selector: 'all-categories',
   templateUrl: './all-categories.component.html',
-  styleUrls: ['./all-categories.component.scss']
+  styleUrls: ['./all-categories.component.scss'],
+  standalone: true,
+  imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, NgIf, MatIcon, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow]
 })
 export class AllCategoriesComponent implements OnInit {
   categories: Category[];

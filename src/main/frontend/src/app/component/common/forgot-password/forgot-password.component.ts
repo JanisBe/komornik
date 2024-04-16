@@ -2,14 +2,20 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {UserService} from "../../../service/user.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../../../model/user";
+import {MatButton} from '@angular/material/button';
+import {NgIf} from '@angular/common';
+import {MatInput} from '@angular/material/input';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
 
 @Component({
   selector: 'forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  styleUrls: ['./forgot-password.component.scss'],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, NgIf, MatButton]
 })
 export class ForgotPasswordComponent implements OnInit {
   userForm: FormGroup;

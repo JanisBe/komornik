@@ -8,7 +8,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 @Component({
   selector: 'verify-email',
   templateUrl: './verify-email.component.html',
-  styleUrl: './verify-email.component.scss'
+  styleUrl: './verify-email.component.scss',
+  standalone: true
 })
 export class VerifyEmailComponent {
 

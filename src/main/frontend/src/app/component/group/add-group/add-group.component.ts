@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {GroupService} from "../../../service/group.service";
 import {Group} from "../../../model/group";
 import {User} from "../../../model/user";
 import {SnackbarService} from "../../../service/snackbar.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {UserService} from "../../../service/user.service";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material/autocomplete";
 import {CurrencyService} from "../../../service/currency.service";
 import {Observable} from "rxjs";
 import {CategoryService} from "../../../service/category.service";
@@ -15,11 +15,20 @@ import {AuthService} from "../../../auth/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {IconPickerComponent} from "../../common/icon-picker/icon-picker.component";
 import {MatDialog} from "@angular/material/dialog";
+import {MatButton} from '@angular/material/button';
+import {MatOption} from '@angular/material/core';
+import {MatSelect} from '@angular/material/select';
+import {MatInput} from '@angular/material/input';
+import {MatIcon} from '@angular/material/icon';
+import {MatFormField, MatLabel, MatPrefix} from '@angular/material/form-field';
+import {AsyncPipe, NgFor, NgIf} from '@angular/common';
 
 @Component({
   selector: 'add-group',
   templateUrl: './add-group.component.html',
-  styleUrls: ['./add-group.component.scss']
+  styleUrls: ['./add-group.component.scss'],
+  standalone: true,
+  imports: [NgIf, FormsModule, ReactiveFormsModule, MatFormField, MatIcon, MatPrefix, MatLabel, MatInput, MatSelect, NgFor, MatOption, MatButton, MatAutocompleteTrigger, MatAutocomplete, RouterLink, AsyncPipe]
 })
 export class AddGroupComponent implements OnInit {
   groupId: number;

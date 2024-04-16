@@ -27,11 +27,6 @@ import {GravatarModule} from "ngx-gravatar";
 
 
 @NgModule({
-  declarations: [
-    UserDetailsComponent,
-    AddUserComponent,
-    AllUsersComponent
-  ],
   exports: [
     UserDetailsComponent
   ],
@@ -58,7 +53,10 @@ import {GravatarModule} from "ngx-gravatar";
     MatNativeDateModule,
     MatSliderModule,
     MatChipsModule,
-    GravatarModule
+    GravatarModule,
+    UserDetailsComponent,
+    AddUserComponent,
+    AllUsersComponent
   ]
 })
 export class UserModule {

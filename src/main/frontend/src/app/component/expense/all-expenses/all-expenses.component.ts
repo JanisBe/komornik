@@ -6,6 +6,21 @@ import {Expense} from "../../../model/expense";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
 import {MatDialog} from "@angular/material/dialog";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {DatePipe, NgIf} from '@angular/common';
+import {MatIconButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from '@angular/material/table';
 
 @Component({
   selector: 'all-expenses',
@@ -17,6 +32,23 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
       state('expanded', style({height: '*'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
+  ],
+  standalone: true,
+  imports: [
+    MatTable,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatCellDef,
+    MatCell,
+    MatIcon,
+    MatIconButton,
+    NgIf,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    DatePipe,
   ],
 })
 export class AllExpensesComponent implements OnInit {

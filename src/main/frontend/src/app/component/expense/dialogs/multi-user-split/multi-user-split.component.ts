@@ -1,15 +1,25 @@
 import {AfterViewInit, ChangeDetectorRef, Component, effect, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
 import {User} from "../../../../model/user";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SnackbarService} from "../../../../service/snackbar.service";
-import {MatSelectionListChange} from "@angular/material/list";
+import {MatListOption, MatSelectionList, MatSelectionListChange} from "@angular/material/list";
 import {DatasharingService} from "../../../../service/datasharing.service";
+import {MatButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'multi-user-split',
   templateUrl: './multi-user-split.component.html',
-  styleUrl: './multi-user-split.component.scss'
+  styleUrl: './multi-user-split.component.scss',
+  standalone: true,
+  imports: [MatDialogTitle, MatIcon, MatDialogContent, FormsModule, ReactiveFormsModule, MatSelectionList, MatListOption, MatDialogActions, MatButton]
 })
 export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   numberForm: FormGroup;

@@ -1,9 +1,12 @@
 import {Component} from '@angular/core';
+import {UserMenuComponent} from '../user-menu/user-menu.component';
 
 @Component({
   selector: 'header-menu',
   templateUrl: './header-menu.component.html',
-  styleUrls: ['./header-menu.component.scss']
+  styleUrls: ['./header-menu.component.scss'],
+  standalone: true,
+  imports: [UserMenuComponent]
 })
 export class HeaderMenuComponent {
   // @Output() loggedOut: EventEmitter<void> = new EventEmitter<void>();

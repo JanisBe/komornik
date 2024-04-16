@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CategoryService} from "../../../service/category.service";
 import {Category} from "../../../model/category";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -7,11 +7,17 @@ import {SnackbarService} from "../../../service/snackbar.service";
 import {Observer} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {IconPickerComponent} from "../../common/icon-picker/icon-picker.component";
+import {MatButton} from '@angular/material/button';
+import {MatInput} from '@angular/material/input';
+import {MatIcon} from '@angular/material/icon';
+import {MatFormField, MatLabel, MatPrefix} from '@angular/material/form-field';
 
 @Component({
   selector: 'add-category',
   templateUrl: './add-category.component.html',
-  styleUrls: ['./add-category.component.scss']
+  styleUrls: ['./add-category.component.scss'],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatIcon, MatPrefix, MatInput, MatButton]
 })
 export class AddCategoryComponent implements OnInit {
   form: FormGroup;

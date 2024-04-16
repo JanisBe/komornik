@@ -2,11 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth/auth.service";
 import {Router} from "@angular/router";
 import {User} from "../model/user";
+import {DashboardComponent} from './dashboard/dashboard/dashboard.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [DashboardComponent]
 })
 export class AppComponent implements OnInit {
   loggedUser: User | null;

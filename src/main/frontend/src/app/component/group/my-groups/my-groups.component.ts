@@ -1,12 +1,16 @@
 import {Component} from '@angular/core';
 import {Group} from "../../../model/group";
 import {GroupService} from "../../../service/group.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
+import {NgFor} from '@angular/common';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'my-groups',
   templateUrl: './my-groups.component.html',
-  styleUrl: './my-groups.component.scss'
+  styleUrl: './my-groups.component.scss',
+  standalone: true,
+  imports: [RouterLink, MatIcon, NgFor]
 })
 export class MyGroupsComponent {
   allGroups: Group[];

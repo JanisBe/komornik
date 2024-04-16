@@ -24,10 +24,6 @@ import {MatSliderModule} from "@angular/material/slider";
 import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
-  declarations: [
-    AllCategoriesComponent,
-    AddCategoryComponent,
-  ],
   imports: [
     CommonModule,
     BrowserAnimationsModule,
@@ -50,7 +46,9 @@ import {MatChipsModule} from "@angular/material/chips";
     MatDatepickerModule,
     MatNativeDateModule,
     MatSliderModule,
-    MatChipsModule
+    MatChipsModule,
+    AllCategoriesComponent,
+    AddCategoryComponent
   ]
 })
 export class CategoryModule {

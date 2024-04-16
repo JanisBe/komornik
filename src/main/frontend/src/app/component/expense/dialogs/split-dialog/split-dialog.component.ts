@@ -1,15 +1,26 @@
 import {AfterViewInit, ChangeDetectorRef, Component, effect, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
 import {User} from "../../../../model/user";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Debt} from "../../../../model/debt";
 import {DatasharingService} from "../../../../service/datasharing.service";
 import {SnackbarService} from "../../../../service/snackbar.service";
+import {MatButton} from '@angular/material/button';
+import {MatListOption, MatSelectionList} from '@angular/material/list';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'split-dialog',
   templateUrl: './split-dialog.component.html',
-  styleUrl: './split-dialog.component.scss'
+  styleUrl: './split-dialog.component.scss',
+  standalone: true,
+  imports: [MatDialogTitle, MatIcon, MatDialogContent, FormsModule, ReactiveFormsModule, MatSelectionList, MatListOption, MatDialogActions, MatButton]
 })
 export class SplitDialogComponent implements OnInit, AfterViewInit {
   numberForm: FormGroup;

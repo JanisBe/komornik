@@ -33,17 +33,6 @@ import {MultiUserSplitComponent} from './dialogs/multi-user-split/multi-user-spl
 
 
 @NgModule({
-  declarations: [
-    AllExpensesComponent,
-    AddExpenseComponent,
-    SettlementDialogComponent,
-    EditExpenseComponent,
-    PayerDialogComponent,
-    SplitDialogComponent,
-    CurrencyDialogComponent,
-    CategoryDialogComponent,
-    MultiUserSplitComponent,
-  ],
   imports: [
     CommonModule,
     BrowserAnimationsModule,
@@ -67,7 +56,16 @@ import {MultiUserSplitComponent} from './dialogs/multi-user-split/multi-user-spl
     MatNativeDateModule,
     MatSliderModule,
     MatChipsModule,
-    MatListModule
+    MatListModule,
+    AllExpensesComponent,
+    AddExpenseComponent,
+    SettlementDialogComponent,
+    EditExpenseComponent,
+    PayerDialogComponent,
+    SplitDialogComponent,
+    CurrencyDialogComponent,
+    CategoryDialogComponent,
+    MultiUserSplitComponent
   ]
 })
 export class ExpenseModule {

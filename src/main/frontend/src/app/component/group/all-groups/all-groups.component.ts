@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SnackbarService} from "../../../service/snackbar.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
 import {GroupService} from "../../../service/group.service";
@@ -8,11 +8,25 @@ import {ExpenseService} from "../../../service/expense.service";
 import {SettlementDialogComponent} from "../../expense/settlement-dialog/settlement-dialog.component";
 import {Group} from "../../../model/group";
 import {AddExpenseComponent} from "../../expense/add-expense/add-expense.component";
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatIcon} from '@angular/material/icon';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardAvatar,
+  MatCardContent,
+  MatCardHeader,
+  MatCardSubtitle,
+  MatCardTitle
+} from '@angular/material/card';
+import {NgFor, NgIf} from '@angular/common';
 
 @Component({
   selector: 'all-groups',
   templateUrl: './all-groups.component.html',
-  styleUrls: ['./all-groups.component.scss']
+  styleUrls: ['./all-groups.component.scss'],
+  standalone: true,
+  imports: [NgIf, NgFor, MatCard, MatCardHeader, MatIcon, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatTooltip, MatCardActions, RouterLink]
 })
 export class AllGroupsComponent implements OnInit {
   allGroups: Group[];

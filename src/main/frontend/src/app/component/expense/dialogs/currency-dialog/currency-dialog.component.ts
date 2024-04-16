@@ -1,11 +1,22 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
 import {CurrencyService} from "../../../../service/currency.service";
+import {MatButton} from '@angular/material/button';
+import {MatListOption, MatSelectionList} from '@angular/material/list';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'currency-dialog',
   templateUrl: './currency-dialog.component.html',
-  styleUrl: './currency-dialog.component.scss'
+  styleUrl: './currency-dialog.component.scss',
+  standalone: true,
+  imports: [MatDialogTitle, MatIcon, MatDialogContent, MatSelectionList, MatListOption, MatDialogActions, MatButton]
 })
 export class CurrencyDialogComponent implements OnInit {
   currencies: string[] = [];

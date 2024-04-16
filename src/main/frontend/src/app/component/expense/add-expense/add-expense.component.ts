@@ -1,7 +1,7 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ExpenseService} from "../../../service/expense.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Expense} from "../../../model/expense";
 import {User} from "../../../model/user";
@@ -12,7 +12,14 @@ import {GroupService} from "../../../service/group.service";
 import {Group} from 'src/app/model/group';
 import {AuthService} from "../../../auth/auth.service";
 import {Debt} from "../../../model/debt";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
 import {Observable, of} from "rxjs";
 import {PayerDialogComponent} from "../dialogs/payer-dialog/payer-dialog.component";
 import {SplitDialogComponent} from "../dialogs/split-dialog/split-dialog.component";
@@ -20,12 +27,21 @@ import {CurrencyDialogComponent} from "../dialogs/currency-dialog/currency-dialo
 import {CategoryDialogComponent} from "../dialogs/category-dialog/category-dialog.component";
 import {MultiUserSplitComponent} from "../dialogs/multi-user-split/multi-user-split.component";
 import {DatasharingService} from "../../../service/datasharing.service";
+import {MatButton} from '@angular/material/button';
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
+import {MatChip} from '@angular/material/chips';
+import {MatInput} from '@angular/material/input';
+import {MatFormField, MatHint, MatLabel, MatSuffix} from '@angular/material/form-field';
+import {MatIcon} from '@angular/material/icon';
+import {AsyncPipe, NgIf} from '@angular/common';
 
 
 @Component({
   selector: 'add-expense',
   templateUrl: './add-expense.component.html',
-  styleUrls: ['./add-expense.component.scss']
+  styleUrls: ['./add-expense.component.scss'],
+  standalone: true,
+  imports: [MatDialogTitle, MatDialogContent, NgIf, FormsModule, ReactiveFormsModule, MatIcon, MatFormField, MatLabel, MatInput, MatChip, MatSuffix, MatDatepickerInput, MatHint, MatDatepickerToggle, MatDatepicker, RouterLink, MatDialogActions, MatButton, AsyncPipe]
 })
 export class AddExpenseComponent implements OnInit, OnDestroy {
   form: FormGroup;

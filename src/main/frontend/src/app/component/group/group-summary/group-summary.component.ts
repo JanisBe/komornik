@@ -2,14 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ExpenseService} from "../../../service/expense.service";
 import {Expense} from "../../../model/expense";
-import {KeyValue} from "@angular/common";
+import {DatePipe, KeyValue, KeyValuePipe, NgFor} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {AddExpenseComponent} from "../../expense/add-expense/add-expense.component";
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'group-summary',
   templateUrl: './group-summary.component.html',
-  styleUrl: './group-summary.component.scss'
+  styleUrl: './group-summary.component.scss',
+  standalone: true,
+  imports: [MatButton, NgFor, DatePipe, KeyValuePipe]
 })
 export class GroupSummaryComponent implements OnInit {
   groupId: number;

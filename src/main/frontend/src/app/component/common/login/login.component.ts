@@ -1,12 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../../../auth/auth.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {MatButton} from '@angular/material/button';
+import {MatInput} from '@angular/material/input';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  standalone: true,
+  imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton, RouterLink]
 })
 export class LoginComponent implements OnInit {
   constructor(private authService: AuthService,
