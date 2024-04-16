@@ -1,4 +1,4 @@
-package pl.janis.komornik.filter;
+package pl.janis.komornik.config;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

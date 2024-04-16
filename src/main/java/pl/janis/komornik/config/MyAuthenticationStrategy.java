@@ -8,7 +8,6 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
 import org.springframework.security.web.csrf.DeferredCsrfToken;
-import pl.janis.komornik.filter.MyCsrfTokenRequestHandler;
 
 public class MyAuthenticationStrategy implements
         SessionAuthenticationStrategy {

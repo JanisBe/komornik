@@ -2,7 +2,7 @@
 /src/main/frontend/.vscode/
 /src/main/frontend/node_modules/
 /target/
-/src/main/resources/frontend/
+/src/main/resources/static/
 /src/main/resources/application-secrets.properties
 /backend/target/
 /node/
@@ -10,7 +10,7 @@
 /frontend/node/
 /.idea/
 /.jpb/**
-
+pom.xml.versionsBackup
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
