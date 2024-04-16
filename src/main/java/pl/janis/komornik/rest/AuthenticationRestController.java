@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,12 +34,12 @@ public class AuthenticationRestController {
     private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
 
-    @PostMapping("/auth/authenticate")
+    @PostMapping("/api/auth/authenticate")
     public ResponseEntity<UserDto> authenticate(@RequestBody AuthenticationRequestDto request
             , HttpServletResponse response) {
 
         final UserDetails user = userDetailsService.loadUserByUsername(request.username());
-        if (user != null && user.isEnabled()) {
+        if (user != null && user.isEnabled() && SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) {
             Authentication authentication =
                     authenticationManager
                             .authenticate(new UsernamePasswordAuthenticationToken(
@@ -53,7 +54,7 @@ public class AuthenticationRestController {
                     .httpOnly(true)
                     .secure(false)
                     .path("/")
-                    .maxAge(TimeUnit.DAYS.toMillis(365))
+                    .maxAge(TimeUnit.DAYS.toMillis(10))
                     .build();
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
             return new ResponseEntity<>(userDto, HttpStatus.OK);
@@ -62,8 +63,15 @@ public class AuthenticationRestController {
         return null;
     }
 
-    @GetMapping("/csrf")
+    @GetMapping("/api/csrf")
     public CsrfToken csrfToken(CsrfToken csrfToken) {
         return csrfToken;
+    }
+
+    @GetMapping("/api/logout")
+    public ResponseEntity<String> logout(HttpServletResponse response) {
+        response.addHeader(HttpHeaders.SET_COOKIE, "accessToken=; Max-Age=0; HttpOnly");
+        response.addHeader(HttpHeaders.SET_COOKIE, "XSRF-TOKEN=; Max-Age=0; HttpOnly");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

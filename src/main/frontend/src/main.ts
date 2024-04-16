@@ -29,9 +29,10 @@ import {APP_INITIALIZER, importProvidersFrom, isDevMode} from '@angular/core';
 import {JwtInterceptor} from './app/auth/jwt.interceptor';
 import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import {environment} from "./environments/environment";
 
 function requestCsrfToken(httpClient: HttpClient) {
-  return () => httpClient.get('http://localhost:8080/csrf').pipe(
+  return () => httpClient.get(`${environment.API_URL}/csrf`).pipe(
     catchError(() => of(null))
   );
 }

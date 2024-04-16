@@ -23,7 +23,7 @@
     "@angular/service-worker": "^17.3.4",
     "@fortawesome/fontawesome-free": "5.15.4",
     "@material/density": "^15.0.0-canary.a246a4439.0",
-    "bootstrap": "3.3.7",
+    "bootstrap": "^5.0.2",
     "ngx-gravatar": "^13.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

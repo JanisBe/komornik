@@ -23,7 +23,7 @@ export class AuthService {
         {
           email: email,
           password: password,
-        }, {withCredentials: true}
+        }
       )
       .pipe(
         tap(resData => {
@@ -33,13 +33,12 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    console.log(environment.API_URL)
     return this.http.post<User>(
       `${environment.API_URL}/auth/authenticate`,
       {
         username: email,
         password: password,
-      }, {withCredentials: true}
+      }
     )
       .subscribe({
         next: (resData) => {
@@ -54,8 +53,10 @@ export class AuthService {
 
   logout() {
     // localStorage.removeItem('userData');
-    window.sessionStorage.clear();
+    window.sessionStorage.removeItem('userData');
     this.user.next(null);
+    this.snackbarService.displayMessage('Wylogowano!', 3000);
+    this.http.get(`${environment.API_URL}/logout`).subscribe();
     this.router.navigate(['/login']);
   }
 
@@ -66,8 +67,6 @@ export class AuthService {
       token: string;
       name: string
     } = JSON.parse(window.sessionStorage.getItem('userData') || '{}');
-    const cookie = this.getCookie("accessToken");
-    console.log(cookie);
     if (!userData) {
       return;
     }
@@ -120,26 +119,8 @@ export class AuthService {
   private handleAuth(email: string, name: string, userId: number, token: string) {
     const user: User = {name: name, id: userId, token: token, mail: email}
     this.user.next(user);
-    const xsrf = this.getCookie("XSRF-TOKEN");
-    window.sessionStorage.setItem('XSRF-TOKEN', xsrf);
     window.sessionStorage.setItem('userData', JSON.stringify(user));
-    // cookie.setItem('userData', JSON.stringify(user));
-    // localStorage.setItem('userData', JSON.stringify(user));
     this.router.navigate(['/group/list']);
   }
 
-  private getCookie(name: string) {
-    let ca: Array<string> = document.cookie.split(';');
-    let caLen: number = ca.length;
-    let cookieName = `${name}=`;
-    let c: string;
-
-    for (let i: number = 0; i < caLen; i += 1) {
-      c = ca[i].replace(/^\s+/g, '');
-      if (c.indexOf(cookieName) == 0) {
-        return c.substring(cookieName.length, c.length);
-      }
-    }
-    return '';
-  }
 }

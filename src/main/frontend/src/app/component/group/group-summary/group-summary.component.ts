@@ -56,6 +56,9 @@ export class GroupSummaryComponent implements OnInit {
   }
 
   addExpense() {
-    this.dialog.open(AddExpenseComponent, {data: {groupId: this.groupId}, width: '600px'});
+    this.dialog.open(AddExpenseComponent, {data: {groupId: this.groupId}, width: '600px'})
+      .afterClosed().subscribe(() => {
+      this.ngOnInit();
+    });
   }
 }

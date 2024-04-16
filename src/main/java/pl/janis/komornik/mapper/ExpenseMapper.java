@@ -1,7 +1,6 @@
 package pl.janis.komornik.mapper;
 
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import pl.janis.komornik.dto.ExpenseDto;
 import pl.janis.komornik.entities.Category;
 import pl.janis.komornik.entities.Expense;
@@ -15,12 +14,15 @@ import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.WARN, componentModel = SPRING, uses = {DebtMapper.class, UserMapper.class})
 public abstract class ExpenseMapper {
 
-    @Autowired
-    protected CategoryService categoryService;
-    @Autowired
-    protected UserService userService;
-    @Autowired
-    protected GroupService groupService;
+    protected final CategoryService categoryService;
+    protected final UserService userService;
+    protected final GroupService groupService;
+
+    public ExpenseMapper(CategoryService categoryService, UserService userService, GroupService groupService) {
+        this.categoryService = categoryService;
+        this.userService = userService;
+        this.groupService = groupService;
+    }
 
     @Mapping(target = "category", source = "categoryId", qualifiedByName = "mapCategoryIdToCategory")
     @Mapping(target = "group", source = "groupId", qualifiedByName = "mapGroupIdToGroup")
