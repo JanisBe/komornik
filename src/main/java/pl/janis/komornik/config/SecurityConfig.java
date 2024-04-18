@@ -35,7 +35,7 @@ import java.util.List;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-    public static final String[] ALLOWED_URLS = {"/api/auth/authenticate", "/api/user/save", "/api/user/verifyUser/", "/api/user/forgotPassword/", "/api/csrf"};
+    public static final String[] ALLOWED_URLS = {"/auth/authenticate", "/api/auth/authenticate", "/api/user/save", "/api/user/verifyUser/", "/api/user/forgotPassword/", "/api/csrf"};
     private final Filter jwtAuthFilter;
     private final UserService userService;
 

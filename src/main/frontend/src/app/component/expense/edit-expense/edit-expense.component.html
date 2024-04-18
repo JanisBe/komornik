@@ -1,113 +1,113 @@
 <div class="container-fluid">
-  <div *ngIf="isUserInGroup && !noResults; else notInGroup" class="row">
-    <div class="col-xs-12 col-sm-10 col-md-8 mt-2">
-      <form (ngSubmit)="onSubmit()" [formGroup]="form">
-
-        <h3 *ngIf="!!currentGroup"> Dodaj wydatek dla grupy <b>{{ currentGroup.groupName }}</b></h3>
-        <div class="row">
-          <mat-form-field appearance="outline">
-            <mat-label>Opis wydatku</mat-label>
-            <input
-              class="form-control"
-              formControlName="description"
-              id="name"
-              matInput
-              type="text">
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Ile</mat-label>
-            <input
-              class="form-control"
-              formControlName="amount"
-              id="amount"
-              matInput
-              type="text">
-          </mat-form-field>
-
-          <mat-form-field *ngIf="!currentGroup" appearance="outline">
-            <mat-label>Grupa</mat-label>
-            <mat-select (selectionChange)="onGroupChange($event.value)" formControlName="group">
-              <mat-option *ngFor="let group of userGroups" [value]="group.id">
-                {{ group.groupName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
+  @if (isUserInGroup && !noResults) {
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 mt-2">
+        <form (ngSubmit)="onSubmit()" [formGroup]="form">
+          <h3 *ngIf="!!currentGroup"> Dodaj wydatek dla grupy <b>{{ currentGroup.groupName }}</b></h3>
           <div class="row">
             <mat-form-field appearance="outline">
-              <mat-label>Domyślna waluta</mat-label>
-              <mat-select formControlName="currency">
-                <mat-option *ngFor="let currentCurrency of currencies" [value]="currentCurrency">
-                  {{ currentCurrency }}
+              <mat-label>Opis wydatku</mat-label>
+              <input
+                class="form-control"
+                formControlName="description"
+                id="name"
+                matInput
+                type="text">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Ile</mat-label>
+              <input
+                class="form-control"
+                formControlName="amount"
+                id="amount"
+                matInput
+                type="text">
+            </mat-form-field>
+
+            <mat-form-field *ngIf="!currentGroup" appearance="outline">
+              <mat-label>Grupa</mat-label>
+              <mat-select (selectionChange)="onGroupChange($event.value)" formControlName="group">
+                <mat-option *ngFor="let group of userGroups" [value]="group.id">
+                  {{ group.groupName }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Do podziału pomiędzy <b>{{ currentUser.name }}</b> oraz</mat-label>
-              <mat-chip-grid #chipGrid>
-                <mat-chip-row (removed)="remove(user)" *ngFor="let user of users">
-                  {{ user.name }}
-                  <button [attr.aria-label]="'remove ' + user" matChipRemove>
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip-row>
-              </mat-chip-grid>
-              <input #userNameInput (matChipInputTokenEnd)="add($event)" [matAutocomplete]="auto"
-                     [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                     formControlName="name"
-                     placeholder="Użytkownik"/>
-              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                <mat-option *ngFor="let user of usersOriginalList" [value]="user">
-                  {{ user.name }}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
+            <div class="row">
+              <mat-form-field appearance="outline">
+                <mat-label>Domyślna waluta</mat-label>
+                <mat-select formControlName="currency">
+                  <mat-option *ngFor="let currentCurrency of currencies" [value]="currentCurrency">
+                    {{ currentCurrency }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
 
-          <div class="form-group">
-            <mat-form-field appearance="outline">
-              <mat-label>Wybierz datę</mat-label>
-              <input (click)="picker.open()" [matDatepicker]="picker" formControlName="date" matInput>
-              <mat-hint>DD/MM/YYYY</mat-hint>
-              <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Do podziału pomiędzy <b>{{ currentUser.name }}</b> oraz</mat-label>
+                <mat-chip-grid #chipGrid>
+                  <mat-chip-row (removed)="remove(user)" *ngFor="let user of users">
+                    {{ user.name }}
+                    <button [attr.aria-label]="'remove ' + user" matChipRemove>
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip-row>
+                </mat-chip-grid>
+                <input #userNameInput (matChipInputTokenEnd)="add($event)" [matAutocomplete]="auto"
+                       [matChipInputFor]="chipGrid" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       formControlName="name"
+                       placeholder="Użytkownik"/>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  <mat-option *ngFor="let user of usersOriginalList" [value]="user">
+                    {{ user.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
 
-            <mat-form-field appearance="outline">
-              <mat-label>Kategoria</mat-label>
-              <mat-select formControlName="category">
-                <mat-option *ngFor="let category of categories" [value]="category.id">
-                  <mat-icon>{{ category.categoryIconName }}</mat-icon>
-                  {{ category.categoryName }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="form-group">
+              <mat-form-field appearance="outline">
+                <mat-label>Wybierz datę</mat-label>
+                <input (click)="picker.open()" [matDatepicker]="picker" formControlName="date" matInput>
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Kategoria</mat-label>
+                <mat-select formControlName="category">
+                  <mat-option *ngFor="let category of categories" [value]="category.id">
+                    <mat-icon>{{ category.categoryIconName }}</mat-icon>
+                    {{ category.categoryName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <mat-slider discrete showTickMarks>
+                <input #slider (change)="updateSliderInput()" [value]="defaultSplit" matSliderThumb
+                       max="100" min="0"
+                       step="1">
+              </mat-slider>
+              <mat-form-field appearance="outline">
+                <input #sliderInput (change)="updateSlider()" [value]="defaultSplit" formControlName="split"
+                       matInput
+                       max="100" min="0"
+                       placeholder="Podział" type="number">
+                <mat-icon matSuffix>percent</mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="button-container">
+              <button [disabled]="this.form.invalid" mat-raised-button type="submit">Submit</button>
+              <button (click)="onCancel()" mat-raised-button type="button">Cancel</button>
+            </div>
           </div>
-          <div class="form-group">
-            <mat-slider discrete showTickMarks>
-              <input #slider (change)="updateSliderInput()" [value]="defaultSplit" matSliderThumb
-                     max="100" min="0"
-                     step="1">
-            </mat-slider>
-            <mat-form-field appearance="outline">
-              <input #sliderInput (change)="updateSlider()" [value]="defaultSplit" formControlName="split"
-                     matInput
-                     max="100" min="0"
-                     placeholder="Podział" type="number">
-              <mat-icon matSuffix>percent</mat-icon>
-            </mat-form-field>
-          </div>
-          <div class="button-container">
-            <button [disabled]="this.form.invalid" mat-raised-button type="submit">Submit</button>
-            <button (click)="onCancel()" mat-raised-button type="button">Cancel</button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
-  <ng-template #notInGroup>
+  } @else {
     <div *ngIf="!noResults && !isUserInGroup" class="container-fluid">
       <div class="row">
         <div class="col h3 d-flex align-items-center justify-content-center">
@@ -116,8 +116,8 @@
         </div>
       </div>
     </div>
-  </ng-template>
-  <ng-container *ngIf="noResults && !isUserInGroup">
+  }
+  @if (noResults && !isUserInGroup) {
     <div class="container-fluid">
       <div class="row">
         <div class="col h3 d-flex align-items-center justify-content-center">
@@ -126,5 +126,5 @@
         </div>
       </div>
     </div>
-  </ng-container>
+  }
 </div>

@@ -1,7 +1,7 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ExpenseService} from "../../../service/expense.service";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {RouterLink} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Expense} from "../../../model/expense";
 import {User} from "../../../model/user";
@@ -48,7 +48,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   users: User[];
   categories: Category[];
   currentUser: User;
-  currentGroupId: number;
   currentGroup: Group;
   currentGroupName$: Observable<string>;
   currentExpense: Expense;
@@ -59,7 +58,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   splitHow = "po równo";
   userName = new FormControl('');
   isUserInGroup = false;
-  noResults = false;
   categoryIcon = "description";
   private payerDialogRef: MatDialogRef<PayerDialogComponent>;
   private currencyDialogRef: MatDialogRef<CurrencyDialogComponent>;
@@ -72,7 +70,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
               private snackbarService: SnackbarService,
               private currencyService: CurrencyService,
               private categoryService: CategoryService,
-              private route: ActivatedRoute,
               private groupService: GroupService,
               private authService: AuthService,
               private dataSharingService: DatasharingService,
@@ -84,20 +81,17 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     this.onCancel();
   }
 
-
   ngOnInit(): void {
     this.currentUser = Object.assign({}, this.authService.user.value!);
-    this.currentUser.token = undefined;
     this.payer = this.currentUser;
-    this.currentGroupId = this.route.snapshot.params['groupId'] ? this.route.snapshot.params['groupId'] : this.data.groupId;
     this.initForm();
-    this.groupService.findById(this.currentGroupId).subscribe(group => {
+    this.groupService.findById(this.data.groupId).subscribe(group => {
       this.currentGroup = group;
       this.currentGroupName$ = of(this.currentGroup.groupName);
       this.isUserInGroup = this.currentGroup.users.map(user => user.id).includes(this.currentUser.id);
       this.users = group.users;
     });
-    this.currencyService.getDefaultCurrencyForGroup(this.currentGroupId)
+    this.currencyService.getDefaultCurrencyForGroup(this.data.groupId)
       .subscribe(response => {
         this.defaultCurrency = response;
         this.form.get('currency')?.patchValue(this.defaultCurrency)
@@ -147,7 +141,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       date: dateTime,
       debt: debts,
       categoryId: +this.form.value.category,
-      groupId: this.currentGroupId
+      groupId: this.data.groupId
     }
     console.log(newExpense);
     this.expenseService.saveExpense(newExpense).subscribe({
@@ -170,9 +164,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       description: new FormControl(null, Validators.required),
       currency: new FormControl(this.defaultCurrency, Validators.required),
       name: this.userName,
-      split: new FormControl(50, Validators.required),
       category: new FormControl(null),
-      group: new FormControl(this.currentGroupId, Validators.required),
+      group: new FormControl(this.data.groupId, Validators.required),
       date: new FormControl(new Date(), Validators.required)
     })
   }

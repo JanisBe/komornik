@@ -279,6 +279,7 @@
                                 </requireMavenVersion>
                                 <requireJavaVersion>
                                     <version>17</version>
+                                    <message>Invalid Java version. It should, at least, be 17</message>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>

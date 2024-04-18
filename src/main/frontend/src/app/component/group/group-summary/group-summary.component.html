@@ -1,19 +1,27 @@
-<button (click)="addExpense()" color="primary" mat-raised-button>Dodaj nowy wydatek</button>
-<div *ngFor="let expense of expenses | keyvalue: reverseKeyOrder">
-  <div>
-    <table>
-      <thead>
-      <tr class="grey">
-        <th>Data: {{ expense.key | date:'shortDate':'':'pl' }}
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let ex of expense.value">
-        <td *ngFor="let debt of ex.debt">
-          {{ debt.from.name }} -> {{ debt.to.name }} = {{ debt.amount }}
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+@if (this.loadingService.isLoading()) {
+  <spinner></spinner>
+} @else {
+  <button (click)="addExpense()" color="primary" mat-raised-button>Dodaj nowy wydatek</button>
+  @for (expense of expenses | keyvalue: reverseKeyOrder; track expense) {
+    <div>
+      <table>
+        <thead>
+        <tr class="grey">
+          <th>Data: {{ expense.key | date:'shortDate':'':'pl' }}
+        </tr>
+        </thead>
+        <tbody>
+          @for (ex of expense.value; track ex) {
+            <tr>
+              @for (debt of ex.debt; track debt) {
+                <td (click)="editExpense(ex.id!)">
+                  {{ debt.from.name }} -> {{ debt.to.name }} = {{ debt.amount }}
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+}

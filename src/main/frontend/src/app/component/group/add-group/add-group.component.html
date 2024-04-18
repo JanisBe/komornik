@@ -1,76 +1,81 @@
-<div *ngIf="isUserInGroup && !noResults; else notAllowed" class="row">
-  <div class="col-12">
-    <form (ngSubmit)="onSubmit()" [formGroup]="groupForm">
+@if (isUserInGroup && !noResults) {
+  <div class="row">
+    <div class="col-12">
+      <form (ngSubmit)="onSubmit()" [formGroup]="groupForm">
 
-      <div class="row">
-        <div class="col-10">
-          <div class="form-group inline-inputs">
-            <mat-form-field appearance="outline">
-              <mat-icon (click)="pickIcon()" matPrefix>{{ groupIconName }}</mat-icon>
-              <mat-label>Nazwa grupy</mat-label>
-              <input aria-label="groupName"
-                     formControlName="groupName"
-                     matInput
-                     placeholder="Nazwa grupy"
-                     type="text">
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Domyślna waluta</mat-label>
-              <mat-select formControlName="defaultCurrency">
-                <mat-option *ngFor="let currency of currencies" [value]="currency">
-                  {{ currency }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <button (click)="onAddUser()" class="float-end" mat-raised-button style="width: 150px" type="button">Add
-              user
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-10" formArrayName="users">
-          <div
-            *ngFor="let userCtrl of usersControls; let i = index"
-            [formGroupName]="i"
-            class="row"
-            style="margin-top: 10px;">
-            <div class="inline-inputs">
+        <div class="row">
+          <div class="col-10">
+            <div class="form-group inline-inputs">
               <mat-form-field appearance="outline">
-                <mat-label>Name</mat-label>
-                <input [matAutocomplete]="auto"
-                       aria-label="Name"
-                       formControlName="name"
+                <mat-icon (click)="pickIcon()" matPrefix>{{ groupIconName }}</mat-icon>
+                <mat-label>Nazwa grupy</mat-label>
+                <input aria-label="groupName"
+                       formControlName="groupName"
                        matInput
-                       placeholder="Type user name"
+                       placeholder="Nazwa grupy"
                        type="text">
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event, i)">
-                  <mat-option *ngFor="let user of users$ | async" [value]="user">
-                    {{ user?.name }}
-                  </mat-option>
-                </mat-autocomplete>
               </mat-form-field>
-
               <mat-form-field appearance="outline">
-                <mat-label>User email</mat-label>
-                <input [value]="mail[i]" formControlName="mail" matInput placeholder="email" type="email">
+                <mat-label>Domyślna waluta</mat-label>
+                <mat-select formControlName="defaultCurrency">
+                  @for (currency of currencies; track currency) {
+                    <mat-option [value]="currency">
+                      {{ currency }}
+                    </mat-option>
+                  }
+                </mat-select>
               </mat-form-field>
-
-              <button (click)="onDeleteUser(i)" color="warn" mat-raised-button type="button">X</button>
+              <button (click)="onAddUser()" class="float-end" mat-raised-button style="width: 150px" type="button">Add
+                user
+              </button>
             </div>
-
           </div>
-          <hr>
         </div>
-      </div>
-      <div class="button-container">
-        <button [disabled]="groupForm.invalid" color="primary" mat-raised-button type="submit">Save</button>
-        <button (click)="onCancel()" color="warning" mat-raised-button type="button">Cancel</button>
-      </div>
-    </form>
+        <div class="row">
+          <div class="col-10" formArrayName="users">
+            @for (userCtrl of usersControls; track userCtrl; let i = $index) {
+              <div
+                [formGroupName]="i"
+                class="row"
+                style="margin-top: 10px;">
+                <div class="inline-inputs">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input [matAutocomplete]="auto"
+                           aria-label="Name"
+                           formControlName="name"
+                           matInput
+                           placeholder="Type user name"
+                           type="text">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event, i)">
+                      @for (user of users$ | async; track user) {
+                        <mat-option [value]="user">
+                          {{ user?.name }}
+                        </mat-option>
+                      }
+                    </mat-autocomplete>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>User email</mat-label>
+                    <input [value]="mail[i]" formControlName="mail" matInput placeholder="email" type="email">
+                  </mat-form-field>
+
+                  <button (click)="onDeleteUser(i)" color="warn" mat-raised-button type="button">X</button>
+                </div>
+              </div>
+            }
+            <hr>
+          </div>
+        </div>
+        <div class="button-container">
+          <button [disabled]="groupForm.invalid" color="primary" mat-raised-button type="submit">Save</button>
+          <button (click)="onCancel()" color="warning" mat-raised-button type="button">Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
-<ng-template #notAllowed>
+} @else {
   <div class="container-fluid">
     <div class="row">
       <div class="col h3 d-flex align-items-center justify-content-center">
@@ -78,8 +83,8 @@
       </div>
     </div>
   </div>
-</ng-template>
-<ng-container *ngIf="noResults">
+}
+@if (noResults) {
   <div class="container-fluid">
     <div class="row">
       <div class="col h3 d-flex align-items-center justify-content-center">
@@ -88,4 +93,4 @@
       </div>
     </div>
   </div>
-</ng-container>
+}

@@ -20,23 +20,28 @@ import {
   MatCardTitle
 } from '@angular/material/card';
 import {NgFor, NgIf} from '@angular/common';
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {LoadingService} from "../../../service/loading.service";
+import {SpinnerComponent} from "../../common/spinner/spinner.component";
 
 @Component({
   selector: 'all-groups',
   templateUrl: './all-groups.component.html',
   styleUrls: ['./all-groups.component.scss'],
   standalone: true,
-  imports: [NgIf, NgFor, MatCard, MatCardHeader, MatIcon, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatTooltip, MatCardActions, RouterLink]
+  imports: [NgIf, NgFor, MatCard, MatCardHeader, MatIcon, MatCardAvatar, MatCardTitle, MatCardSubtitle, MatCardContent, MatTooltip, MatCardActions, RouterLink, MatProgressSpinner, SpinnerComponent]
 })
 export class AllGroupsComponent implements OnInit {
   allGroups: Group[];
   categoryIconName: "euro";
+  isLoading: boolean = true;
 
   constructor(private groupService: GroupService,
               private snackBarService: SnackbarService,
               private expenseService: ExpenseService,
               private router: Router,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              protected loadingService: LoadingService) {
   }
 
   ngOnInit(): void {
@@ -44,7 +49,10 @@ export class AllGroupsComponent implements OnInit {
   }
 
   findAllGroupsForUser() {
-    this.groupService.findAllGroupsForUser().subscribe(groups => this.allGroups = groups.body!);
+    this.groupService.findAllGroupsForUser().subscribe(groups => {
+      this.allGroups = groups.body!;
+      this.isLoading = false;
+    });
 
   }
 

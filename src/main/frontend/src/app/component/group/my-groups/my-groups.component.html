@@ -6,11 +6,13 @@
 </div>
 <div class="sidenav">
   <ul class="sidenav-nav">
-    <li *ngFor="let group of allGroups" class="sidenav-nav-item">
-      <a [routerLink]="['/group/summary/', group.id]" class="sidenav-nav-link">
-        <mat-icon class="icon">{{group.groupIconName ? group.groupIconName : "groups"}}</mat-icon>
-        <span class="sidenav-link-text pointer">{{group.groupName}}</span>
-      </a>
-    </li>
+    @for (group of allGroups; track group) {
+      <li class="sidenav-nav-item">
+        <a [routerLink]="['/group/summary/', group.id]" class="sidenav-nav-link">
+          <mat-icon class="icon">{{ group.groupIconName ? group.groupIconName : "groups" }}</mat-icon>
+          <span class="sidenav-link-text pointer">{{ group.groupName }}</span>
+        </a>
+      </li>
+    }
   </ul>
 </div>

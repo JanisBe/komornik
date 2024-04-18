@@ -6,13 +6,17 @@ import {DatePipe, KeyValue, KeyValuePipe, NgFor} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {AddExpenseComponent} from "../../expense/add-expense/add-expense.component";
 import {MatButton} from '@angular/material/button';
+import '@angular/common/locales/global/pl';
+import {LoadingService} from "../../../service/loading.service";
+import {EditExpenseComponent} from "../../expense/edit-expense/edit-expense.component";
+import {SpinnerComponent} from "../../common/spinner/spinner.component";
 
 @Component({
   selector: 'group-summary',
   templateUrl: './group-summary.component.html',
   styleUrl: './group-summary.component.scss',
   standalone: true,
-  imports: [MatButton, NgFor, DatePipe, KeyValuePipe]
+  imports: [MatButton, NgFor, DatePipe, KeyValuePipe, SpinnerComponent]
 })
 export class GroupSummaryComponent implements OnInit {
   groupId: number;
@@ -20,7 +24,8 @@ export class GroupSummaryComponent implements OnInit {
 
   constructor(private expenseService: ExpenseService,
               private route: ActivatedRoute,
-              private dialog: MatDialog
+              private dialog: MatDialog,
+              protected loadingService: LoadingService
   ) {
   }
 
@@ -29,7 +34,6 @@ export class GroupSummaryComponent implements OnInit {
       this.groupId = params['groupId'];
       this.expenseService.findAllByGroupId(this.groupId).subscribe(expenses => {
         this.expenses = this.groupByDate(expenses);
-        console.log(this.expenses);
       });
     });
   }
@@ -60,5 +64,10 @@ export class GroupSummaryComponent implements OnInit {
       .afterClosed().subscribe(() => {
       this.ngOnInit();
     });
+  }
+
+  editExpense(id: number) {
+    console.log(id);
+    this.dialog.open(EditExpenseComponent, {data: {id: id}, width: '600px'})
   }
 }

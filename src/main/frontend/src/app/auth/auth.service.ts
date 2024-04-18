@@ -61,15 +61,17 @@ export class AuthService {
   }
 
   autoLogin() {
+    const userDataFromStorage = window.sessionStorage.getItem('userData');
+    if (!userDataFromStorage) {
+      return;
+    }
     const userData: {
       mail: string;
       id: number;
       token: string;
       name: string
-    } = JSON.parse(window.sessionStorage.getItem('userData') || '{}');
-    if (!userData) {
-      return;
-    }
+    } = JSON.parse(userDataFromStorage);
+
 
     const loadedUser: User = {
       id: userData.id,

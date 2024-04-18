@@ -1,36 +1,44 @@
 <div class="container-fluid">
-  <div *ngIf="!!allGroups; else noGroups;" class="d-flex flex-wrap p-2 gap-4">
-    <mat-card *ngFor="let group of allGroups" class="card shadow">
-      <mat-card-header>
-        <mat-icon (click)="pickIcon()" mat-card-avatar>{{ group.groupIconName }}</mat-icon>
-        <mat-card-title (click)="addExpense(group.id!)" class="pointer">{{group.groupName}}</mat-card-title>
-        <mat-card-subtitle>{{group.description}}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        Członkowie:
-        <span *ngFor="let user of group.users, let isLast = last">
-      <span matTooltip="{{user.mail}}">{{user.name}}{{isLast ? '' : ', '}}</span>
-    </span>
-      </mat-card-content>
-      <mat-card-actions class="d-flex justify-content-evenly">
-        <mat-icon (click)="editGroup(group.id!)" class="pointer shadow" matTooltip="Edytuj grupę">edit</mat-icon>
-        <mat-icon (click)="settle(group)" class="pointer shadow" matTooltip="Rozliczenie">attach_money</mat-icon>
-        <mat-icon (click)="addExpense(group.id!)" class="pointer shadow" matTooltip="Dodaj wydatek w tej grupie">add
-        </mat-icon>
-        <mat-icon (click)="listExpense(group.id!)" class="pointer shadow" matTooltip="Lista wydatków">list</mat-icon>
-        <mat-icon (click)="deleteGroup(group.id!, group.groupName)" class="pointer shadow warning-border"
-                  matTooltip="Skasuj grupę">delete
-        </mat-icon>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-  <ng-template #noGroups>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col h3 d-flex align-items-center justify-content-center">
-          Wygląda na to że nie masz żadnych grup. <u routerLink="/group/add">Załóż nową grupę</u>
+  @if (this.loadingService.isLoading()) {
+    <spinner></spinner>
+  } @else if (!!allGroups) {
+    <div class="d-flex flex-wrap p-2 gap-4">
+      @for (group of allGroups; track group) {
+        <mat-card class="card shadow">
+          <mat-card-header>
+            <mat-icon (click)="pickIcon()" mat-card-avatar>{{ group.groupIconName }}</mat-icon>
+            <mat-card-title (click)="addExpense(group.id!)" class="pointer">{{ group.groupName }}</mat-card-title>
+            <mat-card-subtitle>{{ group.description }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            Członkowie:
+            @for (user of group.users; let isLast = $last; track user) {
+              <span matTooltip="{{user.mail}}">{{ user.name }}{{ isLast ? '' : ', ' }}</span>
+            }
+          </mat-card-content>
+          <mat-card-actions class="d-flex justify-content-evenly">
+            <mat-icon (click)="editGroup(group.id!)" class="pointer shadow" matTooltip="Edytuj grupę">edit</mat-icon>
+            <mat-icon (click)="settle(group)" class="pointer shadow" matTooltip="Rozliczenie">attach_money</mat-icon>
+            <mat-icon (click)="addExpense(group.id!)" class="pointer shadow" matTooltip="Dodaj wydatek w tej grupie">add
+            </mat-icon>
+            <mat-icon (click)="listExpense(group.id!)" class="pointer shadow" matTooltip="Lista wydatków">list
+            </mat-icon>
+            <mat-icon (click)="deleteGroup(group.id!, group.groupName)" class="pointer shadow warning-border"
+                      matTooltip="Skasuj grupę">delete
+            </mat-icon>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    <ng-template #noGroups>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col h3 d-flex align-items-center justify-content-center">
+            Wygląda na to że nie masz żadnych grup. <u routerLink="/group/add">Załóż nową grupę</u>
+          </div>
         </div>
       </div>
-    </div>
-  </ng-template>
+    </ng-template>
+  }
 </div>

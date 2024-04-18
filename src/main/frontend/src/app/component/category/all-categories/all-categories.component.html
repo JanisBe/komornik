@@ -3,7 +3,9 @@
     <th *matHeaderCellDef mat-header-cell> Category name</th>
     <td *matCellDef="let category" mat-cell>
       {{ category.name }}
-      <mat-icon *ngIf="category.categoryIconName">{{ category.categoryIconName }}</mat-icon>&nbsp;
+      @if (category.categoryIconName) {
+        <mat-icon>{{ category.categoryIconName }}</mat-icon>&nbsp;
+      }
     </td>
   </ng-container>
   <ng-container matColumnDef="actions">

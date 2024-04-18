@@ -9,13 +9,16 @@
     </mat-form-field>
   </div>
   <mat-dialog-content>
-    <div *ngIf="icons.length>0; else nothingFound" class="row">
-      <div *ngFor="let iconName of icons" class="col-xl-1 col-lg-1 col-md-1 col-1 h1 text-center">
-        <i (click)="selectIcon(iconName)" class="material-icons h1" matTooltip="{{iconName}}">{{ iconName }}</i>
+    @if (icons.length > 0) {
+      <div class="row">
+        @for (iconName of icons; track iconName) {
+          <div class="col-xl-1 col-lg-1 col-md-1 col-1 h1 text-center">
+            <i (click)="selectIcon(iconName)" class="material-icons h1" matTooltip="{{iconName}}">{{ iconName }}</i>
+          </div>
+        }
       </div>
-    </div>
+    } @else {
+      <h1 class="text-center py-3">Nie ma takiej.</h1>
+    }
   </mat-dialog-content>
 </div>
-<ng-template #nothingFound>
-  <h1 class="text-center py-3">Nie ma takiej.</h1>
-</ng-template>
