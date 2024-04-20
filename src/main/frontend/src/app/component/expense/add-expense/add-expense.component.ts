@@ -26,7 +26,7 @@ import {SplitDialogComponent} from "../dialogs/split-dialog/split-dialog.compone
 import {CurrencyDialogComponent} from "../dialogs/currency-dialog/currency-dialog.component";
 import {CategoryDialogComponent} from "../dialogs/category-dialog/category-dialog.component";
 import {MultiUserSplitComponent} from "../dialogs/multi-user-split/multi-user-split.component";
-import {DatasharingService} from "../../../service/datasharing.service";
+import {DataSharingService} from "../../../service/data-sharing.service";
 import {MatButton} from '@angular/material/button';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 import {MatChip} from '@angular/material/chips';
@@ -72,7 +72,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
               private categoryService: CategoryService,
               private groupService: GroupService,
               private authService: AuthService,
-              private dataSharingService: DatasharingService,
+              private dataSharingService: DataSharingService,
               private dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: { groupId: number }) {
   }

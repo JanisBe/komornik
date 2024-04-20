@@ -10,7 +10,7 @@ import {User} from "../../../../model/user";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SnackbarService} from "../../../../service/snackbar.service";
 import {MatListOption, MatSelectionList, MatSelectionListChange} from "@angular/material/list";
-import {DatasharingService} from "../../../../service/datasharing.service";
+import {DataSharingService} from "../../../../service/data-sharing.service";
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 
@@ -35,7 +35,7 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
     public dialogRef: MatDialogRef<MultiUserSplitComponent>,
     private fb: FormBuilder,
     private snackbarService: SnackbarService,
-    private dataSharingService: DatasharingService,
+    private dataSharingService: DataSharingService,
     private cd: ChangeDetectorRef) {
     effect(() => {
       this.amount = this.dataSharingService.amount();

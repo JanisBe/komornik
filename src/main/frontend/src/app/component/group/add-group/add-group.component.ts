@@ -22,6 +22,7 @@ import {MatInput} from '@angular/material/input';
 import {MatIcon} from '@angular/material/icon';
 import {MatFormField, MatLabel, MatPrefix} from '@angular/material/form-field';
 import {AsyncPipe, NgFor, NgIf} from '@angular/common';
+import {DataSharingService} from "../../../service/data-sharing.service";
 
 @Component({
   selector: 'add-group',
@@ -52,7 +53,8 @@ export class AddGroupComponent implements OnInit {
               private currencyService: CurrencyService,
               private categoryService: CategoryService,
               private authService: AuthService,
-              private dialog: MatDialog
+              private dialog: MatDialog,
+              private dataSharingService: DataSharingService
   ) {
   }
 
@@ -88,6 +90,7 @@ export class AddGroupComponent implements OnInit {
         this.editMode ?
           this.snackbarService.displayMessage(`Grupa ${group.body!.groupName} zaktualizowana!`, 3000) :
           this.snackbarService.displayMessage(`Nowa grupa ${group.body!.groupName} założona!`, 3000);
+        this.dataSharingService.refreshGroups.set(true);
         this.onCancel();
       },
       error: (error: HttpErrorResponse) => {

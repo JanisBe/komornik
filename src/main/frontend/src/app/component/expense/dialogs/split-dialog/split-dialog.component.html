@@ -6,7 +6,7 @@
     <form [formGroup]="numberForm">
       <mat-selection-list #splitForm [multiple]="false" formControlName="splitForTwo">
         <mat-list-option selected value="equal">
-          Po równo ({{ this.amount / 2 }} / {{ this.amount / 2 }})
+          Po równo ({{ this.amount() / 2 }} / {{ this.amount() / 2 }})
         </mat-list-option>
         @for (user of data.users;track user) {
           <mat-list-option [value]="user">

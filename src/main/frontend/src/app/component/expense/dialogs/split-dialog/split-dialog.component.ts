@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, effect, Inject, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -9,7 +9,7 @@ import {
 import {User} from "../../../../model/user";
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Debt} from "../../../../model/debt";
-import {DatasharingService} from "../../../../service/datasharing.service";
+import {DataSharingService} from "../../../../service/data-sharing.service";
 import {SnackbarService} from "../../../../service/snackbar.service";
 import {MatButton} from '@angular/material/button';
 import {MatListOption, MatSelectionList} from '@angular/material/list';
@@ -25,18 +25,15 @@ import {MatIcon} from '@angular/material/icon';
 export class SplitDialogComponent implements OnInit, AfterViewInit {
   numberForm: FormGroup;
   private debts: Debt[] = [];
-  amount = 0;
+  amount = this.dataSharingService.amount;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User },
     public dialogRef: MatDialogRef<SplitDialogComponent>,
     private fb: FormBuilder,
-    private dataSharingService: DatasharingService,
+    private dataSharingService: DataSharingService,
     private snackbarService: SnackbarService,
     private cd: ChangeDetectorRef) {
-    effect(() => {
-      this.amount = this.dataSharingService.amount();
-    });
   }
 
   ngAfterViewInit(): void {
@@ -58,24 +55,24 @@ export class SplitDialogComponent implements OnInit, AfterViewInit {
       this.debts.push({
         from: this.data.users[0],
         to: this.data.users[0],
-        amount: -this.amount / 2
+        amount: -this.amount() / 2
       });
       this.debts.push({
         from: this.data.users[0],
         to: this.data.users[1],
-        amount: this.amount / 2
+        amount: this.amount() / 2
       });
       this.dialogRef.close({debts: this.debts, text: "wszyscy po równo"});
     } else {
       this.debts.push({
         from: selectedElement.selectedOptions.selected[0].value,
         to: selectedElement.selectedOptions.selected[0].value,
-        amount: -this.amount
+        amount: -this.amount()
       });
       this.debts.push({
         from: selectedElement.selectedOptions.selected[0].value,
         to: selectedElement.selectedOptions.selected[0].value,
-        amount: this.amount
+        amount: this.amount()
       });
       this.dialogRef.close({
         debts: this.debts,
