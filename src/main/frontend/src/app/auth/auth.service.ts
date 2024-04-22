@@ -125,4 +125,9 @@ export class AuthService {
     this.router.navigate(['/group/list']);
   }
 
+  public getCsrfToken() {
+    this.http.get(`${environment.API_URL}/csrf`).subscribe(() =>
+      console.log('CSRF token fetched')
+    );
+  }
 }

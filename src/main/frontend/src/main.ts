@@ -24,18 +24,11 @@ import {UserModule} from './app/component/user/user.module';
 import {GroupModule} from './app/component/group/group.module';
 import {ExpenseModule} from './app/component/expense/expense.module';
 import {CategoryModule} from './app/component/category/category.module';
-import {catchError, of} from 'rxjs';
 import {APP_INITIALIZER, importProvidersFrom, isDevMode} from '@angular/core';
 import {JwtInterceptor} from './app/auth/jwt.interceptor';
 import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
-import {environment} from "./environments/environment";
-
-function requestCsrfToken(httpClient: HttpClient) {
-  return () => httpClient.get(`${environment.API_URL}/csrf`).pipe(
-    catchError(() => of(null))
-  );
-}
+import {requestCsrfToken} from "./app/component/common/csrf-token-factory";
 
 
 bootstrapApplication(AppComponent, {

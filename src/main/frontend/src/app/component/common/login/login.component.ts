@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   ngOnInit(): void {
+    this.authService.getCsrfToken();
     if (!!this.authService.user.value) {
       // this.router.navigate(['/group/list']);
     }
