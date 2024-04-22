@@ -56,7 +56,7 @@ export class AuthService {
     window.sessionStorage.removeItem('userData');
     this.user.next(null);
     this.snackbarService.displayMessage('Wylogowano!', 3000);
-    this.http.get(`${environment.API_URL}/logout`).subscribe();
+    this.http.post(`${environment.API_URL}/logout`, {}).subscribe();
     this.router.navigate(['/login']);
   }
 

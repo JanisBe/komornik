@@ -73,9 +73,10 @@ public class SecurityConfig {
                     auth.anyRequest().authenticated();
                 })
                 .logout(logout -> {
-                    logout.logoutUrl("/api/auth/logout");
+                    logout.logoutUrl("/api/logout");
                     logout.logoutSuccessUrl("/");
                     logout.clearAuthentication(true);
+                    logout.permitAll();
                     logout.deleteCookies("XSRF-TOKEN", "accessToken");
                     logout.logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK));
                 })
