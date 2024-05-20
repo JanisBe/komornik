@@ -139,6 +139,7 @@ export class EditExpenseComponent implements OnInit {
       description: this.form.value.description,
       currency: this.form.value.currency,
       date: new Date(),
+      amount: sanitizedAmount,
       debt: debts,
       categoryId: +this.form.value.category,
       groupId: this.currentGroupId

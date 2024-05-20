@@ -8,7 +8,7 @@
   <ul class="sidenav-nav">
     @for (group of allGroups; track group) {
       <li class="sidenav-nav-item">
-        <a [routerLink]="['/group/summary/', group.id]" class="sidenav-nav-link">
+        <a [routerLink]="['/group/summary/', group.id, group.groupName]" class="sidenav-nav-link">
           <mat-icon class="icon">{{ group.groupIconName ? group.groupIconName : "groups" }}</mat-icon>
           <span class="sidenav-link-text pointer">{{ group.groupName }}</span>
         </a>

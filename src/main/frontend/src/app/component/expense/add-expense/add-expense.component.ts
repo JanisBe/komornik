@@ -74,7 +74,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
               private authService: AuthService,
               private dataSharingService: DataSharingService,
               private dialog: MatDialog,
-              @Inject(MAT_DIALOG_DATA) public data: { groupId: number }) {
+              @Inject(MAT_DIALOG_DATA) public data: { expenseId?: number, groupId: number }) {
   }
 
   ngOnDestroy(): void {
@@ -139,9 +139,13 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       description: this.form.value.description,
       currency: this.form.value.currency,
       date: dateTime,
+      amount: sanitizedAmount,
       debt: debts,
       categoryId: +this.form.value.category,
       groupId: this.data.groupId
+    }
+    if (this.editMode) {
+      newExpense.id = this.currentExpense.id;
     }
     console.log(newExpense);
     this.expenseService.saveExpense(newExpense).subscribe({
@@ -159,6 +163,23 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
+    if (this.data.expenseId) {
+      this.editMode = true;
+      this.expenseService.findById(this.data.expenseId).subscribe(expense => {
+        this.currentExpense = expense;
+        console.log(this.currentExpense)
+        this.form = new FormGroup({
+          id: new FormControl(this.currentExpense.id),
+          amount: new FormControl(this.currentExpense.amount, [Validators.required, Validators.pattern('^\\d*\\.?,?\\d*$')]),
+          description: new FormControl(this.currentExpense.description, Validators.required),
+          currency: new FormControl(this.currentExpense.currency, Validators.required),
+          name: this.userName,
+          category: new FormControl(this.currentExpense.categoryId, Validators.required),
+          group: new FormControl(this.currentExpense.groupId, Validators.required),
+          date: new FormControl(this.currentExpense.date, Validators.required)
+        })
+      });
+    }
     this.form = new FormGroup({
       amount: new FormControl(null, [Validators.required, Validators.pattern('^\\d*\\.?,?\\d*$')]),
       description: new FormControl(null, Validators.required),
@@ -272,7 +293,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   }
 
   private sanitizeAmount(amount: string) {
-    return amount?.replace(/,/g, '.');
+    return amount.toString().replace(/,/g, '.');
   }
 
   updateValue(value: string) {

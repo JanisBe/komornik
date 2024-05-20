@@ -22,7 +22,7 @@ public abstract class ExpenseMapper {
 
     @Mapping(target = "category", source = "categoryId", qualifiedByName = "mapCategoryIdToCategory")
     @Mapping(target = "group", source = "groupId", qualifiedByName = "mapGroupIdToGroup")
-    public abstract Expense toEntity(ExpenseDto userDto);
+    public abstract Expense toEntity(ExpenseDto expenseDto);
 
     @AfterMapping
     protected void addExpenseToDebt(@MappingTarget Expense expense) {
@@ -31,7 +31,7 @@ public abstract class ExpenseMapper {
 
     @Mapping(target = "categoryId", source = "category.id")
     @Mapping(target = "groupId", source = "group.id")
-    public abstract ExpenseDto toDto(Expense user);
+    public abstract ExpenseDto toDto(Expense expense);
 
     @Named("mapCategoryIdToCategory")
     Category mapCategoryIdToCategory(int categoryId) {

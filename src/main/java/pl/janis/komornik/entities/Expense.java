@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -47,6 +48,9 @@ public class Expense {
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "amount", nullable = false)
+    private BigDecimal amount;
 
     @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude

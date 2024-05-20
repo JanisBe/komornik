@@ -7,8 +7,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddExpenseComponent} from "../../expense/add-expense/add-expense.component";
 import {MatButton} from '@angular/material/button';
 import '@angular/common/locales/global/pl';
-import {LoadingService} from "../../../service/loading.service";
-import {EditExpenseComponent} from "../../expense/edit-expense/edit-expense.component";
 import {SpinnerComponent} from "../../common/spinner/spinner.component";
 
 @Component({
@@ -21,19 +19,20 @@ import {SpinnerComponent} from "../../common/spinner/spinner.component";
 export class GroupSummaryComponent implements OnInit {
   groupId: number;
   expenses: Map<string, Expense[]> = new Map<string, Expense[]>();
-
+  groupName: string;
   constructor(private expenseService: ExpenseService,
               private route: ActivatedRoute,
-              private dialog: MatDialog,
-              protected loadingService: LoadingService
+              private dialog: MatDialog
   ) {
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.groupId = params['groupId'];
+      this.groupName = params['groupName'];
       this.expenseService.findAllByGroupId(this.groupId).subscribe(expenses => {
         this.expenses = this.groupByDate(expenses);
+        console.log("retrieved expenses", expenses);
       });
     });
   }
@@ -67,7 +66,6 @@ export class GroupSummaryComponent implements OnInit {
   }
 
   editExpense(id: number) {
-    console.log(id);
-    this.dialog.open(EditExpenseComponent, {data: {id: id}, width: '600px'})
+    this.dialog.open(AddExpenseComponent, {data: {expenseId: id, groupId: this.groupId}, width: '600px'})
   }
 }

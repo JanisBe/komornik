@@ -5,6 +5,7 @@ export interface Expense {
   currency: string,
   description: string,
   note?: string,
+  amount: number,
   date: Date,
   categoryId: number,
   debt: Debt[],

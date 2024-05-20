@@ -33,11 +33,11 @@ public class Debt {
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "from_user_id")
     private User userFrom;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "to_user_id")
     private User userTo;
 

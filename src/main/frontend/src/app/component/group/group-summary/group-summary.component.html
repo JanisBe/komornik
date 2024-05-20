@@ -1,27 +1,26 @@
-@if (this.loadingService.isLoading()) {
-  <spinner></spinner>
-} @else {
-  <button (click)="addExpense()" color="primary" mat-raised-button>Dodaj nowy wydatek</button>
-  @for (expense of expenses | keyvalue: reverseKeyOrder; track expense) {
-    <div>
-      <table>
-        <thead>
-        <tr class="grey">
-          <th>Data: {{ expense.key | date:'shortDate':'':'pl' }}
-        </tr>
-        </thead>
-        <tbody>
-          @for (ex of expense.value; track ex) {
-            <tr>
-              @for (debt of ex.debt; track debt) {
-                <td (click)="editExpense(ex.id!)">
-                  {{ debt.from.name }} -> {{ debt.to.name }} = {{ debt.amount }}
-                </td>
-              }
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-  }
+<h1>{{ groupName }}</h1>
+<button (click)="addExpense()" color="primary" mat-raised-button>Dodaj nowy wydatek</button>
+@for (expense of expenses | keyvalue: reverseKeyOrder; track expense) {
+  <div>
+    <table class="table">
+      <thead>
+      <tr class="grey">
+        <th>Data: {{ expense.key | date:'shortDate':'':'pl' }}
+      </tr>
+      </thead>
+      <tbody>
+        @for (ex of expense.value; track ex) {
+          <tr style="border: 1px solid black">
+            <td><b>{{ ex.description }}</b></td>
+            @for (debt of ex.debt; track debt) {
+              <td (click)="editExpense(ex.id!)">
+                {{ debt.from.name }} -> {{ debt.to.name }} = {{ debt.amount }}
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 }
+

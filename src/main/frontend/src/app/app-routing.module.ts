@@ -30,7 +30,7 @@ const routes: Routes = [
   {path: 'verifyEmail', component: VerifyEmailComponent},
   {path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [authGuard]},
   {path: 'group/details/:groupId', component: AddGroupComponent, canActivate: [authGuard]},
-  {path: 'group/summary/:groupId', component: GroupSummaryComponent, canActivate: [authGuard]},
+  {path: 'group/summary/:groupId/:groupName', component: GroupSummaryComponent, canActivate: [authGuard]},
   {path: 'group/list', component: AllGroupsComponent, canActivate: [authGuard]},
   {path: 'group/add', component: AddGroupComponent, canActivate: [authGuard]},
   {path: 'expense/details/:expenseId', component: AddExpenseComponent, canActivate: [authGuard]},
