@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.4</version>
+        <version>3.2.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.janis</groupId>
@@ -15,15 +15,15 @@
     <description>Pet project - appka do dzielenia wydatków</description>
     <properties>
         <java.version>21</java.version>
-        <org.mapstruct.version>1.6.0.Beta1</org.mapstruct.version>
-        <sprinv-boot-version>3.2.4</sprinv-boot-version>
-        <mariadb-java-client.version>3.3.3</mariadb-java-client.version>
+        <org.mapstruct.version>1.6.0.Beta2</org.mapstruct.version>
+        <sprinv-boot-version>3.2.5</sprinv-boot-version>
+        <mariadb-java-client.version>3.4.0</mariadb-java-client.version>
         <jjwt.version>0.12.5</jjwt.version>
-        <mysql-connector.version>8.3.0</mysql-connector.version>
+        <mysql-connector.version>8.4.0</mysql-connector.version>
         <lombok.version>1.18.32</lombok.version>
         <jasypt.version>3.0.5</jasypt.version>
         <apache-commons.version>3.14.0</apache-commons.version>
-        <spring-version>6.2.4</spring-version>
+        <spring-version>6.3.0</spring-version>
     </properties>
     <dependencies>
         <dependency>
