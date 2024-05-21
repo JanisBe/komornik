@@ -14,9 +14,7 @@ import pl.janis.komornik.mapper.ExpenseMapper;
 import pl.janis.komornik.repository.ExpenseRepository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 import static java.math.BigDecimal.ZERO;
 import static java.util.Comparator.reverseOrder;
@@ -48,25 +46,18 @@ public class ExpenseService {
         return expenseRepository.findAllByGroup_IdOrderByDateDesc(groupId).stream().map(expenseMapper::toDto).toList();
     }
 
-    private void simplifyDebts(List<DebtDto> settlement, List<UserBalance> debtors, List<UserBalance> creditors) {
-        ListIterator<UserBalance> iterDebtors = debtors.listIterator();
-        while (iterDebtors.hasNext()) {
-            UserBalance debtor = iterDebtors.next();
-            ListIterator<UserBalance> iterCreditors = creditors.listIterator();
-            while (iterCreditors.hasNext()) {
-                UserBalance creditor = iterCreditors.next();
-                if (creditor.getBalance().abs().equals(debtor.getBalance().abs())) {
-                    settlement.add(new DebtDto(userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debtor.getBalance().abs()));
-                    iterCreditors.remove();
-                    iterDebtors.remove();
-                }
-            }
-
-        }
+    public Map<String, List<DebtDto>> calculateSettlesForGroup(int groupId) {
+        Map<String, List<DebtDto>> settlements = new HashMap<>();
+        List<String> currencies = expenseRepository.findCurrenciesForGroup(groupId);
+        currencies.forEach(currency -> {
+            List<DebtDto> debtDtos = calculateSettlementForGroupPerCurrency(groupId, currency);
+            settlements.put(currency, debtDtos);
+        });
+        return settlements;
     }
 
-    public List<DebtDto> calculateSettlesForGroup(int groupId) {
-        List<UserBalance> debtBalanceForUserAndGroup = expenseRepository.findBalanceForGroup(groupId);
+    private List<DebtDto> calculateSettlementForGroupPerCurrency(int groupId, String currency) {
+        List<UserBalance> debtBalanceForUserAndGroup = expenseRepository.findBalanceForGroup(groupId, currency);
         List<DebtDto> settlement = new ArrayList<>();
         List<UserBalance> debtors = new ArrayList<>(debtBalanceForUserAndGroup.stream().filter(user -> user.getBalance().compareTo(ZERO) > 0).sorted().toList());
         List<UserBalance> creditors = new ArrayList<>(debtBalanceForUserAndGroup.stream().filter(user -> user.getBalance().compareTo(ZERO) < 0).sorted(reverseOrder()).toList());
@@ -100,6 +91,23 @@ public class ExpenseService {
         }
 
         return settlement;
+    }
+
+    private void simplifyDebts(List<DebtDto> settlement, List<UserBalance> debtors, List<UserBalance> creditors) {
+        ListIterator<UserBalance> iterDebtors = debtors.listIterator();
+        while (iterDebtors.hasNext()) {
+            UserBalance debtor = iterDebtors.next();
+            ListIterator<UserBalance> iterCreditors = creditors.listIterator();
+            while (iterCreditors.hasNext()) {
+                UserBalance creditor = iterCreditors.next();
+                if (creditor.getBalance().abs().equals(debtor.getBalance().abs())) {
+                    settlement.add(new DebtDto(userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debtor.getBalance().abs()));
+                    iterCreditors.remove();
+                    iterDebtors.remove();
+                }
+            }
+
+        }
     }
 
     @Transactional

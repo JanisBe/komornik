@@ -1,14 +1,20 @@
 <h2 mat-dialog-title>Rozliczenie dla grupy {{ data.group.groupName }}</h2>
 <mat-dialog-content>
-  @if (!data.debts || calculateDebts(data.debts)) {
+  @if (data.debts) {
     <div>
-      @for (debt of data.debts; track debt) {
-        <div>
-          <div><b matTooltip="{{debt.from.mail}}">{{ debt.from.name }}</b>
-            dostaje od {{ debt.amount }}
+      @for (settlement of data.debts | keyvalue; track settlement) {
+        <p> {{ settlement.key }} </p>
+        @if (settlement.key !== 'PLN') {
+          <mat-checkbox>przelicz do PLN</mat-checkbox>
+        }
+        @for (debt of settlement.value; track debt) {
+          <div>
+            <b matTooltip="{{debt.from.mail}}">{{ debt.from.name }}</b>
+            dostaje {{ debt.amount }} {{ settlement.key }}
             <mat-icon class="smaller">arrow_left</mat-icon>
-            <b matTooltip="{{debt.to.mail}}">{{ debt.to.name }}</b></div>
-        </div>
+            <b matTooltip="{{debt.to.mail}}">{{ debt.to.name }}</b>
+          </div>
+        }
       }
     </div>
   } @else {

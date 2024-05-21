@@ -15,7 +15,10 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
     List<Expense> findAllByGroup_IdOrderByDateDesc(int groupId);
 
     @Query(name = "findBalanceForGroup", nativeQuery = true)
-    List<UserBalance> findBalanceForGroup(int groupId);
+    List<UserBalance> findBalanceForGroup(int groupId, String currency);
 
     List<Expense> findAllByOrderByDate();
+
+    @Query("select distinct currency from Expense where group.id = :groupId and (settled is false or settled is null) group by currency")
+    List<String> findCurrenciesForGroup(int groupId);
 }

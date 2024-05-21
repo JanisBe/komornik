@@ -23,7 +23,7 @@ import java.util.Objects;
 @NamedNativeQuery(name = "findBalanceForGroup",
         query = "select d.to_user_id as userId, sum(d.amount) as balance from expenses e " +
                 "join debts d on e.id = d.expense_id " +
-                "where e.group_id = :groupId " +
+                "where e.group_id = :groupId and e.currency = :currency " +
                 "group by d.to_user_id order by balance", resultSetMapping = "debtMapper")
 @SqlResultSetMapping(name = "debtMapper",
         classes = {@ConstructorResult(targetClass = UserBalance.class,
@@ -69,6 +69,8 @@ public class Expense {
 
     @Column(name = "note")
     private String note;
+    @Column(name = "settled")
+    private boolean settled;
 
     @Override
     public final boolean equals(Object o) {

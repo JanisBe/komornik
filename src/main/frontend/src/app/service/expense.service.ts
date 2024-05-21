@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Expense} from "../model/expense";
-import {Debt} from "../model/debt";
 import {environment} from "../../environments/environment";
+import {Settlement} from "../model/settlement";
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,7 @@ export class ExpenseService {
   }
 
   calculateExpenses(groupId: number) {
-    return this.httpClient.get<Debt[]>(`${environment.API_URL}/expense/calculateSettlements/${groupId}`);
+    return this.httpClient.get<Settlement[]>(`${environment.API_URL}/expense/calculateSettlements/${groupId}`);
   }
 
   findAllByUser() {

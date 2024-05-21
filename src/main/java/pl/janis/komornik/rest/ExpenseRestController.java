@@ -10,6 +10,7 @@ import pl.janis.komornik.service.ExpenseService;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4401")
@@ -36,7 +37,7 @@ public class ExpenseRestController {
     }
 
     @GetMapping("/calculateSettlements/{groupId}")
-    public List<DebtDto> calculateSettlements(@PathVariable int groupId) {
+    public Map<String, List<DebtDto>> calculateSettlements(@PathVariable int groupId) {
         return expenseService.calculateSettlesForGroup(groupId);
     }
 
