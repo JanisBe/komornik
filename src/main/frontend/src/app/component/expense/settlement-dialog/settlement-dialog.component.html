@@ -3,10 +3,11 @@
   @if (data.debts) {
     <div>
       @for (settlement of data.debts | keyvalue; track settlement) {
-        <p> {{ settlement.key }} </p>
-        @if (settlement.key !== 'PLN') {
-          <mat-checkbox>przelicz do PLN</mat-checkbox>
-        }
+        <p> {{ settlement.key }}
+          @if (settlement.key !== 'PLN') {
+            <mat-checkbox (change)="calculate($event.checked)">przelicz do PLN</mat-checkbox>
+          }
+        </p>
         @for (debt of settlement.value; track debt) {
           <div>
             <b matTooltip="{{debt.from.mail}}">{{ debt.from.name }}</b>

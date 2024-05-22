@@ -13,6 +13,7 @@ import {MatTooltip} from '@angular/material/tooltip';
 import {JsonPipe, KeyValuePipe, NgFor, NgIf} from '@angular/common';
 import {Settlement} from "../../../model/settlement";
 import {MatCheckbox} from "@angular/material/checkbox";
+import {ExpenseService} from "../../../service/expense.service";
 
 @Component({
   selector: 'settlement-dialog',
@@ -24,6 +25,7 @@ import {MatCheckbox} from "@angular/material/checkbox";
 export class SettlementDialogComponent {
   constructor(
       public dialogRef: MatDialogRef<SettlementDialogComponent>,
+      public expenseService: ExpenseService,
       @Inject(MAT_DIALOG_DATA) public data: SettlementDialogData,
   ) {
     console.log(data)
@@ -41,6 +43,24 @@ export class SettlementDialogComponent {
   //   return debts.reduce((accumulator, curValue) => accumulator + curValue.amount, 0) > 0;
   // }   || calculateDebts(data.debts)
 
+  calculate(change: boolean) {
+    if (change) {
+      Object.keys(this.data.debts)
+        .filter(currency => currency !== this.data.group.defaultCurrency)
+        .forEach(currency => {
+          // Iterate over each transaction in the array for the current currency
+          this.data.debts[currency].forEach(transaction => {
+            console.log(`From: ${transaction.from.name}, To: ${transaction.to.name}, Amount: ${transaction.amount}`);
+            this.expenseService.recalculateForeignCurrency(transaction.amount, currency).subscribe(exchangeRate => {
+              transaction.amount = +Math.floor(exchangeRate).toFixed(2);
+              currency = this.data.group.defaultCurrency!;
+              console.log(`From: ${transaction.from.name}, To: ${transaction.to.name}, Amount: ${transaction.amount}`);
+            });
+          });
+        });
+
+    }
+  }
 }
 
 export interface SettlementDialogData {

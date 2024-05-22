@@ -43,4 +43,13 @@ export class ExpenseService {
   findById(expenseId: number) {
     return this.httpClient.get<Expense>(`${environment.API_URL}/expense/findById/${expenseId}`);
   }
+
+  recalculateForeignCurrency(amount: number, currency: string) {
+    return this.httpClient.get<number>(`${environment.API_URL}/expense/recalculateForeignCurrency`, {
+      params: {
+        amount,
+        currency
+      }
+    });
+  }
 }

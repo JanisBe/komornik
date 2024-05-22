@@ -28,6 +28,7 @@ public class ExpenseService {
     private final ExpenseMapper expenseMapper;
     private final UserService userService;
     private final GroupService groupService;
+    private final NBPExchangeService nbpExchangeService;
 
     public ExpenseDto findById(int id) {
         return expenseMapper.toDto(expenseRepository.findById(id).orElseThrow(() -> new ElementDoesNotExistException("No results")));
@@ -120,5 +121,9 @@ public class ExpenseService {
         groupService.checkIfUserBelongsToGroup(currentUser.getId(), expenseDto.groupId());
         final Expense expense = expenseMapper.toEntity(expenseDto);
         return expenseMapper.toDto(expenseRepository.save(expense));
+    }
+
+    public BigDecimal recalculateForeignCurrency(BigDecimal amount, String currency) {
+        return nbpExchangeService.getExchangeRate(amount, currency);
     }
 }

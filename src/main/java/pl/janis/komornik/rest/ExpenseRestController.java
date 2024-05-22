@@ -8,6 +8,7 @@ import pl.janis.komornik.dto.ExpenseDto;
 import pl.janis.komornik.entities.User;
 import pl.janis.komornik.service.ExpenseService;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -57,5 +58,11 @@ public class ExpenseRestController {
         expenseService.deleteExpense(id);
     }
 
-
+    @GetMapping("/recalculateForeignCurrency")
+    public BigDecimal recalculateForeignCurrency(@RequestParam BigDecimal amount, @RequestParam String currency) {
+        if (amount != null && currency != null) {
+            return expenseService.recalculateForeignCurrency(amount, currency);
+        }
+        return null;
+    }
 }
