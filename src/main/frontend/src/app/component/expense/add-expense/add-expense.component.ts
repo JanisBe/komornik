@@ -116,7 +116,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
             let debt: Debt = {
               from: this.payer,
               to: user,
-              amount: +(sanitizedAmount / (this.users.length)).toFixed(2)
+              amount: +(sanitizedAmount / (this.users.length)).toFixed(2),
+              currency: this.form.value.currency
             }
             debts.push(debt);
           } else {
@@ -124,7 +125,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
             let debt: Debt = {
               from: user,
               to: this.payer,
-              amount: -myDue.toFixed(2)
+              amount: -myDue.toFixed(2),
+              currency: this.form.value.currency
             }
             debts.push(debt);
           }
@@ -219,7 +221,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       return;
     }
     const config = {
-      data: {users: usersOriginalList, currentUser: this.payer},
+      data: {users: usersOriginalList, currentUser: this.payer, currency: this.form.value.currency},
       hasBackdrop: false,
       width: '400px',
       position: {left: '68%'},

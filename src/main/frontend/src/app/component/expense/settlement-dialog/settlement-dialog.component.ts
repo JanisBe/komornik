@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -14,6 +14,7 @@ import {JsonPipe, KeyValuePipe, NgFor, NgIf} from '@angular/common';
 import {Settlement} from "../../../model/settlement";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {ExpenseService} from "../../../service/expense.service";
+import {Debt} from "../../../model/debt";
 
 @Component({
   selector: 'settlement-dialog',
@@ -22,13 +23,20 @@ import {ExpenseService} from "../../../service/expense.service";
   standalone: true,
   imports: [MatDialogTitle, MatDialogContent, NgIf, NgFor, MatTooltip, MatIcon, MatDialogActions, MatButton, KeyValuePipe, JsonPipe, MatCheckbox]
 })
-export class SettlementDialogComponent {
+export class SettlementDialogComponent implements OnInit {
+  private wasChanged: boolean;
+  private settlement: Settlement;
+
   constructor(
-      public dialogRef: MatDialogRef<SettlementDialogComponent>,
-      public expenseService: ExpenseService,
-      @Inject(MAT_DIALOG_DATA) public data: SettlementDialogData,
+    public dialogRef: MatDialogRef<SettlementDialogComponent>,
+    public expenseService: ExpenseService,
+    @Inject(MAT_DIALOG_DATA) public data: SettlementDialogData,
   ) {
     console.log(data)
+  }
+
+  ngOnInit(): void {
+    this.settlement = this.data.debts;
   }
 
   closeDialog() {
@@ -44,23 +52,26 @@ export class SettlementDialogComponent {
   // }   || calculateDebts(data.debts)
 
   calculate(change: boolean) {
-    if (change) {
+    if (change && !this.wasChanged) {
+      this.wasChanged = true;
+      let debts: Debt[] = []
       Object.keys(this.data.debts)
         .filter(currency => currency !== this.data.group.defaultCurrency)
         .forEach(currency => {
-          // Iterate over each transaction in the array for the current currency
           this.data.debts[currency].forEach(transaction => {
-            console.log(`From: ${transaction.from.name}, To: ${transaction.to.name}, Amount: ${transaction.amount}`);
-            this.expenseService.recalculateForeignCurrency(transaction.amount, currency).subscribe(exchangeRate => {
-              transaction.amount = +Math.floor(exchangeRate).toFixed(2);
-              currency = this.data.group.defaultCurrency!;
-              console.log(`From: ${transaction.from.name}, To: ${transaction.to.name}, Amount: ${transaction.amount}`);
-            });
+            debts.push({currency: currency, from: transaction.from, to: transaction.to, amount: transaction.amount});
+            this.settlement[currency] = [];
           });
         });
-
+      this.expenseService.recalculateForeignCurrency(debts).subscribe(result => {
+        result.forEach(transaction => {
+          this.settlement[transaction.currency].push(transaction);
+        });
+      });
     }
+
   }
+
 }
 
 export interface SettlementDialogData {

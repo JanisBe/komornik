@@ -122,7 +122,8 @@ export class EditExpenseComponent implements OnInit {
         let debt: Debt = {
           from: this.currentUser,
           to: user,
-          amount: +(sanitizedAmount / (currentUsers.length)).toFixed(2)
+          amount: +(sanitizedAmount / (currentUsers.length)).toFixed(2),
+          currency: this.form.value.currency
         }
         debts.push(debt);
       } else {
@@ -130,7 +131,8 @@ export class EditExpenseComponent implements OnInit {
         let debt: Debt = {
           from: this.currentUser,
           to: user,
-          amount: -myDue.toFixed(2)
+          amount: -myDue.toFixed(2),
+          currency: this.form.value.currency
         }
         debts.push(debt);
       }
@@ -226,7 +228,8 @@ export class EditExpenseComponent implements OnInit {
     const debt = expense.debt.reduce((sum, {amount}) => ({
       amount: sum.amount + Math.abs(amount),
       from: sum.from,
-      to: sum.to
+      to: sum.to,
+      currency: sum.currency
     }));
     this.form.get('amount')?.patchValue(debt.amount);
     this.form.get('description')?.patchValue(expense.description);

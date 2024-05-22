@@ -28,7 +28,7 @@ export class SplitDialogComponent implements OnInit, AfterViewInit {
   amount = this.dataSharingService.amount;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User },
+    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User, currency: string },
     public dialogRef: MatDialogRef<SplitDialogComponent>,
     private fb: FormBuilder,
     private dataSharingService: DataSharingService,
@@ -55,24 +55,28 @@ export class SplitDialogComponent implements OnInit, AfterViewInit {
       this.debts.push({
         from: this.data.users[0],
         to: this.data.users[0],
-        amount: -this.amount() / 2
+        amount: -this.amount() / 2,
+        currency: this.data.currency
       });
       this.debts.push({
         from: this.data.users[0],
         to: this.data.users[1],
-        amount: this.amount() / 2
+        amount: this.amount() / 2,
+        currency: this.data.currency
       });
       this.dialogRef.close({debts: this.debts, text: "wszyscy po równo"});
     } else {
       this.debts.push({
         from: selectedElement.selectedOptions.selected[0].value,
         to: selectedElement.selectedOptions.selected[0].value,
-        amount: -this.amount()
+        amount: -this.amount(),
+        currency: this.data.currency
       });
       this.debts.push({
         from: selectedElement.selectedOptions.selected[0].value,
         to: selectedElement.selectedOptions.selected[0].value,
-        amount: this.amount()
+        amount: this.amount(),
+        currency: this.data.currency
       });
       this.dialogRef.close({
         debts: this.debts,

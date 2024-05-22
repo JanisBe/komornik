@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Expense} from "../model/expense";
 import {environment} from "../../environments/environment";
 import {Settlement} from "../model/settlement";
+import {Debt} from "../model/debt";
 
 @Injectable({
   providedIn: 'root'
@@ -44,12 +45,7 @@ export class ExpenseService {
     return this.httpClient.get<Expense>(`${environment.API_URL}/expense/findById/${expenseId}`);
   }
 
-  recalculateForeignCurrency(amount: number, currency: string) {
-    return this.httpClient.get<number>(`${environment.API_URL}/expense/recalculateForeignCurrency`, {
-      params: {
-        amount,
-        currency
-      }
-    });
+  recalculateForeignCurrency(debts: Debt[]) {
+    return this.httpClient.post<Debt[]>(`${environment.API_URL}/expense/recalculateForeignCurrency`, debts);
   }
 }

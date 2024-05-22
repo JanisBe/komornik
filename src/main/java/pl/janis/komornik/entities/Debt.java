@@ -33,6 +33,9 @@ public class Debt {
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
+    @Column(name = "currency", nullable = false)
+    private String currency;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "from_user_id")
     private User userFrom;

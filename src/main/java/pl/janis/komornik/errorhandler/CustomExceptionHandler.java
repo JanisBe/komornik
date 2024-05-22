@@ -4,6 +4,7 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.RestClientException;
 import pl.janis.komornik.exception.ElementDoesNotExistException;
 import pl.janis.komornik.exception.UserAlreadyExistsException;
 import pl.janis.komornik.exception.UserNotAllowedToEditException;
@@ -42,7 +43,11 @@ public class CustomExceptionHandler {
                 errorDetail.setProperty("access_denied_reason", "Element does not exist");
                 yield errorDetail;
             }
-
+            case RestClientException e -> {
+                errorDetail = ProblemDetail.forStatusAndDetail(INTERNAL_SERVER_ERROR, e.getMessage());
+                errorDetail.setProperty("access_denied_reason", "NBP service unavailable");
+                yield errorDetail;
+            }
             default -> {
                 errorDetail = ProblemDetail.forStatusAndDetail(INTERNAL_SERVER_ERROR, ex.getMessage());
                 errorDetail.setProperty("access_denied_reason", "Something went wrong");

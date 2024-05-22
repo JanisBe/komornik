@@ -2,7 +2,7 @@
   <mat-icon (click)="close()" class="float-end mt-4">close</mat-icon>
 </div>
 <div mat-dialog-content>
-  <mat-selection-list #payer [multiple]="false">
+  <mat-selection-list #payer (selectionChange)="ok(payer.selectedOptions.selected[0].value)" [multiple]="false">
     @for (user of data.usersOriginalList;track user) {
       <mat-list-option
         [value]="user"

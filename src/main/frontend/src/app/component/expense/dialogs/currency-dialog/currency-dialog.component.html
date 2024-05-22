@@ -2,8 +2,8 @@
   <mat-icon (click)="close()" class="float-end mt-4">close</mat-icon>
 </div>
 <div mat-dialog-content>
-  <mat-selection-list #currency [multiple]="false">
-    @for (currency of data.currencies;track currency) {
+  <mat-selection-list #currency (selectionChange)="ok($event.options[0].value)" [multiple]="false">
+    @for (currency of data.currencies; track currency) {
       <mat-list-option
         [value]="currency"
         [selected]="currency===data.defaultCurrency">

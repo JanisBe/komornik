@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 public class UserBalance implements Comparable<UserBalance> {
     private int userId;
     private BigDecimal balance;
+    private String currency;
 
     @Override
     public int compareTo(UserBalance ub) {
