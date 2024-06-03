@@ -6,7 +6,8 @@
     <form [formGroup]="numberForm">
       <mat-selection-list (selectionChange)="onChangeParticipant($event)" role="list">
         @for (user of data.users; track user) {
-          <mat-list-option togglePosition="before" [selected]="true" role="listitem" [value]="user">
+          <mat-list-option togglePosition="before" [selected]="true" role="listitem" [value]="user"
+                           [disabled]="(user.id === data.currentUser.id)">
             {{ user.name }} płaci
             <input formControlName="{{getUserNameForm(user.id)}}" placeholder="Ile %" type="number" min="0" max="100"
                    value="" (click)="doNothing($event)">
@@ -16,7 +17,7 @@
     </form>
     <p [class]="amountValid ? 'text-ok' : 'text-nok'">Sum: {{ getSum() }}</p>
     <div mat-dialog-actions>
-      <button (click)="ok()" mat-button>OK</button>
+      <button (click)="submit()" mat-button>OK</button>
       <button (click)="close()" cdkFocusInitial mat-button>Cancel</button>
     </div>
   </div>

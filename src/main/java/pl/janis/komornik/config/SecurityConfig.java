@@ -2,6 +2,8 @@ package pl.janis.komornik.config;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.tomcat.util.http.Rfc6265CookieProcessor;
+import org.springframework.boot.web.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -21,10 +23,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
+import pl.janis.komornik.config.security.PartitionedCookieLogoutHandler;
 import pl.janis.komornik.filter.CsrfCookieFilter;
 import pl.janis.komornik.filter.SpaWebFilter;
 import pl.janis.komornik.service.UserService;
@@ -47,8 +49,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        CsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
+        CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
+        cookieCsrfTokenRepository.setCookieCustomizer(c -> c.secure(true).httpOnly(true).sameSite("none"));
         http.securityContext(context -> context.requireExplicitSave(false))
+                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(cookieCsrfTokenRepository)
                         .csrfTokenRequestHandler(new MyCsrfTokenRequestHandler())
@@ -78,6 +82,7 @@ public class SecurityConfig {
                     logout.clearAuthentication(true);
                     logout.permitAll();
                     logout.deleteCookies("XSRF-TOKEN", "accessToken");
+                    logout.addLogoutHandler(new PartitionedCookieLogoutHandler("XSRF-TOKEN", "accessToken"));
                     logout.logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK));
                 })
                 .headers(headers ->
@@ -120,5 +125,16 @@ public class SecurityConfig {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
         firewall.setAllowBackSlash(true);
         return (web) -> web.httpFirewall(firewall);
+    }
+
+    @Bean
+    public TomcatContextCustomizer tomcatContextCustomizer() {
+        Rfc6265CookieProcessor cookieProcessor = new Rfc6265CookieProcessor();
+        cookieProcessor.setPartitioned(true);
+        cookieProcessor.setSameSiteCookies("None");
+        return context -> {
+            context.setUsePartitioned(true);
+            context.setCookieProcessor(cookieProcessor);
+        };
     }
 }

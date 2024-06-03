@@ -29,6 +29,23 @@ import {JwtInterceptor} from './app/auth/jwt.interceptor';
 import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import {requestCsrfToken} from "./app/component/common/csrf-token-factory";
+import {provideRouter, withComponentInputBinding} from "@angular/router";
+import {LoginComponent} from "./app/component/common/login/login.component";
+import {IconPickerComponent} from "./app/component/common/icon-picker/icon-picker.component";
+import {DashboardComponent} from "./app/component/dashboard/dashboard/dashboard.component";
+import {authGuard} from "./app/auth/auth.guard";
+import {AddCategoryComponent} from "./app/component/category/add-category/add-category.component";
+import {AllCategoriesComponent} from "./app/component/category/all-categories/all-categories.component";
+import {UserDetailsComponent} from "./app/component/user/user-details/user-details.component";
+import {AllUsersComponent} from "./app/component/user/all-users/all-users.component";
+import {AddUserComponent} from "./app/component/user/add-user/add-user.component";
+import {VerifyEmailComponent} from "./app/component/common/verify-email/verify-email.component";
+import {ForgotPasswordComponent} from "./app/component/common/forgot-password/forgot-password.component";
+import {AddGroupComponent} from "./app/component/group/add-group/add-group.component";
+import {GroupSummaryComponent} from "./app/component/group/group-summary/group-summary.component";
+import {AllGroupsComponent} from "./app/component/group/all-groups/all-groups.component";
+import {AddExpenseComponent} from "./app/component/expense/add-expense/add-expense.component";
+import {AllExpensesComponent} from "./app/component/expense/all-expenses/all-expenses.component";
 
 
 bootstrapApplication(AppComponent, {
@@ -43,7 +60,32 @@ bootstrapApplication(AppComponent, {
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: APP_INITIALIZER, useFactory: requestCsrfToken, multi: true, deps: [HttpClient]},
     provideAnimations(),
-    provideHttpClient(withInterceptorsFromDi())
+    provideHttpClient(withInterceptorsFromDi()),
+    provideRouter([
+      {path: 'login', component: LoginComponent},
+      {path: 'icons', component: IconPickerComponent},
+      {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
+      {path: 'category/details/:categoryId', component: AddCategoryComponent, canActivate: [authGuard]},
+      {path: 'category/add', component: AddCategoryComponent, canActivate: [authGuard]},
+      {path: 'category/list', component: AllCategoriesComponent, canActivate: [authGuard]},
+      {path: 'user/details/:userId', component: UserDetailsComponent, canActivate: [authGuard]},
+      {path: 'user/list', component: AllUsersComponent, canActivate: [authGuard]},
+      {path: 'user/add', component: AddUserComponent},
+      {path: 'verifyEmail', component: VerifyEmailComponent},
+      {path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [authGuard]},
+      {path: 'group/details/:groupId', component: AddGroupComponent, canActivate: [authGuard]},
+      {path: 'group/summary/:groupId', component: GroupSummaryComponent, canActivate: [authGuard]},
+      {path: 'group/list', component: AllGroupsComponent, canActivate: [authGuard]},
+      {path: 'group/add', component: AddGroupComponent, canActivate: [authGuard]},
+      {path: 'expense/details/:expenseId', component: AddExpenseComponent, canActivate: [authGuard]},
+      {path: 'expense/list', component: AllExpensesComponent, canActivate: [authGuard]},
+      {path: 'expense/list/:groupId', component: AllExpensesComponent, canActivate: [authGuard]},
+      {path: 'expense/add', component: AddExpenseComponent, canActivate: [authGuard]},
+      {path: 'expense/add/:groupId', component: AddExpenseComponent, canActivate: [authGuard]},
+      {path: '', component: AllGroupsComponent, pathMatch: 'full'},
+      {path: '**', component: AllGroupsComponent, pathMatch: 'full'},
+
+    ], withComponentInputBinding())
   ]
 })
   .catch(err => console.error(err));

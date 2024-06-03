@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
 import {AppRoutingModule} from "../../app-routing.module";
-import {HttpClientModule} from "@angular/common/http";
+import {provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatInputModule} from "@angular/material/input";
@@ -29,13 +29,10 @@ import {GravatarModule} from "ngx-gravatar";
 @NgModule({
   exports: [
     UserDetailsComponent
-  ],
-  imports: [
-    CommonModule,
+  ], imports: [CommonModule,
     BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
@@ -56,8 +53,7 @@ import {GravatarModule} from "ngx-gravatar";
     GravatarModule,
     UserDetailsComponent,
     AddUserComponent,
-    AllUsersComponent
-  ]
+    AllUsersComponent], providers: [provideHttpClient(withInterceptorsFromDi())]
 })
 export class UserModule {
 }

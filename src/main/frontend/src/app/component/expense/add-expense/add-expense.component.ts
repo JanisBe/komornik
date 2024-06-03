@@ -34,6 +34,8 @@ import {MatInput} from '@angular/material/input';
 import {MatFormField, MatHint, MatLabel, MatSuffix} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
 import {AsyncPipe, NgIf} from '@angular/common';
+import {LoadingService} from "../../../service/loading.service";
+import {SpinnerComponent} from "../../common/spinner/spinner.component";
 
 
 @Component({
@@ -41,7 +43,7 @@ import {AsyncPipe, NgIf} from '@angular/common';
   templateUrl: './add-expense.component.html',
   styleUrls: ['./add-expense.component.scss'],
   standalone: true,
-  imports: [MatDialogTitle, MatDialogContent, NgIf, FormsModule, ReactiveFormsModule, MatIcon, MatFormField, MatLabel, MatInput, MatChip, MatSuffix, MatDatepickerInput, MatHint, MatDatepickerToggle, MatDatepicker, RouterLink, MatDialogActions, MatButton, AsyncPipe]
+  imports: [MatDialogTitle, MatDialogContent, NgIf, FormsModule, ReactiveFormsModule, MatIcon, MatFormField, MatLabel, MatInput, MatChip, MatSuffix, MatDatepickerInput, MatHint, MatDatepickerToggle, MatDatepicker, RouterLink, MatDialogActions, MatButton, AsyncPipe, SpinnerComponent]
 })
 export class AddExpenseComponent implements OnInit, OnDestroy {
   form: FormGroup;
@@ -62,9 +64,11 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   private payerDialogRef: MatDialogRef<PayerDialogComponent>;
   private currencyDialogRef: MatDialogRef<CurrencyDialogComponent>;
   private categoryDialogRef: MatDialogRef<CategoryDialogComponent>;
-  private editMode: boolean;
+  protected editMode: boolean;
   private debts: Debt[] = [];
   private splitDialogRef: MatDialogRef<SplitDialogComponent | MultiUserSplitComponent>;
+
+  private readonly AMOUNT_PATTERN = '^\\d+(?:[.,]\\d{0,2})?$';
 
   constructor(private expenseService: ExpenseService,
               private snackbarService: SnackbarService,
@@ -74,6 +78,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
               private authService: AuthService,
               private dataSharingService: DataSharingService,
               private dialog: MatDialog,
+              protected loadingService: LoadingService,
               @Inject(MAT_DIALOG_DATA) public data: { expenseId?: number, groupId: number }) {
   }
 
@@ -82,9 +87,21 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.loadingService.setLoading(true);
     this.currentUser = Object.assign({}, this.authService.user.value!);
     this.payer = this.currentUser;
-    this.initForm();
+    if (this.data.expenseId) {
+      this.editMode = true;
+      this.expenseService.findById(this.data.expenseId).subscribe(expense => {
+        console.log(expense);
+        this.currentExpense = expense;
+        this.debts = expense.debt;
+        this.initForm();
+        this.form.patchValue(this.currentExpense);
+      });
+    } else {
+      this.initForm();
+    }
     this.groupService.findById(this.data.groupId).subscribe(group => {
       this.currentGroup = group;
       this.currentGroupName$ = of(this.currentGroup.groupName);
@@ -93,13 +110,15 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     });
     this.currencyService.getDefaultCurrencyForGroup(this.data.groupId)
       .subscribe(response => {
+        console.log(response);
         this.defaultCurrency = response;
         this.form.get('currency')?.patchValue(this.defaultCurrency)
       });
 
     this.categoryService.findAllCategories().subscribe(category => this.categories = category);
     this.currencies = this.currencyService.getAllCurrencies();
-
+    this.loadingService.setLoading(false);
+    this.listenForAmountChange();
   }
 
   onCancel() {
@@ -107,9 +126,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    let debts: Debt[] = [];
+    let debts: Debt[] = this.debts;
     const sanitizedAmount = parseInt(this.sanitizeAmount(this.form.value.amount));
-    console.log(this.users.length);
     if (debts.length == 0) {
       this.users.forEach((user) => {
         if (user.id !== this.payer.id) {
@@ -164,6 +182,30 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     this.onCancel();
   }
 
+  openPayerDialog(payer: User, usersOriginalList: User[]) {
+    if (this.payerDialogRef && (this.payerDialogRef as MatDialogRef<PayerDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
+      return;
+    }
+    this.payerDialogRef = this.dialog.open(PayerDialogComponent, {
+      data: {payerName: payer, usersOriginalList: usersOriginalList},
+      hasBackdrop: false,
+      width: '300px',
+      position: {left: '68%'},
+      panelClass: 'slide-in-from-right'
+    });
+
+    this.payerDialogRef.afterClosed().subscribe(payerId => {
+      if (payerId === undefined) {
+        return;
+      }
+      this.form.get('name')?.patchValue(payerId);
+      this.payer = payerId;
+      this.betweenWho = "wszyscy";
+      this.splitHow = "po równo";
+      this.debts = [];
+    });
+  }
+
   private initForm() {
     if (this.data.expenseId) {
       this.editMode = true;
@@ -183,36 +225,30 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       });
     }
     this.form = new FormGroup({
-      amount: new FormControl(null, [Validators.required, Validators.pattern('^\\d*\\.?,?\\d*$')]),
-      description: new FormControl(null, Validators.required),
+      amount: new FormControl(this.calculateAmount(this.currentExpense), [Validators.required, Validators.pattern(this.AMOUNT_PATTERN)]),
+      description: new FormControl(this.currentExpense?.description ?? null, Validators.required),
       currency: new FormControl(this.defaultCurrency, Validators.required),
       name: this.userName,
-      category: new FormControl(null),
+      category: new FormControl(this.currentExpense?.categoryId ?? null),
       group: new FormControl(this.data.groupId, Validators.required),
-      date: new FormControl(new Date(), Validators.required)
-    })
+      date: new FormControl(this.currentExpense?.date ?? new Date(), Validators.required)
+    });
+    this.loadingService.setLoading(false);
   }
 
-
-  openPayerDialog(payer: User, usersOriginalList: User[]) {
-    if (this.payerDialogRef && (this.payerDialogRef as MatDialogRef<PayerDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
-      return;
+  private calculateAmount(expense: Expense): number {
+    if (!expense?.debt) {
+      return 0;
     }
-    this.payerDialogRef = this.dialog.open(PayerDialogComponent, {
-      data: {payerName: payer, usersOriginalList: usersOriginalList},
-      hasBackdrop: false,
-      width: '300px',
-      position: {left: '68%'},
-      panelClass: 'slide-in-from-right'
-    });
-
-    this.payerDialogRef.afterClosed().subscribe(payerId => {
-      if (payerId === undefined) {
-        return;
+    let total = 0;
+    console.log(expense.debt);
+    expense.debt.map((debt) => {
+      if (debt.amount < 0) {
+        total = -(debt.amount * expense.debt.length / (expense.debt.length - 1)).toFixed(2);
       }
-      this.form.get('name')?.patchValue(payerId);
-      this.payer = payerId;
-    });
+      console.log(debt)
+    })
+    return total;
   }
 
   openSplitDialog(usersOriginalList: User[]) {
@@ -305,5 +341,15 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       parseInt = 0;
     }
     this.dataSharingService.amount.set(parseInt);
+  }
+
+  private listenForAmountChange() {
+    this.form.controls['amount'].valueChanges.subscribe((val: string) => {
+      if (!val.match(this.AMOUNT_PATTERN)) {
+        this.form.controls['amount'].setErrors({invalidAmount: true})  // <--- Set invalidAmount to true
+      } else {
+        this.form.controls['amount'].setErrors(null)
+      }
+    });
   }
 }

@@ -13,6 +13,7 @@ import {MatListOption, MatSelectionList, MatSelectionListChange} from "@angular/
 import {DataSharingService} from "../../../../service/data-sharing.service";
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
+import {Debt} from "../../../../model/debt";
 
 @Component({
   selector: 'multi-user-split',
@@ -31,7 +32,7 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   private wasChanged = false;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User },
+    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User, currency: string },
     public dialogRef: MatDialogRef<MultiUserSplitComponent>,
     private fb: FormBuilder,
     private snackbarService: SnackbarService,
@@ -69,7 +70,7 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
     this.dialogRef.close();
   }
 
-  ok() {
+  submit() {
     if (this.numberForm.pristine && !this.wasChanged) {
       this.dialogRef.close();
       return;
@@ -145,6 +146,19 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
     });
     this.participants = participants.slice(0, -2);
     this.checkIfSumIsOK();
-    return this.debts;
+    return this.convertToDebts(this.debts, this.data.currentUser);
+  }
+
+  private convertToDebts(debtMap: Map<User, number>, currentUser: User) {
+    let debts: Debt[] = [];
+    let totalValue: number = 0;
+    debtMap.forEach((value, user) => {
+      if (user.id !== currentUser.id) {
+        debts.push({from: user, to: currentUser, amount: value, currency: this.data.currency});
+        totalValue += value;
+      }
+    });
+    debts.push({from: currentUser, to: currentUser, amount: -totalValue, currency: this.data.currency});
+    return debts;
   }
 }

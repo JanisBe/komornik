@@ -1,69 +1,77 @@
-<h3 mat-dialog-title>Dodawanie wydatku dla {{ currentGroupName$ | async }}</h3>
-<div class="container-fluid" mat-dialog-content>
-  @if (isUserInGroup) {
-    <div>
-      <form (ngSubmit)="onSubmit()" [formGroup]="form" class="expense-form">
-        <div class="expense-category">
-          <mat-icon (click)="openCategoryDialog()" class="expense-icon pointer">{{ categoryIcon }}</mat-icon>
-        </div>
+<h3 mat-dialog-title>{{ editMode ? 'Edytowanie wydatku' : 'Dodawanie wydatku' }}
+  dla {{ currentGroupName$ | async }}</h3>
+@if (loadingService.isLoading()) {
+  <spinner></spinner>
+} @else {
+  <div class="container-fluid" mat-dialog-content>
+    @if (isUserInGroup) {
+      <div>
+        <form (ngSubmit)="onSubmit()" [formGroup]="form" class="expense-form">
+          <div class="expense-category">
+            <mat-icon (click)="openCategoryDialog()" class="expense-icon pointer">{{ categoryIcon }}</mat-icon>
+          </div>
 
-        <div class="expense-description">
-          <mat-form-field appearance="outline" class="col-12">
-            <mat-label>Opis wydatku</mat-label>
-            <input
-              class="form-control"
-              formControlName="description"
-              id="name"
-              matInput
-              type="text">
-          </mat-form-field>
-        </div>
-        <div class="expense-amount">
-          <mat-form-field appearance="outline" class="col-12">
-            <mat-label>Ile {{ defaultCurrency }}</mat-label>
-            <input #amountField (keyup)="updateValue(amountField.value)"
-                   class="form-control"
-                   formControlName="amount"
-                   id="amount"
-                   matInput
-                   (blur)="sanitizeInput(amountField.value)"
-                   type="text">
-            <mat-chip (click)="openCurrencyDialog(currencies, defaultCurrency)" matSuffix
-                      style="margin-right:10px">{{ defaultCurrency }}
-            </mat-chip>
-          </mat-form-field>
-        </div>
-        <div class="expense-who">
-          Płaci
-          <mat-chip (click)="openPayerDialog(this.payer, this.users)">{{ payer.name }}</mat-chip>
-          , podział
-          <mat-chip (click)="openSplitDialog(this.users)">{{ betweenWho }} {{ splitHow }}</mat-chip>
-        </div>
-        <div class="expense-date">
-          <mat-form-field appearance="outline">
-            <mat-label>Wybierz datę</mat-label>
-            <input (click)="picker.open()" [matDatepicker]="picker" formControlName="date" matInput>
-            <mat-hint>DD/MM/YYYY</mat-hint>
-            <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
-      </form>
-    </div>
-  } @else {
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col h3 d-flex align-items-center justify-content-center">
-          <p>Wygląda na to że użytkownik {{ currentUser.name }} nie należy do tej grupy. </p>
-          <p><u (click)="onCancel()" routerLink="/group/list">Wybierz inną grupę</u></p>
+          <div class="expense-description">
+            <mat-form-field appearance="outline" class="col-12">
+              <mat-label>Opis wydatku</mat-label>
+              <input
+                class="form-control"
+                formControlName="description"
+                id="name"
+                matInput
+                type="text">
+            </mat-form-field>
+          </div>
+          <div class="expense-amount">
+            <mat-form-field appearance="outline" class="col-12">
+              <mat-label>Ile {{ defaultCurrency }}</mat-label>
+              <input #amountField (keyup)="updateValue(amountField.value)"
+                     class="form-control"
+                     formControlName="amount"
+                     id="amount"
+                     matInput
+                     (blur)="sanitizeInput(amountField.value)"
+                     type="text">
+              <span *ngIf="form.controls['amount'].errors?.['invalidAmount']">
+                  Kwota w formacie xxx.xx
+              </span>
+              <mat-chip (click)="openCurrencyDialog(currencies, defaultCurrency)" matSuffix
+                        style="margin-right:10px">{{ defaultCurrency }}
+              </mat-chip>
+            </mat-form-field>
+          </div>
+          <div class="expense-who">
+            Płaci
+            <mat-chip (click)="openPayerDialog(this.payer, this.users)">{{ payer.name }}</mat-chip>
+            , podział
+            <mat-chip (click)="openSplitDialog(this.users)">{{ betweenWho }} {{ splitHow }}</mat-chip>
+          </div>
+          <div class="expense-date">
+            <mat-form-field appearance="outline">
+              <mat-label>Wybierz datę</mat-label>
+              <input (click)="picker.open()" [matDatepicker]="picker" formControlName="date" matInput>
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle [for]="picker" matIconSuffix></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+    } @else {
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col h3 d-flex align-items-center justify-content-center">
+            <p>Wygląda na to że użytkownik {{ currentUser.name }} nie należy do tej grupy. </p>
+            <p><u (click)="onCancel()" routerLink="/group/list">Wybierz inną grupę</u></p>
+          </div>
         </div>
       </div>
-    </div>
-  }
-</div>
-<div mat-dialog-actions>
-  <div>
-    <button (click)="onSubmit()" [disabled]="this.form.invalid" mat-raised-button type="button">Zapisz</button>
-    <button (click)="onCancel()" mat-raised-button type="reset">Anuluj</button>
+    }
   </div>
-</div>
+  <div mat-dialog-actions>
+    <div>
+      <button (click)="onSubmit()" [disabled]="this.form.invalid" mat-raised-button type="button">Zapisz</button>
+      <button (click)="onCancel()" mat-raised-button type="reset">Anuluj</button>
+    </div>
+  </div>
+}

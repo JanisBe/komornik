@@ -40,7 +40,7 @@ public class Group {
     @ToString.Exclude
     private List<Expense> expenses;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "user_x_group",
             inverseJoinColumns = {@JoinColumn(name = "user_id")},
             joinColumns = {@JoinColumn(name = "group_id")})

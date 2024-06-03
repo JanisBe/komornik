@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
 import {AppRoutingModule} from "../../app-routing.module";
-import {HttpClientModule} from "@angular/common/http";
+import {provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatInputModule} from "@angular/material/input";
@@ -33,12 +33,10 @@ import {MultiUserSplitComponent} from './dialogs/multi-user-split/multi-user-spl
 
 
 @NgModule({
-  imports: [
-    CommonModule,
+  imports: [CommonModule,
     BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
@@ -65,8 +63,7 @@ import {MultiUserSplitComponent} from './dialogs/multi-user-split/multi-user-spl
     SplitDialogComponent,
     CurrencyDialogComponent,
     CategoryDialogComponent,
-    MultiUserSplitComponent
-  ]
+    MultiUserSplitComponent], providers: [provideHttpClient(withInterceptorsFromDi())]
 })
 export class ExpenseModule {
 }
