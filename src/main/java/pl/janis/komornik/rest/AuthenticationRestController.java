@@ -3,8 +3,6 @@ package pl.janis.komornik.rest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +32,12 @@ import static java.lang.Boolean.parseBoolean;
 public class AuthenticationRestController {
 
 
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationRestController.class);
     private final UserService userDetailsService;
     private final JwtUtil jwtUtil;
     private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
 
-    @Value("${server.ssl.enabled}")
+    @Value("${server.ssl.enabled:false}")
     private String isHttpsEnabled;
 
     @PostMapping("/auth/authenticate")

@@ -24,6 +24,7 @@
     "@fortawesome/fontawesome-free": "5.15.4",
     "@material/density": "^15.0.0-canary.a246a4439.0",
     "bootstrap": "^5.0.2",
+    "fs-extra": "^11.2.0",
     "ngx-gravatar": "^13.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

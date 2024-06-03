@@ -48,11 +48,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
         cookieCsrfTokenRepository.setCookieCustomizer(c -> c.secure(true).httpOnly(true).sameSite("none"));
         http.securityContext(context -> context.requireExplicitSave(false))
-                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
+//                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(cookieCsrfTokenRepository)
                         .csrfTokenRequestHandler(new MyCsrfTokenRequestHandler())
@@ -86,11 +85,10 @@ public class SecurityConfig {
                     logout.logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK));
                 })
                 .headers(headers ->
-                        headers.xssProtection(
-                                xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
-                        ).contentSecurityPolicy(
-                                cps -> cps.policyDirectives("default-src 'none'; img-src * 'self' data: https:; font-src 'self' https:; connect-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' http: https:; object-src 'none';  manifest-src 'self'")
-                        ))
+                        headers
+                                .xssProtection(xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+                                .contentSecurityPolicy(cps -> cps.policyDirectives("default-src 'none'; img-src * 'self' data: https:; font-src 'self' https:; connect-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' http: https:; object-src 'none';  manifest-src 'self'"))
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

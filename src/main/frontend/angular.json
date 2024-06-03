@@ -23,7 +23,8 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "../resources/static"
+              "base": "../resources/static",
+              "browser": ""
             },
             "allowedCommonJsDependencies": [
               "ts-md5"
@@ -73,7 +74,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "deleteOutputPath": true
             },
             "development": {
               "optimization": false,
