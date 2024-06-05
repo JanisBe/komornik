@@ -25,7 +25,7 @@ import {Debt} from "../../../model/debt";
 })
 export class SettlementDialogComponent implements OnInit {
   private wasChanged: boolean;
-  private settlement: Settlement;
+  settlement: Settlement;
 
   constructor(
     public dialogRef: MatDialogRef<SettlementDialogComponent>,
@@ -51,7 +51,7 @@ export class SettlementDialogComponent implements OnInit {
   //   return debts.reduce((accumulator, curValue) => accumulator + curValue.amount, 0) > 0;
   // }   || calculateDebts(data.debts)
 
-  calculate(change: boolean) {
+  calculateExchange(change: boolean) {
     if (change && !this.wasChanged) {
       this.wasChanged = true;
       let debts: Debt[] = []
@@ -67,11 +67,32 @@ export class SettlementDialogComponent implements OnInit {
         result.forEach(transaction => {
           this.settlement[transaction.currency].push(transaction);
         });
+        this.recalculateDebts();
       });
     }
 
   }
 
+  private recalculateDebts() {
+    Object.keys(this.settlement).forEach(currency => {
+      console.log(this.settlement[currency]);
+      let groupedTransactions = this.settlement[currency].reduce((acc, transaction) => {
+        const key = `${transaction.from.id}-${transaction.to.id}-${transaction.currency}`;
+        if (!acc[key]) {
+          acc[key] = {
+            from: transaction.from,
+            to: transaction.to,
+            amount: 0,
+            currency: transaction.currency
+          };
+        }
+        acc[key].amount += transaction.amount;
+        return acc;
+      }, {} as { [key: string]: Debt });
+
+      this.settlement[currency] = Object.values(groupedTransactions);
+    });
+  }
 }
 
 export interface SettlementDialogData {

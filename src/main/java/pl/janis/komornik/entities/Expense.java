@@ -28,7 +28,8 @@ import java.util.Objects;
 @SqlResultSetMapping(name = "debtMapper",
         classes = {@ConstructorResult(targetClass = UserBalance.class,
                 columns = {@ColumnResult(name = "userId"),
-                        @ColumnResult(name = "balance")})
+                        @ColumnResult(name = "balance"),
+                        @ColumnResult(name = "currency")})
         })
 public class Expense {
 //    select debt.userTo.id as userId, sum(debt.amount) as balance from Expense e inner join e.debt debt " +

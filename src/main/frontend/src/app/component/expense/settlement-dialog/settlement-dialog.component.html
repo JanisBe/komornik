@@ -2,10 +2,10 @@
 <mat-dialog-content>
   @if (data.debts) {
     <div>
-      @for (settlement of data.debts | keyvalue; track settlement) {
+      @for (settlement of settlement | keyvalue; track settlement.value) {
         <p> {{ settlement.key }}
           @if (settlement.key !== 'PLN') {
-            <mat-checkbox (change)="calculate($event.checked)">przelicz do PLN</mat-checkbox>
+            <mat-checkbox (change)="calculateExchange($event.checked)">przelicz do PLN</mat-checkbox>
           }
         </p>
         @for (debt of settlement.value; track debt) {
