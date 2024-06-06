@@ -53,7 +53,7 @@ public class Expense {
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
-    @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Debt> debt;
 
