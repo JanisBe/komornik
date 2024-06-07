@@ -1,6 +1,6 @@
 package pl.janis.komornik.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -44,17 +44,17 @@ public class User implements UserDetails {
     private Boolean isVerified;
 
     @ManyToMany(mappedBy = "users")
-    @JsonIgnore
+    @JsonManagedReference
     @ToString.Exclude
     private List<Group> groups;
 
     @OneToMany(mappedBy = "userFrom", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonManagedReference
     @ToString.Exclude
     private List<Debt> debtFrom;
 
     @OneToMany(mappedBy = "userTo", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonManagedReference
     @ToString.Exclude
     private List<Debt> debtTo;
 

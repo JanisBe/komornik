@@ -1,5 +1,6 @@
 package pl.janis.komornik.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class Group {
     private String groupIconName;
 
     @OneToMany(mappedBy = "group")
+    @JsonManagedReference
     @ToString.Exclude
     private List<Expense> expenses;
 

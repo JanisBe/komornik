@@ -1,5 +1,6 @@
 package pl.janis.komornik.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class Category {
     private String categoryIconName;
 
     @OneToMany(mappedBy = "category")
+    @JsonManagedReference
     @ToString.Exclude
     private Set<Expense> expenses = new LinkedHashSet<>();
 

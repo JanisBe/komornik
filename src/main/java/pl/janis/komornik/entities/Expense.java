@@ -1,7 +1,7 @@
 package pl.janis.komornik.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +42,7 @@ public class Expense {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "category_id")
+    @JsonBackReference
     private Category category;
 
     @Column(name = "currency", nullable = false)
@@ -54,12 +55,12 @@ public class Expense {
     private BigDecimal amount;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
+    @JsonBackReference
     private List<Debt> debt;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "group_id", nullable = false)
-    @JsonIgnore
+    @JsonBackReference
     @ToString.Exclude
     private Group group;
 

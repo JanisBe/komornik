@@ -1,6 +1,6 @@
 package pl.janis.komornik.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class Debt {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "expense_id")
-    @JsonIgnore
+    @JsonBackReference
     @ToString.Exclude
     private Expense expense;
 
