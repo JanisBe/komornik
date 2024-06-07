@@ -96,12 +96,10 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
         console.log(expense);
         this.currentExpense = expense;
         this.debts = expense.debt;
-        this.initForm();
         this.form.patchValue(this.currentExpense);
       });
-    } else {
-      this.initForm();
     }
+    this.initForm();
     this.groupService.findById(this.data.groupId).subscribe(group => {
       this.currentGroup = group;
       this.currentGroupName$ = of(this.currentGroup.groupName);
@@ -110,7 +108,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     });
     this.currencyService.getDefaultCurrencyForGroup(this.data.groupId)
       .subscribe(response => {
-        console.log(response);
         this.defaultCurrency = response;
         this.form.get('currency')?.patchValue(this.defaultCurrency)
       });
@@ -118,7 +115,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     this.categoryService.findAllCategories().subscribe(category => this.categories = category);
     this.currencies = this.currencyService.getAllCurrencies();
     this.loadingService.setLoading(false);
-    this.listenForAmountChange();
   }
 
   onCancel() {
@@ -234,6 +230,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       date: new FormControl(this.currentExpense?.date ?? new Date(), Validators.required)
     });
     this.loadingService.setLoading(false);
+    this.listenForAmountChange();
   }
 
   private calculateAmount(expense: Expense): number {
@@ -343,7 +340,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
 
   private listenForAmountChange() {
     this.form.controls['amount'].valueChanges.subscribe((val: string) => {
-      if (!val.match(this.AMOUNT_PATTERN)) {
+      if (!val.toString().match(this.AMOUNT_PATTERN)) {
         this.form.controls['amount'].setErrors({invalidAmount: true})  // <--- Set invalidAmount to true
       } else {
         this.form.controls['amount'].setErrors(null)
