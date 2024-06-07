@@ -241,12 +241,10 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       return 0;
     }
     let total = 0;
-    console.log(expense.debt);
     expense.debt.map((debt) => {
       if (debt.amount < 0) {
         total = -(debt.amount * expense.debt.length / (expense.debt.length - 1)).toFixed(2);
       }
-      console.log(debt)
     })
     return total;
   }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ExpenseService} from "../../../service/expense.service";
 import {Expense} from "../../../model/expense";
@@ -17,24 +17,20 @@ import {SpinnerComponent} from "../../common/spinner/spinner.component";
   imports: [MatButton, NgFor, DatePipe, KeyValuePipe, SpinnerComponent]
 })
 export class GroupSummaryComponent implements OnInit {
-  groupId: number;
   expenses: Map<string, Expense[]> = new Map<string, Expense[]>();
-  groupName: string;
   constructor(private expenseService: ExpenseService,
               private route: ActivatedRoute,
               private dialog: MatDialog
   ) {
   }
 
+  @Input() groupId?: number;
+  @Input() groupName?: number;
+
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.groupId = params['groupId'];
-      this.groupName = params['groupName'];
-      this.expenseService.findAllByGroupId(this.groupId).subscribe(expenses => {
+    this.expenseService.findAllByGroupId(this.groupId!).subscribe(expenses => {
         this.expenses = this.groupByDate(expenses);
-        console.log("retrieved expenses", expenses);
       });
-    });
   }
 
   groupByDate(objects: Expense[]): Map<string, Expense[]> {

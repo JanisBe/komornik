@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {GroupService} from "../../../service/group.service";
 import {Group} from "../../../model/group";
@@ -32,7 +32,7 @@ import {DataSharingService} from "../../../service/data-sharing.service";
   imports: [NgIf, FormsModule, ReactiveFormsModule, MatFormField, MatIcon, MatPrefix, MatLabel, MatInput, MatSelect, NgFor, MatOption, MatButton, MatAutocompleteTrigger, MatAutocomplete, RouterLink, AsyncPipe]
 })
 export class AddGroupComponent implements OnInit {
-  groupId: number;
+  @Input() groupId: number;
   editMode = false;
   groupForm: FormGroup;
   users$: Observable<User[]>;
@@ -63,7 +63,6 @@ export class AddGroupComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.groupId = this.route.snapshot.params['groupId'];
     this.editMode = !!this.groupId;
     this.isUserInGroup = !this.editMode;
     this.currentUser = this.authService.user.value!;
