@@ -93,7 +93,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     if (this.data.expenseId) {
       this.editMode = true;
       this.expenseService.findById(this.data.expenseId).subscribe(expense => {
-        console.log(expense);
         this.currentExpense = expense;
         this.debts = expense.debt;
         this.form.patchValue(this.currentExpense);
@@ -163,7 +162,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       newExpense.id = this.currentExpense.id;
     }
-    console.log(newExpense);
     this.expenseService.saveExpense(newExpense).subscribe({
       next: (result) => {
         this.editMode ?
@@ -207,7 +205,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       this.editMode = true;
       this.expenseService.findById(this.data.expenseId).subscribe(expense => {
         this.currentExpense = expense;
-        console.log(this.currentExpense)
         this.form = new FormGroup({
           id: new FormControl(this.currentExpense.id),
           amount: new FormControl(this.currentExpense.amount, [Validators.required, Validators.pattern('^\\d*\\.?,?\\d*$')]),

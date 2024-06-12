@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Rozliczenie dla grupy {{ data.group.groupName }}</h2>
 <mat-dialog-content>
-  @if (data.debts) {
+  @if (Object.keys(this.data.debts).length > 0) {
     <div>
       @for (settlement of settlement | keyvalue; track settlement.value) {
         <p> {{ settlement.key }}

@@ -10,7 +10,6 @@ import {User} from "../../../../model/user";
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Debt} from "../../../../model/debt";
 import {DataSharingService} from "../../../../service/data-sharing.service";
-import {SnackbarService} from "../../../../service/snackbar.service";
 import {MatButton} from '@angular/material/button';
 import {MatListOption, MatSelectionList} from '@angular/material/list';
 import {MatIcon} from '@angular/material/icon';
@@ -32,7 +31,6 @@ export class SplitDialogComponent implements OnInit, AfterViewInit {
     public dialogRef: MatDialogRef<SplitDialogComponent>,
     private fb: FormBuilder,
     private dataSharingService: DataSharingService,
-    private snackbarService: SnackbarService,
     private cd: ChangeDetectorRef) {
   }
 

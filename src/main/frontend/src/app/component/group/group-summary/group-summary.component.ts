@@ -27,7 +27,6 @@ export class GroupSummaryComponent implements OnInit {
   @Input() groupName?: number;
 
   ngOnInit(): void {
-    console.log("refreshed")
     this.expenseService.findAllByGroupId(this.groupId!).subscribe(expenses => {
       this.expenses = this.groupByDate(expenses);
     });
@@ -54,14 +53,10 @@ export class GroupSummaryComponent implements OnInit {
     return a.key > b.key ? -1 : (b.key > a.key ? 1 : 0);
   }
 
-  addExpense() {
-    this.dialog.open(AddExpenseComponent, {data: {groupId: this.groupId}, width: '600px'})
+  editExpense(id?: number) {
+    this.dialog.open(AddExpenseComponent, {data: {expenseId: id, groupId: this.groupId}, width: '600px'})
       .afterClosed().subscribe(() => {
       this.ngOnInit();
     });
-  }
-
-  editExpense(id: number) {
-    this.dialog.open(AddExpenseComponent, {data: {expenseId: id, groupId: this.groupId}, width: '600px'})
   }
 }

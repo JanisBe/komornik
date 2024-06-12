@@ -93,6 +93,8 @@ export class SettlementDialogComponent implements OnInit {
       this.settlement[currency] = Object.values(groupedTransactions);
     });
   }
+
+  protected readonly Object = Object;
 }
 
 export interface SettlementDialogData {

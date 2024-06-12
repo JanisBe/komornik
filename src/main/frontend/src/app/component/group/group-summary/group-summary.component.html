@@ -1,6 +1,6 @@
 <h1>{{ groupName }}</h1>
-<button (click)="addExpense()" color="primary" mat-raised-button>Dodaj nowy wydatek</button>
-@for (expense of expenses | keyvalue: reverseKeyOrder; track expense) {
+<button (click)="editExpense()" color="primary" mat-raised-button>Dodaj nowy wydatek</button>
+@for (expense of expenses | keyvalue: reverseKeyOrder; track expense.key) {
   <div>
     <table class="table">
       <thead>
@@ -10,10 +10,10 @@
       </thead>
       <tbody>
         @for (ex of expense.value; track ex) {
-          <tr style="border: 1px solid black">
+          <tr style="border: 1px solid black" (click)="editExpense(ex.id!)">
             <td><b>{{ ex.description }}</b></td>
             @for (debt of ex.debt; track debt) {
-              <td (click)="editExpense(ex.id!)">
+              <td>
                 {{ debt.from.name }} -> {{ debt.to.name }} = {{ debt.amount }}
               </td>
             }
