@@ -25,7 +25,7 @@ jobs:
       - name: Maven version
         run: mvn -version
       - name: Build with Maven
-        run: mvn -B package --file pom.xml -Dmaven.test.skip=true
+        run: mvn -B package --file pom.xml -Dmaven.test.skip=true -Djasypt.encryptor.password=${{ secrets.JSPT }} -Dspring.mail.password=${{ secrets.GMAIL_PS }} -Dserver.ssl.key-store-password=${{ secrets.ESESEL }}
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
