@@ -47,7 +47,7 @@ jobs:
           overwrite: true
           source: "./target/komornik-0.0.1-SNAPSHOT.jar"
           target: "/home/ubuntu/Documents/"
-          strip_components: 1
+          strip_components: 2
       - name: bump app version
         uses: appleboy/ssh-action@v1.0.3
         with:
