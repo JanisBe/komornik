@@ -1,6 +1,6 @@
 <table mat-table [dataSource]="allUsers" class="mat-elevation-z8">
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> User name </th>
+    <th *matHeaderCellDef mat-header-cell> Nazwa użytkownika</th>
     <td mat-cell *matCellDef="let user"> {{user.name}} </td>
   </ng-container>
   <ng-container matColumnDef="mail">
@@ -8,11 +8,11 @@
     <td mat-cell *matCellDef="let user"> {{user.mail}} </td>
   </ng-container>
   <ng-container matColumnDef="password">
-    <th mat-header-cell *matHeaderCellDef> Password </th>
+    <th *matHeaderCellDef mat-header-cell> Hasło</th>
     <td mat-cell *matCellDef="let user"> {{user.password}} </td>
   </ng-container>
   <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <th *matHeaderCellDef mat-header-cell> Akcje</th>
     <td mat-cell *matCellDef="let user">
       <mat-icon (click)="editUser(user.id)" class="pointer">edit</mat-icon>&nbsp;
       <mat-icon (click)="deleteUser(user)" class="pointer">delete</mat-icon>

@@ -5,7 +5,7 @@
     {{ currentUser.name }}
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item routerLink="/user/details/{{currentUser.id}}">User profile</button>
+    <button mat-menu-item routerLink="/user/details/{{currentUser.id}}">Profil użytkownika</button>
     <button mat-menu-item (click)="logout()">Logout</button>
   </mat-menu>
 } @else {

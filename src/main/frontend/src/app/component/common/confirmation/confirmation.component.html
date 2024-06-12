@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>Delete {{data.category}} {{data.content}} ?</h2>
-<mat-dialog-content>This will delete {{data.category}} {{data.content}} and cannot be undone.</mat-dialog-content>
+<h2 mat-dialog-title>Skasuj {{ data.category }} {{ data.content }} ?</h2>
+<mat-dialog-content>To skasuje {{ data.category }} {{ data.content }} i nie można tego cofnąć.</mat-dialog-content>
 <div mat-dialog-actions>
-  <button (click)="onNoClick()" cdkFocusInitial mat-button>No</button>
+  <button (click)="onNoClick()" cdkFocusInitial mat-button>Nie</button>
   <button (click)="onYesClick()" mat-button>Ok</button>
 </div>

@@ -1,11 +1,11 @@
 @if (!!expenses?.length) {
   <table [dataSource]="expenses" class="mat-elevation-z8" mat-table multiTemplateDataRows>
     <ng-container matColumnDef="description">
-      <th *matHeaderCellDef mat-header-cell> Expense description</th>
+      <th *matHeaderCellDef mat-header-cell> Opis wydatku</th>
       <td *matCellDef="let expense" mat-cell> {{ expense.description }}</td>
     </ng-container>
     <ng-container matColumnDef="amount">
-      <th *matHeaderCellDef mat-header-cell> Expense amount</th>
+      <th *matHeaderCellDef mat-header-cell>Kwota</th>
       <td *matCellDef="let expense" mat-cell>
         <div [innerHTML]="printAmount(expense)"></div>
       </td>
@@ -17,15 +17,15 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="currency">
-      <th *matHeaderCellDef mat-header-cell> Expense currency</th>
+      <th *matHeaderCellDef mat-header-cell>Waluta</th>
       <td *matCellDef="let expense" mat-cell> {{ expense.currency }}</td>
     </ng-container>
     <ng-container matColumnDef="date">
-      <th *matHeaderCellDef mat-header-cell> Expense date</th>
+      <th *matHeaderCellDef mat-header-cell>Data</th>
       <td *matCellDef="let expense" mat-cell> {{ expense.date | date:'medium':'':'pl' }}</td>
     </ng-container>
     <ng-container matColumnDef="actions">
-      <th *matHeaderCellDef mat-header-cell> Actions</th>
+      <th *matHeaderCellDef mat-header-cell>Akcje</th>
       <td *matCellDef="let expense" mat-cell>
         <mat-icon (click)="editExpense(expense)" class="pointer">edit</mat-icon>&nbsp;
         <mat-icon (click)="deleteExpense(expense)" class="pointer">delete</mat-icon>

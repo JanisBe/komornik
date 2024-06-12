@@ -1,6 +1,6 @@
 <table mat-table [dataSource]="categories" class="mat-elevation-z8">
   <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell> Category name</th>
+    <th *matHeaderCellDef mat-header-cell> Nazwa kategorii</th>
     <td *matCellDef="let category" mat-cell>
       {{ category.name }}
       @if (category.categoryIconName) {
@@ -9,7 +9,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="actions">
-    <th *matHeaderCellDef mat-header-cell> Actions</th>
+    <th *matHeaderCellDef mat-header-cell> Akcja</th>
     <td *matCellDef="let category" mat-cell>
       <mat-icon (click)="editCategory(category)" class="pointer">edit</mat-icon>&nbsp;
       <mat-icon (click)="deleteCategory(category)" class="pointer">delete</mat-icon>

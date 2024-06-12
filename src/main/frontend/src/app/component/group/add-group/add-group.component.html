@@ -45,7 +45,7 @@
                            aria-label="Name"
                            formControlName="name"
                            matInput
-                           placeholder="Type user name"
+                           placeholder="Nazwa użytkownika"
                            type="text">
                     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event, i)">
                       @for (user of users$ | async; track user) {
@@ -69,8 +69,8 @@
           </div>
         </div>
         <div class="button-container">
-          <button [disabled]="groupForm.invalid" color="primary" mat-raised-button type="submit">Save</button>
-          <button (click)="onCancel()" color="warning" mat-raised-button type="button">Cancel</button>
+          <button [disabled]="groupForm.invalid" color="primary" mat-raised-button type="submit">Zapisz</button>
+          <button (click)="onCancel()" color="warning" mat-raised-button type="button">Anuluj</button>
         </div>
       </form>
     </div>
