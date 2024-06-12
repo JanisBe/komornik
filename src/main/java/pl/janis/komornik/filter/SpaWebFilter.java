@@ -19,8 +19,6 @@ public class SpaWebFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         String path = request.getRequestURI();
         if (!path.startsWith("/api") &&
-                !path.startsWith("/login") &&
-                !path.startsWith("/auth") &&
                 !path.contains(".") &&
                 path.matches("/(.*)")) {
             request.getRequestDispatcher("/index.html").forward(request, response);
