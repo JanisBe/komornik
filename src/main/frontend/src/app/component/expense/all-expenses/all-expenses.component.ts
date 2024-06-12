@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ExpenseService} from "../../../service/expense.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Expense} from "../../../model/expense";
 import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
@@ -55,44 +55,44 @@ export class AllExpensesComponent implements OnInit {
   displayedColumns: string[] = ['description', 'amount', 'with', 'currency', 'date', 'actions'];
   columnsToDisplayWithExpand = [...this.displayedColumns, 'szczegóły'];
   expenses: Expense[];
-  private groupId: number = 1;
   expandedElement: Expense | null;
+
   constructor(private expenseService: ExpenseService,
               private router: Router,
               private snackbarService: SnackbarService,
-              private route: ActivatedRoute,
               private dialog: MatDialog) {
   }
 
+  @Input() groupId: number;
+
   ngOnInit(): void {
-        if (!!this.route.snapshot.params['groupId']) {
-            this.groupId = this.route.snapshot.params['groupId'];
-            this.fetchExpensesForGroup(this.groupId);
-        } else {
-            this.fetchAllExpenses();
-        }
+    if (!!this.groupId) {
+      this.fetchExpensesForGroup(this.groupId);
+    } else {
+      this.fetchAllExpenses();
     }
+  }
 
-    editExpense(expense: Expense) {
-        this.router.navigate(['expense/details', expense.id]);
-    }
+  editExpense(expense: Expense) {
+    this.router.navigate(['expense/details', expense.id]);
+  }
 
-    deleteExpense(expense: Expense) {
-        let dialogRef = this.dialog.open(ConfirmationComponent, {
-            data: {content: expense.description, category: 'expense'}
-        });
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                this.expenseService.deleteExpense(expense.id!).subscribe(
-                  () => {
-                    this.snackbarService.displayMessage(`Wydatek ${expense.description} został skasowany`, 3000);
-                    this.fetchExpensesForGroup(expense.groupId);
-                  }
-                );
-            }
-        });
+  deleteExpense(expense: Expense) {
+    let dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: {content: expense.description, category: 'expense'}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.expenseService.deleteExpense(expense.id!).subscribe(
+          () => {
+            this.snackbarService.displayMessage(`Wydatek ${expense.description} został skasowany`, 3000);
+            this.fetchExpensesForGroup(expense.groupId);
+          }
+        );
+      }
+    });
 
-    }
+  }
 
   printUsers(expense: Expense) {
     let output = '';

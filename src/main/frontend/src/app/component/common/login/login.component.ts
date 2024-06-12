@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../../../auth/auth.service";
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {MatButton} from '@angular/material/button';
 import {MatInput} from '@angular/material/input';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
@@ -14,12 +14,13 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
   imports: [FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatInput, MatButton, RouterLink]
 })
 export class LoginComponent implements OnInit {
-  constructor(private authService: AuthService,
-              private router: Router,
-              private route: ActivatedRoute) {
-  }
+  @Input() email: string;
 
   loginForm: FormGroup;
+
+  constructor(private authService: AuthService,
+              private router: Router) {
+  }
 
   ngOnInit(): void {
     this.authService.isHttpsEnabled().subscribe();
@@ -27,8 +28,8 @@ export class LoginComponent implements OnInit {
       // this.router.navigate(['/group/list']);
     }
     this.initForm();
-    if (this.route.snapshot.queryParams['email']) {
-      this.loginForm.patchValue({login: this.route.snapshot.queryParams['email']})
+    if (!!this.email) {
+      this.loginForm.patchValue({login: this.email})
     }
   }
 

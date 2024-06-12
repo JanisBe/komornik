@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
 import {ExpenseService} from "../../../service/expense.service";
 import {Expense} from "../../../model/expense";
 import {DatePipe, KeyValue, KeyValuePipe, NgFor} from "@angular/common";
@@ -18,8 +17,8 @@ import {SpinnerComponent} from "../../common/spinner/spinner.component";
 })
 export class GroupSummaryComponent implements OnInit {
   expenses: Map<string, Expense[]> = new Map<string, Expense[]>();
+
   constructor(private expenseService: ExpenseService,
-              private route: ActivatedRoute,
               private dialog: MatDialog
   ) {
   }
@@ -28,9 +27,10 @@ export class GroupSummaryComponent implements OnInit {
   @Input() groupName?: number;
 
   ngOnInit(): void {
+    console.log("refreshed")
     this.expenseService.findAllByGroupId(this.groupId!).subscribe(expenses => {
-        this.expenses = this.groupByDate(expenses);
-      });
+      this.expenses = this.groupByDate(expenses);
+    });
   }
 
   groupByDate(objects: Expense[]): Map<string, Expense[]> {

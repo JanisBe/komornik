@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {Component, Input, OnInit} from '@angular/core';
 import {SnackbarService} from "../../../service/snackbar.service";
 import {UserService} from "../../../service/user.service";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {User} from "../../../model/user";
 import {MatButton} from '@angular/material/button';
 import {NgIf} from '@angular/common';
@@ -20,12 +19,11 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
 export class ForgotPasswordComponent implements OnInit {
   userForm: FormGroup;
   changePassword: false;
+  @Input() login: string
 
-  constructor(private http: HttpClient,
-              private snackbarService: SnackbarService,
+  constructor(private snackbarService: SnackbarService,
               private userService: UserService,
-              private router: Router,
-              private route: ActivatedRoute) {
+              private router: Router) {
   }
 
   onSubmit() {
@@ -49,8 +47,8 @@ export class ForgotPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    if (this.route.snapshot.queryParams['login']) {
-      this.userForm.patchValue({userName: this.route.snapshot.queryParams['login']})
+    if (!!this.login) {
+      this.userForm.patchValue({userName: this.login})
     }
   }
 

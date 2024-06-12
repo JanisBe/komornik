@@ -1,8 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {User} from "../../../model/user";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AuthService} from "../../../auth/auth.service";
-import {SnackbarService} from "../../../service/snackbar.service";
 import {UserService} from "../../../service/user.service";
 import {Observable} from "rxjs";
 import {AsyncPipe} from '@angular/common';
@@ -19,19 +16,16 @@ export class UserDetailsComponent implements OnInit {
   public user: User;
   public user$: Observable<User>;
 
+  @Input() userId: string
+
   constructor(
-    private authService: AuthService,
-    private userService: UserService,
-    private router: Router,
-    private snackbarService: SnackbarService,
-    private activatedRoute: ActivatedRoute
+    private userService: UserService
   ) {
   }
 
   ngOnInit() {
-    const id = this.activatedRoute.snapshot.params['userId'];
-    if (id) {
-      this.user$ = this.userService.getUserById(id)
+    if (!!this.userId) {
+      this.user$ = this.userService.getUserById(this.userId)
     }
   }
 }

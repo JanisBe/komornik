@@ -4,7 +4,7 @@ import {GroupService} from "../../../service/group.service";
 import {Group} from "../../../model/group";
 import {User} from "../../../model/user";
 import {SnackbarService} from "../../../service/snackbar.service";
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {UserService} from "../../../service/user.service";
 import {MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material/autocomplete";
 import {CurrencyService} from "../../../service/currency.service";
@@ -48,7 +48,6 @@ export class AddGroupComponent implements OnInit {
   constructor(private groupService: GroupService,
               private snackbarService: SnackbarService,
               private router: Router,
-              private route: ActivatedRoute,
               private userService: UserService,
               private currencyService: CurrencyService,
               private categoryService: CategoryService,
@@ -109,11 +108,11 @@ export class AddGroupComponent implements OnInit {
       id = this.currentUser.id;
     }
     (<FormArray>this.groupForm.get('users')).push(
-        new FormGroup({
-          id: new FormControl(id),
-          name: new FormControl(user, Validators.required),
-          mail: new FormControl(email, Validators.email)
-        })
+      new FormGroup({
+        id: new FormControl(id),
+        name: new FormControl(user, Validators.required),
+        mail: new FormControl(email, Validators.email)
+      })
     );
     this.userGroupAdded++;
   }
@@ -167,11 +166,11 @@ export class AddGroupComponent implements OnInit {
           if (group.users) {
             for (let user of group.users) {
               groupUsers.push(
-                  new FormGroup({
-                    id: new FormControl(user.id),
-                    name: new FormControl(user.name, Validators.required),
-                    mail: new FormControl(user.mail, Validators.email)
-                  })
+                new FormGroup({
+                  id: new FormControl(user.id),
+                  name: new FormControl(user.name, Validators.required),
+                  mail: new FormControl(user.mail, Validators.email)
+                })
               )
             }
           }

@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CategoryService} from "../../../service/category.service";
 import {Category} from "../../../model/category";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {Observer} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
@@ -22,14 +22,13 @@ import {MatFormField, MatLabel, MatPrefix} from '@angular/material/form-field';
 export class AddCategoryComponent implements OnInit {
   form: FormGroup;
   currentCategory: Category;
-  currentCategoryId: number;
+  @Input("currentCategoryId") currentCategoryId: number;
   categoryIconName: string;
   private editMode: boolean;
 
   constructor(private categoryService: CategoryService,
               private router: Router,
               private snackbarService: SnackbarService,
-              private route: ActivatedRoute,
               private dialog: MatDialog) {
   }
 
@@ -49,9 +48,8 @@ export class AddCategoryComponent implements OnInit {
 
   ngOnInit() {
     this.categoryIconName = "euro";
-    if (!!this.route.snapshot.params['categoryId']) {
+    if (!!this.currentCategoryId) {
       this.editMode = true;
-      this.currentCategoryId = this.route.snapshot.params['categoryId'];
       this.categoryService.findById(this.currentCategoryId).subscribe(
         category => {
           this.currentCategory = category;

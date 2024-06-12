@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {User} from "../../../model/user";
 import {Category} from "../../../model/category";
@@ -6,7 +6,7 @@ import {Group} from "../../../model/group";
 import {Expense} from "../../../model/expense";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {ExpenseService} from "../../../service/expense.service";
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {SnackbarService} from "../../../service/snackbar.service";
 import {UserService} from "../../../service/user.service";
 import {CurrencyService} from "../../../service/currency.service";
@@ -39,7 +39,8 @@ export class EditExpenseComponent implements OnInit {
   usersOriginalList: User[];
   categories: Category[];
   currentUser: User;
-  currentGroupId: number;
+  @Input("groupId") currentGroupId: number;
+  @Input() expenseId: number;
   currentGroup: Group;
   currentExpense: Expense;
   userGroups: Group[];
@@ -61,7 +62,6 @@ export class EditExpenseComponent implements OnInit {
               private userService: UserService,
               private currencyService: CurrencyService,
               private categoryService: CategoryService,
-              private route: ActivatedRoute,
               private groupService: GroupService,
               private authService: AuthService) {
   }
@@ -69,7 +69,6 @@ export class EditExpenseComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.authService.user.value!;
-    this.currentGroupId = this.route.snapshot.params['groupId'];
     this.initForm();
     this.groupService.findById(this.currentGroupId).subscribe(group => {
       this.currentGroup = group;
@@ -88,9 +87,9 @@ export class EditExpenseComponent implements OnInit {
     this.categoryService.findAllCategories().subscribe(category => this.categories = category);
     this.currencies = this.currencyService.getAllCurrencies();
 
-    if (!!this.route.snapshot.params['expenseId']) {
+    if (!!this.expenseId) {
       this.editMode = true;
-      this.expenseService.findById(this.route.snapshot.params['expenseId']).subscribe({
+      this.expenseService.findById(this.expenseId).subscribe({
         next: (expense) => {
           this.currentExpense = expense;
           let debtors = expense.debt.flatMap(d => d.from);
