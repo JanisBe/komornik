@@ -1,5 +1,8 @@
-<h1>{{ groupName }}</h1>
-<button (click)="editExpense()" color="primary" mat-raised-button>Dodaj nowy wydatek</button>
+<h1>{{ (group$ | async)?.groupName }}</h1>
+<div class="button-container">
+  <button (click)="editExpense()" color="primary" mat-raised-button>Dodaj nowy wydatek</button>
+  <button (click)="settle()" color="primary" mat-raised-button>Rozlicz wydatki</button>
+</div>
 @for (expense of expenses | keyvalue: reverseKeyOrder; track expense.key) {
   <div>
     <table class="table">
@@ -14,7 +17,7 @@
             <td><b>{{ ex.description }}</b></td>
             @for (debt of ex.debt; track debt) {
               <td>
-                {{ debt.from.name }} -> {{ debt.to.name }} = {{ debt.amount }}
+                {{ debt.from.name }} → {{ debt.to.name }} = {{ debt.amount }} {{ debt.currency }}
               </td>
             }
           </tr>

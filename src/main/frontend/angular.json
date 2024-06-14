@@ -74,8 +74,7 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ],
-              "deleteOutputPath": true
+              ]
             },
             "development": {
               "optimization": false,

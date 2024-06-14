@@ -55,6 +55,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   currentExpense: Expense;
   currencies: string[] = [];
   defaultCurrency: string;
+  currentCurrency: string;
   payer: User;
   betweenWho = "wszyscy";
   splitHow = "po równo";
@@ -90,26 +91,29 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     this.loadingService.setLoading(true);
     this.currentUser = Object.assign({}, this.authService.user.value!);
     this.payer = this.currentUser;
+    this.initForm();
     if (this.data.expenseId) {
       this.editMode = true;
       this.expenseService.findById(this.data.expenseId).subscribe(expense => {
         this.currentExpense = expense;
+        this.currentCurrency = expense.currency;
         this.debts = expense.debt;
+        this.patchForm(expense);
         this.form.patchValue(this.currentExpense);
+        this.loadingService.setLoading(false);
+
       });
     }
-    this.initForm();
     this.groupService.findById(this.data.groupId).subscribe(group => {
       this.currentGroup = group;
+      this.defaultCurrency = group.defaultCurrency!;
       this.currentGroupName$ = of(this.currentGroup.groupName);
       this.isUserInGroup = this.currentGroup.users.map(user => user.id).includes(this.currentUser.id);
       this.users = group.users;
+      if (this.editMode) {
+        this.currentCurrency = this.defaultCurrency;
+      }
     });
-    this.currencyService.getDefaultCurrencyForGroup(this.data.groupId)
-      .subscribe(response => {
-        this.defaultCurrency = response;
-        this.form.get('currency')?.patchValue(this.defaultCurrency)
-      });
 
     this.categoryService.findAllCategories().subscribe(category => this.categories = category);
     this.currencies = this.currencyService.getAllCurrencies();
@@ -162,6 +166,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       newExpense.id = this.currentExpense.id;
     }
+    console.log(newExpense);
     this.expenseService.saveExpense(newExpense).subscribe({
       next: (result) => {
         this.editMode ?
@@ -174,6 +179,19 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       }
     });
     this.onCancel();
+  }
+
+  private initForm() {
+    this.form = new FormGroup({
+      amount: new FormControl(this.calculateAmount(this.currentExpense), [Validators.required, Validators.pattern(this.AMOUNT_PATTERN)]),
+      description: new FormControl(this.currentExpense?.description ?? null, Validators.required),
+      currency: new FormControl(this.defaultCurrency, Validators.required),
+      name: this.userName,
+      category: new FormControl(this.currentExpense?.categoryId ?? null),
+      group: new FormControl(this.data.groupId, Validators.required),
+      date: new FormControl(this.currentExpense?.date ?? new Date(), Validators.required)
+    });
+    this.listenForAmountChange();
   }
 
   openPayerDialog(payer: User, usersOriginalList: User[]) {
@@ -200,36 +218,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initForm() {
-    if (this.data.expenseId) {
-      this.editMode = true;
-      this.expenseService.findById(this.data.expenseId).subscribe(expense => {
-        this.currentExpense = expense;
-        this.form = new FormGroup({
-          id: new FormControl(this.currentExpense.id),
-          amount: new FormControl(this.currentExpense.amount, [Validators.required, Validators.pattern('^\\d*\\.?,?\\d*$')]),
-          description: new FormControl(this.currentExpense.description, Validators.required),
-          currency: new FormControl(this.currentExpense.currency, Validators.required),
-          name: this.userName,
-          category: new FormControl(this.currentExpense.categoryId, Validators.required),
-          group: new FormControl(this.currentExpense.groupId, Validators.required),
-          date: new FormControl(this.currentExpense.date, Validators.required)
-        })
-      });
-    }
-    this.form = new FormGroup({
-      amount: new FormControl(this.calculateAmount(this.currentExpense), [Validators.required, Validators.pattern(this.AMOUNT_PATTERN)]),
-      description: new FormControl(this.currentExpense?.description ?? null, Validators.required),
-      currency: new FormControl(this.defaultCurrency, Validators.required),
-      name: this.userName,
-      category: new FormControl(this.currentExpense?.categoryId ?? null),
-      group: new FormControl(this.data.groupId, Validators.required),
-      date: new FormControl(this.currentExpense?.date ?? new Date(), Validators.required)
-    });
-    this.loadingService.setLoading(false);
-    this.listenForAmountChange();
-  }
-
   private calculateAmount(expense: Expense): number {
     if (!expense?.debt) {
       return 0;
@@ -241,6 +229,32 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       }
     })
     return total;
+  }
+
+  openCurrencyDialog(currencies: string[], defaultCurrency: string) {
+    if (this.currencyDialogRef &&
+      (this.currencyDialogRef as MatDialogRef<CurrencyDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
+      return;
+    }
+
+    this.currencyDialogRef = this.dialog.open(CurrencyDialogComponent, {
+      data: {currencies: currencies, defaultCurrency: defaultCurrency},
+      hasBackdrop: false,
+      width: '300px',
+      position: {left: '68%'},
+      panelClass: 'slide-in-from-right'
+    });
+
+    this.currencyDialogRef.afterClosed().subscribe(currency => {
+      if (currency === undefined) {
+        return;
+      }
+      this.currentCurrency = currency;
+      this.form.get('currency')?.patchValue(currency);
+      this.debts.forEach((debt) => {
+        debt.currency = currency;
+      });
+    });
   }
 
   openSplitDialog(usersOriginalList: User[]) {
@@ -275,29 +289,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     this.form.get('amount')?.patchValue(this.sanitizeAmount(amount));
   }
 
-  openCurrencyDialog(currencies: string[], defaultCurrency: string) {
-    if (this.currencyDialogRef &&
-      (this.currencyDialogRef as MatDialogRef<CurrencyDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
-      return;
-    }
-
-    this.currencyDialogRef = this.dialog.open(CurrencyDialogComponent, {
-      data: {currencies: currencies, defaultCurrency: defaultCurrency},
-      hasBackdrop: false,
-      width: '300px',
-      position: {left: '68%'},
-      panelClass: 'slide-in-from-right'
-    });
-
-    this.currencyDialogRef.afterClosed().subscribe(currency => {
-      if (currency === undefined) {
-        return;
-      }
-      this.defaultCurrency = currency;
-      this.form.get('currency')?.patchValue(currency);
-    });
-  }
-
   openCategoryDialog() {
     if (this.categoryDialogRef &&
       (this.categoryDialogRef as MatDialogRef<CategoryDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
@@ -320,6 +311,19 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       this.form.get('category')?.patchValue(category.id);
       this.categoryIcon = category.icon!;
     });
+  }
+
+  private patchForm(expense: Expense) {
+    this.editMode = true;
+    this.form.patchValue({
+      amount: this.calculateAmount(expense),
+      description: expense.description,
+      currency: expense.currency,
+      category: expense.categoryId,
+      group: expense.groupId,
+      date: expense.date
+    });
+    this.form.addControl("id", new FormControl(expense.id));
   }
 
   private sanitizeAmount(amount: string) {

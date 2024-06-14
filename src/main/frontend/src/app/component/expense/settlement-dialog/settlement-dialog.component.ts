@@ -6,7 +6,6 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
-import {Group} from "../../../model/group";
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatTooltip} from '@angular/material/tooltip';
@@ -32,7 +31,6 @@ export class SettlementDialogComponent implements OnInit {
     public expenseService: ExpenseService,
     @Inject(MAT_DIALOG_DATA) public data: SettlementDialogData,
   ) {
-    console.log(data)
   }
 
   ngOnInit(): void {
@@ -56,7 +54,7 @@ export class SettlementDialogComponent implements OnInit {
       this.wasChanged = true;
       let debts: Debt[] = []
       Object.keys(this.data.debts)
-        .filter(currency => currency !== this.data.group.defaultCurrency)
+        .filter(currency => currency !== this.data.groupDefaultCurrency)
         .forEach(currency => {
           this.data.debts[currency].forEach(transaction => {
             debts.push({currency: currency, from: transaction.from, to: transaction.to, amount: transaction.amount});
@@ -75,7 +73,6 @@ export class SettlementDialogComponent implements OnInit {
 
   private recalculateDebts() {
     Object.keys(this.settlement).forEach(currency => {
-      console.log(this.settlement[currency]);
       let groupedTransactions = this.settlement[currency].reduce((acc, transaction) => {
         const key = `${transaction.from.id}-${transaction.to.id}-${transaction.currency}`;
         if (!acc[key]) {
@@ -99,5 +96,5 @@ export class SettlementDialogComponent implements OnInit {
 
 export interface SettlementDialogData {
   debts: Settlement,
-  group: Group
+  groupDefaultCurrency: string
 }

@@ -1,4 +1,4 @@
-@if (!!expenses.length) {
+@if (!!expenses?.length) {
   <table [dataSource]="expenses" class="mat-elevation-z8" mat-table multiTemplateDataRows>
     <ng-container matColumnDef="description">
       <th *matHeaderCellDef mat-header-cell> Opis wydatku</th>

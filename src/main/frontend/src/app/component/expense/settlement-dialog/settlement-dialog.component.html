@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Rozliczenie dla grupy {{ data.group.groupName }}</h2>
+<h2 mat-dialog-title>Rozliczenie</h2>
 <mat-dialog-content>
   @if (Object.keys(this.data.debts).length > 0) {
     <div>
@@ -12,7 +12,7 @@
           <div>
             <b matTooltip="{{debt.from.mail}}">{{ debt.from.name }}</b>
             dostaje {{ debt.amount }} {{ settlement.key }}
-            <mat-icon class="smaller">arrow_left</mat-icon>
+            ←
             <b matTooltip="{{debt.to.mail}}">{{ debt.to.name }}</b>
           </div>
         }

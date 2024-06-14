@@ -85,7 +85,7 @@ export class AllGroupsComponent implements OnInit {
   settle(group: Group) {
     this.expenseService.calculateExpenses(group.id!).subscribe(debts => {
       this.dialog.open(SettlementDialogComponent, {
-        data: {debts: debts, group: group}
+        data: {debts: debts, groupDefaultCurrency: group.defaultCurrency}
       });
     });
   }

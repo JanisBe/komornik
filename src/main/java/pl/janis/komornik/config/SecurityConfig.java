@@ -70,7 +70,7 @@ public class SecurityConfig {
                     auth.requestMatchers(ALLOWED_URLS).permitAll();
                     auth.requestMatchers(
                                     HttpMethod.GET,
-                                    "/index*", "/assets/**", "/*.js", "/*.css", "/*.json", "/*.ico")
+                                    "/index*", "/assets/**", "/*.js", "/*.css", "/*.json", "/*.ico", "/manifest.webmanifest")
                             .permitAll();
                     auth.requestMatchers(HttpMethod.OPTIONS).permitAll();
                     auth.anyRequest().authenticated();

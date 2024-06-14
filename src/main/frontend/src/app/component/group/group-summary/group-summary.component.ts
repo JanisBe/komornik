@@ -1,34 +1,47 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ExpenseService} from "../../../service/expense.service";
 import {Expense} from "../../../model/expense";
-import {DatePipe, KeyValue, KeyValuePipe, NgFor} from "@angular/common";
+import {AsyncPipe, DatePipe, KeyValue, KeyValuePipe, NgFor} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {AddExpenseComponent} from "../../expense/add-expense/add-expense.component";
 import {MatButton} from '@angular/material/button';
 import '@angular/common/locales/global/pl';
 import {SpinnerComponent} from "../../common/spinner/spinner.component";
+import {ActivatedRoute} from "@angular/router";
+import {SettlementDialogComponent} from "../../expense/settlement-dialog/settlement-dialog.component";
+import {GroupService} from 'src/app/service/group.service';
+import {Observable} from "rxjs";
+import {Group} from "../../../model/group";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'group-summary',
   templateUrl: './group-summary.component.html',
   styleUrl: './group-summary.component.scss',
   standalone: true,
-  imports: [MatButton, NgFor, DatePipe, KeyValuePipe, SpinnerComponent]
+  imports: [MatButton, NgFor, DatePipe, KeyValuePipe, SpinnerComponent, AsyncPipe, MatIcon]
 })
 export class GroupSummaryComponent implements OnInit {
   expenses: Map<string, Expense[]> = new Map<string, Expense[]>();
 
+  groupId: number;
+  group$: Observable<Group>;
+
   constructor(private expenseService: ExpenseService,
-              private dialog: MatDialog
+              private dialog: MatDialog,
+              private activeRoute: ActivatedRoute,
+              private groupService: GroupService
   ) {
   }
 
-  @Input() groupId?: number;
-  @Input() groupName?: number;
-
   ngOnInit(): void {
-    this.expenseService.findAllByGroupId(this.groupId!).subscribe(expenses => {
-      this.expenses = this.groupByDate(expenses);
+    this.activeRoute.params.subscribe(params => {
+      this.groupId = params['groupId'];
+      this.group$ = this.groupService.findById(this.groupId!);
+      this.expenseService.findAllByGroupId(this.groupId!).subscribe(expenses => {
+        console.log(expenses);
+        this.expenses = this.groupByDate(expenses);
+      });
     });
   }
 
@@ -57,6 +70,14 @@ export class GroupSummaryComponent implements OnInit {
     this.dialog.open(AddExpenseComponent, {data: {expenseId: id, groupId: this.groupId}, width: '600px'})
       .afterClosed().subscribe(() => {
       this.ngOnInit();
+    });
+  }
+
+  settle() {
+    this.expenseService.calculateExpenses(this.groupId!).subscribe(debts => {
+      this.dialog.open(SettlementDialogComponent, {
+        data: {debts: debts, groupDefaultCurrency: this.group$.subscribe()}
+      });
     });
   }
 }
