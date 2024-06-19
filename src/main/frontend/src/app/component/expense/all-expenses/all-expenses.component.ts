@@ -21,6 +21,7 @@ import {
   MatRowDef,
   MatTable
 } from '@angular/material/table';
+import {AddExpenseComponent} from "../add-expense/add-expense.component";
 
 @Component({
   selector: 'all-expenses',
@@ -66,15 +67,14 @@ export class AllExpensesComponent implements OnInit {
   @Input() groupId: number;
 
   ngOnInit(): void {
-    if (!!this.groupId) {
       this.fetchExpensesForGroup(this.groupId);
-    } else {
-      this.fetchAllExpenses();
-    }
   }
 
-  editExpense(expense: Expense) {
-    this.router.navigate(['expense/details', expense.id]);
+  editExpense(id?: number) {
+    this.dialog.open(AddExpenseComponent, {data: {expenseId: id, groupId: this.groupId}, width: '600px'})
+      .afterClosed().subscribe(() => {
+      this.ngOnInit();
+    });
   }
 
   deleteExpense(expense: Expense) {
@@ -114,13 +114,4 @@ export class AllExpensesComponent implements OnInit {
     this.expenseService.findAllByGroupId(groupId).subscribe(value => this.expenses = value);
   }
 
-  private fetchAllExpenses() {
-    this.expenseService.findAll()
-      .subscribe(value => {
-        value.map(ex => {
-          ex.date = new Date(ex.date);
-        });
-        this.expenses = value;
-      });
-  }
 }

@@ -23,7 +23,6 @@ import {MatChipsModule} from "@angular/material/chips";
 import {AllExpensesComponent} from "./all-expenses/all-expenses.component";
 import {AddExpenseComponent} from "./add-expense/add-expense.component";
 import {SettlementDialogComponent} from './settlement-dialog/settlement-dialog.component';
-import {EditExpenseComponent} from './edit-expense/edit-expense.component';
 import {PayerDialogComponent} from './dialogs/payer-dialog/payer-dialog.component';
 import {SplitDialogComponent} from './dialogs/split-dialog/split-dialog.component';
 import {MatListModule} from "@angular/material/list";
@@ -58,7 +57,6 @@ import {MultiUserSplitComponent} from './dialogs/multi-user-split/multi-user-spl
     AllExpensesComponent,
     AddExpenseComponent,
     SettlementDialogComponent,
-    EditExpenseComponent,
     PayerDialogComponent,
     SplitDialogComponent,
     CurrencyDialogComponent,

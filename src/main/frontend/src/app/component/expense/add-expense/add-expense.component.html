@@ -24,7 +24,7 @@
           </div>
           <div class="expense-amount">
             <mat-form-field appearance="outline" class="col-12">
-              <mat-label>Ile {{ defaultCurrency }}</mat-label>
+              <mat-label>Ile {{ currentCurrency }}</mat-label>
               <input #amountField (keyup)="updateValue(amountField.value)"
                      class="form-control"
                      formControlName="amount"
@@ -32,9 +32,9 @@
                      matInput
                      (blur)="sanitizeInput(amountField.value)"
                      type="text">
-              <span *ngIf="form.controls['amount'].errors?.['invalidAmount']">
-                  Kwota w formacie xxx.xx
-              </span>
+              @if (form.controls['amount'].errors?.['invalidAmount']) {
+                <span class="warning-text">Kwota w formacie xxx.xx</span>
+              }
               <mat-chip (click)="openCurrencyDialog(currencies, defaultCurrency)" matSuffix
                         style="margin-right:10px">{{ currentCurrency }}
               </mat-chip>
@@ -69,9 +69,10 @@
     }
   </div>
   <div mat-dialog-actions>
-    <div>
-      <button (click)="onSubmit()" [disabled]="this.form.invalid" mat-raised-button type="button">Zapisz</button>
-      <button (click)="onCancel()" mat-raised-button type="reset">Anuluj</button>
-    </div>
+    <button (click)="onSubmit()" [disabled]="this.form.invalid" mat-raised-button type="button">Zapisz</button>
+    <button (click)="onCancel()" mat-raised-button type="reset">Anuluj</button>
+    @if (editMode) {
+      <button class="float-end" (click)="onDelete()" mat-raised-button type="button">Skasuj</button>
+    }
   </div>
 }

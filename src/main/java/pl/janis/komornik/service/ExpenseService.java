@@ -73,18 +73,18 @@ public class ExpenseService {
                 UserBalance debtor = iterDebtors.next();
                 switch (debtor.getBalance().compareTo(debt.abs())) {
                     case 1 -> {
-                        settlement.add(new DebtDto(userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debtor.getBalance().abs(), debtor.getCurrency()));
+                        settlement.add(new DebtDto(null, userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debtor.getBalance().abs(), debtor.getCurrency()));
                         debt = debt.add(debtor.getBalance());
                         debtor.setBalance(debt);
                         iterCreditors.remove();
                     }
                     case 0 -> {
-                        settlement.add(new DebtDto(userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debt.abs(), debtor.getCurrency()));
+                        settlement.add(new DebtDto(null, userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debt.abs(), debtor.getCurrency()));
                         iterCreditors.remove();
                         iterDebtors.remove();
                     }
                     case -1 -> {
-                        settlement.add(new DebtDto(userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debtor.getBalance().abs(), debtor.getCurrency()));
+                        settlement.add(new DebtDto(null, userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debtor.getBalance().abs(), debtor.getCurrency()));
                         debt = debt.add(debtor.getBalance());
                         iterDebtors.remove();
                     }
@@ -103,7 +103,7 @@ public class ExpenseService {
             while (iterCreditors.hasNext()) {
                 UserBalance creditor = iterCreditors.next();
                 if (creditor.getBalance().abs().equals(debtor.getBalance().abs())) {
-                    settlement.add(new DebtDto(userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debtor.getBalance().abs(), debtor.getCurrency()));
+                    settlement.add(new DebtDto(null, userService.getUserDtoByUserId(creditor.getUserId()), userService.getUserDtoByUserId(debtor.getUserId()), debtor.getBalance().abs(), debtor.getCurrency()));
                     iterCreditors.remove();
                     iterDebtors.remove();
                 }
@@ -121,7 +121,17 @@ public class ExpenseService {
     public ExpenseDto saveExpense(ExpenseDto expenseDto, User currentUser) {
         groupService.checkIfUserBelongsToGroup(currentUser.getId(), expenseDto.groupId());
         final Expense expense = expenseMapper.toEntity(expenseDto);
-        return expenseMapper.toDto(expenseRepository.save(expense));
+        ExpenseDto dto;
+        if (expense.getId() != null) {
+            dto = expenseRepository.findById(expense.getId()).map(storedExpense -> {
+                storedExpense = expenseMapper.toEntity(expense);
+                return expenseMapper.toDto(expenseRepository.save(storedExpense));
+
+            }).get();
+        } else {
+            dto = expenseMapper.toDto(expenseRepository.save(expense));
+        }
+        return dto;
     }
 
     public List<DebtDto> recalculateForeignCurrency(List<DebtDto> debts) throws RestClientException {

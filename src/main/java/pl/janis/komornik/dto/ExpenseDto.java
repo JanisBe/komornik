@@ -18,6 +18,7 @@ public record ExpenseDto(Integer id,
                          int groupId,
                          LocalDateTime date,
                          List<DebtDto> debt,
-                         String note) implements Serializable {
+                         String note,
+                         boolean settled) implements Serializable {
 
 }

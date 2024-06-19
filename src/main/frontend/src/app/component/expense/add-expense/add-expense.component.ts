@@ -36,6 +36,7 @@ import {MatIcon} from '@angular/material/icon';
 import {AsyncPipe, NgIf} from '@angular/common';
 import {LoadingService} from "../../../service/loading.service";
 import {SpinnerComponent} from "../../common/spinner/spinner.component";
+import {ConfirmationComponent} from "../../common/confirmation/confirmation.component";
 
 
 @Component({
@@ -110,8 +111,9 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       this.currentGroupName$ = of(this.currentGroup.groupName);
       this.isUserInGroup = this.currentGroup.users.map(user => user.id).includes(this.currentUser.id);
       this.users = group.users;
-      if (this.editMode) {
+      if (!this.editMode) {
         this.currentCurrency = this.defaultCurrency;
+        this.form.get('currency')?.patchValue(this.currentCurrency);
       }
     });
 
@@ -218,17 +220,18 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     });
   }
 
-  private calculateAmount(expense: Expense): number {
-    if (!expense?.debt) {
-      return 0;
-    }
-    let total = 0;
-    expense.debt.map((debt) => {
-      if (debt.amount < 0) {
-        total = -(debt.amount * expense.debt.length / (expense.debt.length - 1)).toFixed(2);
+  onDelete() {
+    this.dialog.open(ConfirmationComponent, {data: {category: "wydatek", content: this.currentExpense.description}})
+      .afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.expenseService.deleteExpense(this.currentExpense.id!).subscribe(
+          () => {
+            this.snackbarService.displayMessage(`Wydatek ${this.currentExpense.description} został skasowany`, 3000);
+            this.dialog.closeAll();
+          }
+        );
       }
-    })
-    return total;
+    });
   }
 
   openCurrencyDialog(currencies: string[], defaultCurrency: string) {
@@ -347,5 +350,18 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
         this.form.controls['amount'].setErrors(null)
       }
     });
+  }
+
+  private calculateAmount(expense: Expense): number | string {
+    if (!expense?.debt) {
+      return "";
+    }
+    let total = 0;
+    expense.debt.map((debt) => {
+      if (debt.amount < 0) {
+        total = -(debt.amount * expense.debt.length / (expense.debt.length - 1)).toFixed(2);
+      }
+    })
+    return total;
   }
 }

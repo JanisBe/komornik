@@ -45,6 +45,8 @@ public abstract class ExpenseMapper {
         return groupService.findById(groupId);
     }
 
+    public abstract Expense toEntity(Expense expense);
+
     @Autowired
     public void setCategoryService(CategoryService categoryService) {
         this.categoryService = categoryService;

@@ -27,11 +27,10 @@
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell>Akcje</th>
       <td *matCellDef="let expense" mat-cell>
-        <mat-icon (click)="editExpense(expense)" class="pointer">edit</mat-icon>&nbsp;
-        <mat-icon (click)="deleteExpense(expense)" class="pointer">delete</mat-icon>
+        <mat-icon (click)="editExpense(expense.id); $event.stopPropagation()" class="pointer">edit</mat-icon>&nbsp;
+        <mat-icon (click)="deleteExpense(expense); $event.stopPropagation()" class="pointer">delete</mat-icon>
       </td>
     </ng-container>
-
     <ng-container matColumnDef="szczegóły">
       <th *matHeaderCellDef aria-label="row actions" mat-header-cell>&nbsp;</th>
       <td *matCellDef="let expense" mat-cell>

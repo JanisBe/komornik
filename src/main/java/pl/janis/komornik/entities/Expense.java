@@ -54,7 +54,7 @@ public class Expense {
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "expense")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "expense", cascade = CascadeType.PERSIST)
     @JsonBackReference
     private List<Debt> debt;
 

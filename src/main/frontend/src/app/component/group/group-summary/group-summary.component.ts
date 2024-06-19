@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ExpenseService} from "../../../service/expense.service";
 import {Expense} from "../../../model/expense";
-import {AsyncPipe, DatePipe, KeyValue, KeyValuePipe, NgFor} from "@angular/common";
+import {AsyncPipe, DatePipe, JsonPipe, KeyValue, KeyValuePipe, NgFor} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {AddExpenseComponent} from "../../expense/add-expense/add-expense.component";
 import {MatButton} from '@angular/material/button';
@@ -19,7 +19,7 @@ import {MatIcon} from "@angular/material/icon";
   templateUrl: './group-summary.component.html',
   styleUrl: './group-summary.component.scss',
   standalone: true,
-  imports: [MatButton, NgFor, DatePipe, KeyValuePipe, SpinnerComponent, AsyncPipe, MatIcon]
+  imports: [MatButton, NgFor, DatePipe, KeyValuePipe, SpinnerComponent, AsyncPipe, MatIcon, JsonPipe]
 })
 export class GroupSummaryComponent implements OnInit {
   expenses: Map<string, Expense[]> = new Map<string, Expense[]>();
@@ -39,7 +39,6 @@ export class GroupSummaryComponent implements OnInit {
       this.groupId = params['groupId'];
       this.group$ = this.groupService.findById(this.groupId!);
       this.expenseService.findAllByGroupId(this.groupId!).subscribe(expenses => {
-        console.log(expenses);
         this.expenses = this.groupByDate(expenses);
       });
     });

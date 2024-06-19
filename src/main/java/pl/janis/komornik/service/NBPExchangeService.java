@@ -48,7 +48,7 @@ public class NBPExchangeService {
             try {
                 ExchangeRateResponse response = restTemplate.getForObject(url, ExchangeRateResponse.class);
                 if (response != null) {
-                    result = new DebtDto(amount.from(), amount.to(), response.rates()[0].mid().multiply(amount.amount()).setScale(2, RoundingMode.DOWN), "PLN");
+                    result = new DebtDto(null, amount.from(), amount.to(), response.rates()[0].mid().multiply(amount.amount()).setScale(2, RoundingMode.DOWN), "PLN");
                     break;
                 }
             } catch (HttpClientErrorException e) {

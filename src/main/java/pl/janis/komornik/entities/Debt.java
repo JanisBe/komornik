@@ -24,7 +24,7 @@ public class Debt {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "expense_id")
     @JsonBackReference
     @ToString.Exclude
@@ -36,11 +36,11 @@ public class Debt {
     @Column(name = "currency", nullable = false)
     private String currency;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "from_user_id")
     private User userFrom;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "to_user_id")
     private User userTo;
 
