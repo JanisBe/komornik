@@ -2,10 +2,7 @@ package pl.janis.komornik.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.math.BigDecimal;
@@ -13,16 +10,12 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "debts", schema = "komornik")
-public class Debt {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+public class Debt extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "expense_id")

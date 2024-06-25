@@ -3,10 +3,7 @@ package pl.janis.komornik.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.math.BigDecimal;
@@ -16,8 +13,9 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "expenses", schema = "komornik")
 @NamedNativeQuery(name = "findBalanceForGroup",
@@ -31,14 +29,9 @@ import java.util.Objects;
                         @ColumnResult(name = "balance"),
                         @ColumnResult(name = "currency")})
         })
-public class Expense {
+public class Expense extends BaseEntity {
 //    select debt.userTo.id as userId, sum(debt.amount) as balance from Expense e inner join e.debt debt " +
 //            " where e.group.id = :groupId group by debt.userTo.id
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "category_id")

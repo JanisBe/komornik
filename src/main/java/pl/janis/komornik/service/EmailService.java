@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pl.janis.komornik.entities.User;
 
@@ -18,6 +19,7 @@ public class EmailService {
     private final JavaMailSender mailSender;
     private final Environment env;
 
+    @Async
     public void resetPasswordEmail(String to, int newPassword) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -27,6 +29,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    @Async
     public void sendVerificationEmail(User user) {
         try {
 
