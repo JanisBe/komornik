@@ -76,3 +76,14 @@
   color: red;
   font-size: 11px;
 }
+
+//chowanie strzałeczek od inputu
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}

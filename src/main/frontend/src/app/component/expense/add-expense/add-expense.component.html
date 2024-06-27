@@ -31,7 +31,7 @@
                      id="amount"
                      matInput
                      (blur)="sanitizeInput(amountField.value)"
-                     type="text">
+                     type="number">
               @if (form.controls['amount'].errors?.['invalidAmount']) {
                 <span class="warning-text">Kwota w formacie xxx.xx</span>
               }
