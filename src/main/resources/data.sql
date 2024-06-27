@@ -1,7 +1,7 @@
-INSERT INTO komornik.users (id, avatar, mail, username, password, is_verified, created_date)
-VALUES (1, null, 'a@a.pl', 'Janis', '$2a$10$rgTJrdROc5a0MJiTmSU8qewdi6Ro2elGZf6Rmuc5/rl6nam3P3z.S', true, now()),
-       (2, null, 'aa@aa.pl', 'Misiek', '$2a$10$rgTJrdROc5a0MJiTmSU8qewdi6Ro2elGZf6Rmuc5/rl6nam3P3z.S', true, now()),
-       (3, null, 'aaa@a.pl', 'Seba', '$2a$10$rgTJrdROc5a0MJiTmSU8qewdi6Ro2elGZf6Rmuc5/rl6nam3P3z.S', true, now());
+INSERT INTO komornik.users (mail, username, password, is_verified, created_date)
+VALUES ('a@a.pl', 'Janis', '$2a$10$rgTJrdROc5a0MJiTmSU8qewdi6Ro2elGZf6Rmuc5/rl6nam3P3z.S', true, now()),
+       ('aa@aa.pl', 'Misiek', '$2a$10$rgTJrdROc5a0MJiTmSU8qewdi6Ro2elGZf6Rmuc5/rl6nam3P3z.S', true, now()),
+       ('aaa@a.pl', 'Seba', '$2a$10$rgTJrdROc5a0MJiTmSU8qewdi6Ro2elGZf6Rmuc5/rl6nam3P3z.S', true, now());
 INSERT INTO komornik.categories (id, category_name, created_date)
 VALUES (1, 'general', now());
 INSERT INTO komornik.groups (id, default_currency, description, group_name, created_date)
