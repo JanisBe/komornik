@@ -21,9 +21,6 @@ public class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Version
-    private Integer version;
-
     @CreatedDate
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdDate;

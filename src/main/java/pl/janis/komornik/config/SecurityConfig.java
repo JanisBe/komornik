@@ -22,11 +22,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import pl.janis.komornik.config.security.PartitionedCookieLogoutHandler;
+import pl.janis.komornik.config.security.PartitionedCookieTokenRepository;
 import pl.janis.komornik.filter.CsrfCookieFilter;
 import pl.janis.komornik.filter.SpaWebFilter;
 import pl.janis.komornik.service.UserService;
@@ -48,7 +48,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
+        PartitionedCookieTokenRepository cookieCsrfTokenRepository = new PartitionedCookieTokenRepository();
         cookieCsrfTokenRepository.setCookieCustomizer(c -> c.secure(true).httpOnly(true).sameSite("none"));
         http.securityContext(context -> context.requireExplicitSave(false))
 //                .requiresChannel(channel -> channel.anyRequest().requiresSecure())

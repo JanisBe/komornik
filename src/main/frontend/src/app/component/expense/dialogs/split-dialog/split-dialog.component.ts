@@ -27,7 +27,7 @@ export class SplitDialogComponent implements OnInit, AfterViewInit {
   amount = this.dataSharingService.amount;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User, currency: string },
+    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User, currency: string, existingDebts: Debt[] },
     public dialogRef: MatDialogRef<SplitDialogComponent>,
     private fb: FormBuilder,
     private dataSharingService: DataSharingService,

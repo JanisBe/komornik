@@ -128,4 +128,8 @@ export class AuthService {
   public isHttpsEnabled() {
     return this.http.get<boolean>(`${environment.API_URL}/isHttpsEnabled`);
   }
+
+  public csrfToken() {
+    return this.http.get<boolean>(`${environment.API_URL}/csrf`);
+  }
 }

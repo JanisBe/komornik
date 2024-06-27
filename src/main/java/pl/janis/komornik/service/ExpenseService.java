@@ -30,6 +30,7 @@ public class ExpenseService {
     private final UserService userService;
     private final GroupService groupService;
     private final NBPExchangeService nbpExchangeService;
+    private final DebtService debtService;
 
     public ExpenseDto findById(int id) {
         return expenseMapper.toDto(expenseRepository.findById(id).orElseThrow(() -> new ElementDoesNotExistException("No results")));
@@ -120,15 +121,16 @@ public class ExpenseService {
     @Transactional
     public ExpenseDto saveExpense(ExpenseDto expenseDto, User currentUser) {
         groupService.checkIfUserBelongsToGroup(currentUser.getId(), expenseDto.groupId());
-        final Expense expense = expenseMapper.toEntity(expenseDto);
         ExpenseDto dto;
-        if (expense.getId() != null) {
-            dto = expenseRepository.findById(expense.getId()).map(storedExpense -> {
-                storedExpense = expenseMapper.toEntity(expense);
+        if (expenseDto.id() != null) {
+            dto = expenseRepository.findById(expenseDto.id()).map(storedExpense -> {
+                storedExpense = expenseMapper.toEntity(expenseDto);
+                storedExpense.getDebt().forEach(debtService::save);
                 return expenseMapper.toDto(expenseRepository.save(storedExpense));
 
             }).get();
         } else {
+            final Expense expense = expenseMapper.toEntity(expenseDto);
             dto = expenseMapper.toDto(expenseRepository.save(expense));
         }
         return dto;

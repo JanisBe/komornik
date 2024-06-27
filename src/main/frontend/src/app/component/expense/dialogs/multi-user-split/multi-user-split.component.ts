@@ -30,9 +30,10 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   private participants = '';
   amountValid = false;
   private wasChanged = false;
+  private editMode: boolean;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User, currency: string },
+    @Inject(MAT_DIALOG_DATA) public data: { users: User[], currentUser: User, currency: string, existingDebts: Debt[] },
     public dialogRef: MatDialogRef<MultiUserSplitComponent>,
     private fb: FormBuilder,
     private snackbarService: SnackbarService,
@@ -49,6 +50,9 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    if (this.data.existingDebts.length > 0) {
+      this.editMode = true;
+    }
     this.numberForm = this.fb.group({});
     const divideMap = this.divideCurrencyEvenly(this.amount, this.data.users.length);
     this.data.users.forEach((user, index) => {
@@ -79,8 +83,14 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
       this.snackbarService.displayError("Suma musi być równa: " + this.amount + " aktualnie: " + this.getSum());
       return;
     }
+    let calculatedDebts = this.recalculate();
+    console.log(this.data.existingDebts);
+    if (this.editMode) {
+      this.assignIdsToDebts(calculatedDebts, this.data.existingDebts);
+      console.log(calculatedDebts);
+    }
     this.dialogRef.close({
-      debts: this.recalculate(),
+      debts: calculatedDebts,
       text: this.participants
     });
   }
@@ -154,11 +164,28 @@ export class MultiUserSplitComponent implements OnInit, AfterViewInit {
     let totalValue: number = 0;
     debtMap.forEach((value, user) => {
       if (user.id !== currentUser.id) {
-        debts.push({from: user, to: currentUser, amount: value, currency: this.data.currency});
+        let debtForOtherUser: Debt = {from: user, to: currentUser, amount: value, currency: this.data.currency};
+        debts.push(debtForOtherUser);
         totalValue += value;
       }
     });
-    debts.push({from: currentUser, to: currentUser, amount: -totalValue, currency: this.data.currency});
+    let debtForCurrenUser: Debt = {
+      from: currentUser,
+      to: currentUser,
+      amount: -totalValue,
+      currency: this.data.currency
+    };
+    debts.push(debtForCurrenUser);
     return debts;
+  }
+
+  private assignIdsToDebts(calculatedDebts: Debt[], existingDebts: Debt[]) {
+    existingDebts.forEach(debt => {
+      calculatedDebts.map(calculatedDebt => {
+        if (debt.from.id === calculatedDebt.from.id && debt.to.id === calculatedDebt.to.id) {
+          calculatedDebt.id = debt.id;
+        }
+      })
+    })
   }
 }

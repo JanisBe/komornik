@@ -23,10 +23,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.isHttpsEnabled().subscribe();
     if (!!this.authService.user.value) {
       // this.router.navigate(['/group/list']);
     }
+    this.authService.csrfToken().subscribe();
     this.initForm();
     if (!!this.email) {
       this.loginForm.patchValue({login: this.email})

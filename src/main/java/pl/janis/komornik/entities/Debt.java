@@ -29,11 +29,11 @@ public class Debt extends BaseEntity {
     @Column(name = "currency", nullable = false)
     private String currency;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "from_user_id")
     private User userFrom;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "to_user_id")
     private User userTo;
 

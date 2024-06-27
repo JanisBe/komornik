@@ -33,8 +33,8 @@ export class JwtInterceptor implements HttpInterceptor {
           if (err instanceof HttpErrorResponse) {
             if (err.status === 401 || err.status === 403) {
               console.log('redirect');
-              this.authService.logout();
-              this.router.navigate(['login']);
+              // this.authService.logout();
+              // this.router.navigate(['login']);
             }
           }
         }

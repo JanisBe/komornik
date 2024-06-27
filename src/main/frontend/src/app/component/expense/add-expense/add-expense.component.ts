@@ -69,7 +69,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   protected editMode: boolean;
   private debts: Debt[] = [];
   private splitDialogRef: MatDialogRef<SplitDialogComponent | MultiUserSplitComponent>;
-
   private readonly AMOUNT_PATTERN = '^\\d+(?:[.,]\\d{0,2})?$';
 
   constructor(private expenseService: ExpenseService,
@@ -102,6 +101,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
         this.patchForm(expense);
         this.form.patchValue(this.currentExpense);
         this.loadingService.setLoading(false);
+        this.dataSharingService.amount.set(expense.amount);
 
       });
     }
@@ -183,17 +183,37 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     this.onCancel();
   }
 
-  private initForm() {
-    this.form = new FormGroup({
-      amount: new FormControl(this.calculateAmount(this.currentExpense), [Validators.required, Validators.pattern(this.AMOUNT_PATTERN)]),
-      description: new FormControl(this.currentExpense?.description ?? null, Validators.required),
-      currency: new FormControl(this.defaultCurrency, Validators.required),
-      name: this.userName,
-      category: new FormControl(this.currentExpense?.categoryId ?? null),
-      group: new FormControl(this.data.groupId, Validators.required),
-      date: new FormControl(this.currentExpense?.date ?? new Date(), Validators.required)
+  openSplitDialog(usersOriginalList: User[]) {
+    if (this.splitDialogRef &&
+      (this.splitDialogRef as MatDialogRef<SplitDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
+      return;
+    }
+    const config = {
+      data: {
+        users: usersOriginalList,
+        currentUser: this.payer,
+        currency: this.form.value.currency,
+        existingDebts: this.debts
+      },
+      hasBackdrop: false,
+      width: '400px',
+      position: {left: '68%'},
+      panelClass: 'slide-in-from-right'
+    };
+    if (this.users.length > 2) {
+      this.splitDialogRef = this.dialog.open(MultiUserSplitComponent, config);
+    } else {
+      this.splitDialogRef = this.dialog.open(SplitDialogComponent, config);
+    }
+    this.splitDialogRef.afterClosed().subscribe(split => {
+      console.log(split);
+      if (split === undefined) {
+        return;
+      }
+      this.splitHow = split.text;
+      this.betweenWho = "";
+      this.debts = split.debts;
     });
-    this.listenForAmountChange();
   }
 
   openPayerDialog(payer: User, usersOriginalList: User[]) {
@@ -260,32 +280,16 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     });
   }
 
-  openSplitDialog(usersOriginalList: User[]) {
-    if (this.splitDialogRef &&
-      (this.splitDialogRef as MatDialogRef<SplitDialogComponent>)?.getState() === 0 || this.dialog.openDialogs.length > 1) {
-      return;
+  updateValue(value: string) {
+    const amount = this.sanitizeAmount(value);
+    let parseInt = +amount;
+    if (isNaN(parseInt)) {
+      parseInt = 0;
     }
-    const config = {
-      data: {users: usersOriginalList, currentUser: this.payer, currency: this.form.value.currency},
-      hasBackdrop: false,
-      width: '400px',
-      position: {left: '68%'},
-      panelClass: 'slide-in-from-right'
-    };
-    if (this.users.length > 2) {
-      this.splitDialogRef = this.dialog.open(MultiUserSplitComponent, config);
-    } else {
-      this.splitDialogRef = this.dialog.open(SplitDialogComponent, config);
+    if (this.editMode) {
+      this.updateDebts(parseInt);
     }
-    this.splitDialogRef.afterClosed().subscribe(split => {
-      console.log(split);
-      if (split === undefined) {
-        return;
-      }
-      this.splitHow = split.text;
-      this.betweenWho = "";
-      this.debts = split.debts;
-    });
+    this.dataSharingService.amount.set(parseInt);
   }
 
   sanitizeInput(amount: string) {
@@ -316,10 +320,41 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     });
   }
 
+  updateDebts(currentExpenseAmount: number) {
+    if (this.debts.length > 0) {
+      const myDue = -((currentExpenseAmount / (this.users.length)) * (this.users.length - 1)).toFixed(2);
+      const other = +(currentExpenseAmount / (this.users.length)).toFixed(2)
+      this.debts.map((debt) => {
+        if (debt.to.id === this.payer.id) {
+          debt.amount = myDue;
+        } else {
+          debt.amount = other;
+        }
+      });
+    }
+  }
+
+  private sanitizeAmount(amount: string) {
+    return amount.toString().replace(/,/g, '.');
+  }
+
+  private initForm() {
+    this.form = new FormGroup({
+      amount: new FormControl(this.calculateTotalAmount(this.currentExpense), [Validators.required, Validators.pattern(this.AMOUNT_PATTERN)]),
+      description: new FormControl(this.currentExpense?.description ?? null, Validators.required),
+      currency: new FormControl(this.defaultCurrency, Validators.required),
+      name: this.userName,
+      category: new FormControl(this.currentExpense?.categoryId ?? null),
+      group: new FormControl(this.data.groupId, Validators.required),
+      date: new FormControl(this.currentExpense?.date ?? new Date(), Validators.required)
+    });
+    this.listenForAmountChange();
+  }
+
   private patchForm(expense: Expense) {
     this.editMode = true;
     this.form.patchValue({
-      amount: this.calculateAmount(expense),
+      amount: this.calculateTotalAmount(expense),
       description: expense.description,
       currency: expense.currency,
       category: expense.categoryId,
@@ -327,19 +362,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       date: expense.date
     });
     this.form.addControl("id", new FormControl(expense.id));
-  }
-
-  private sanitizeAmount(amount: string) {
-    return amount.toString().replace(/,/g, '.');
-  }
-
-  updateValue(value: string) {
-    const amount = this.sanitizeAmount(value);
-    let parseInt = +amount;
-    if (isNaN(parseInt)) {
-      parseInt = 0;
-    }
-    this.dataSharingService.amount.set(parseInt);
   }
 
   private listenForAmountChange() {
@@ -352,7 +374,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     });
   }
 
-  private calculateAmount(expense: Expense): number | string {
+  private calculateTotalAmount(expense: Expense): number | string {
     if (!expense?.debt) {
       return "";
     }
