@@ -23,7 +23,7 @@ import {MatIcon} from "@angular/material/icon";
 })
 export class GroupSummaryComponent implements OnInit {
   expenses: Map<string, Expense[]> = new Map<string, Expense[]>();
-
+  isPublic: boolean;
   groupId: number;
   group$: Observable<Group>;
 

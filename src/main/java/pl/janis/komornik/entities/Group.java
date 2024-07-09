@@ -32,6 +32,9 @@ public class Group extends BaseEntity {
     @Column(name = "group_icon_name")
     private String groupIconName;
 
+    @Column(name = "is_public")
+    private boolean isPublic;
+
     @OneToMany(mappedBy = "group")
     @JsonManagedReference
     @ToString.Exclude

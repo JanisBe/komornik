@@ -23,13 +23,14 @@ import {MatIcon} from '@angular/material/icon';
 import {MatFormField, MatLabel, MatPrefix} from '@angular/material/form-field';
 import {AsyncPipe, NgFor, NgIf} from '@angular/common';
 import {DataSharingService} from "../../../service/data-sharing.service";
+import {MatCheckbox} from "@angular/material/checkbox";
 
 @Component({
   selector: 'add-group',
   templateUrl: './add-group.component.html',
   styleUrls: ['./add-group.component.scss'],
   standalone: true,
-  imports: [NgIf, FormsModule, ReactiveFormsModule, MatFormField, MatIcon, MatPrefix, MatLabel, MatInput, MatSelect, NgFor, MatOption, MatButton, MatAutocompleteTrigger, MatAutocomplete, RouterLink, AsyncPipe]
+  imports: [NgIf, FormsModule, ReactiveFormsModule, MatFormField, MatIcon, MatPrefix, MatLabel, MatInput, MatSelect, NgFor, MatOption, MatButton, MatAutocompleteTrigger, MatAutocomplete, RouterLink, AsyncPipe, MatCheckbox]
 })
 export class AddGroupComponent implements OnInit {
   @Input() groupId: number;
@@ -74,6 +75,7 @@ export class AddGroupComponent implements OnInit {
   onSubmit() {
     const data = this.groupForm.value;
     let newGroup: Group = {
+      isPublic: data.isPublic,
       description: data.description,
       users: data.users,
       groupName: data.groupName,
@@ -155,7 +157,8 @@ export class AddGroupComponent implements OnInit {
       groupName: new FormControl(null, Validators.required),
       defaultCurrency: new FormControl(null),
       groupIconName: new FormControl(null),
-      users: groupUsers
+      users: groupUsers,
+      isPublic: new FormControl(false)
     });
     if (this.editMode) {
       this.groupService.findById(this.groupId).subscribe({
@@ -163,6 +166,7 @@ export class AddGroupComponent implements OnInit {
           this.isUserInGroup = group.users.map(user => user.id).includes(this.currentUser.id);
           this.groupForm.get('groupName')?.patchValue(group.groupName);
           this.groupForm.get('defaultCurrency')?.patchValue(group.defaultCurrency);
+          this.groupForm.get('isPublic')?.patchValue(group.isPublic);
           if (group.users) {
             for (let user of group.users) {
               groupUsers.push(

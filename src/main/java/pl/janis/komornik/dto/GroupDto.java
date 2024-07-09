@@ -13,5 +13,6 @@ public record GroupDto(Integer id,
                        String description,
                        String defaultCurrency,
                        String groupIconName,
+                       boolean isPublic,
                        List<UserDto> users) implements Serializable {
 }
