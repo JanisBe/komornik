@@ -1,0 +1,81 @@
+{
+  "configVersion": 1,
+  "timestamp": 1744703086853,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/favicon.ico",
+        "/index.html",
+        "/main-RLCR2RTT.js",
+        "/manifest.webmanifest",
+        "/polyfills-FFHMD2TL.js",
+        "/styles-NVID7DC2.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/logo.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/icons/icon-128x128.png": "1dbc27b1038596eb404146c1e71b63e1ee95b8db",
+    "/assets/icons/icon-144x144.png": "a5be2906f410824f81144551e317834aef43708d",
+    "/assets/icons/icon-152x152.png": "878c21bec6f75cec6ebfe0f8cf7e3ef8e4c15f4c",
+    "/assets/icons/icon-192x192.png": "a54573eba515765b9bef0584244505f23701bf11",
+    "/assets/icons/icon-384x384.png": "6c4030e6efdc6ca88ebcdf9632f29206f2e7a627",
+    "/assets/icons/icon-512x512.png": "5e9b6f2e31538d3c5e8e28a5b9e21ec87be7cd2d",
+    "/assets/icons/icon-72x72.png": "77727d5e879a21d1be06742db0e29bde3b62a7a7",
+    "/assets/icons/icon-96x96.png": "fcd63582b6e6c595b07bad9875fa0d36298e859f",
+    "/assets/logo.png": "87e42fe4b1bbe2326dab2e42ecd820ccb972f975",
+    "/favicon.ico": "ec62a47ec95067566ce7d1dc8b19a0be4ff359d9",
+    "/index.html": "a1f4f7e05978b16737ab8648a731182b29459e55",
+    "/main-RLCR2RTT.js": "ffb3d6aeb7517deacf51424a0eb580d1d238113b",
+    "/manifest.webmanifest": "21468006614ea476a98395971ea511cc75bf8900",
+    "/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
+    "/styles-NVID7DC2.css": "3e1afef11bb323ead1a5ec7d3a2826267aa32b00"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
